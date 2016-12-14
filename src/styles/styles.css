@@ -71,5 +71,6 @@
 .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
   background: rgb(136,14,79);
 }
-.demo-list-three {
+.mdl-tabs__tab {
+  height: 41px;
 }

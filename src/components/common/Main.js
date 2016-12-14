@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class Main extends React.Component {
   render() {
@@ -90,9 +91,10 @@ class Main extends React.Component {
 
               <div className="mdl-tabs__panel is-active" id="tab-1">
                 <div className="page-content">
-                  <ul>
-                    <li>Person tab</li>
-                  </ul>
+                  <div className="mdl-avatar mdl-js-avatar mdl-avatar--floating-label">
+                      <input className="mdl-avatar__input" type="text" name="profile_image" id="profile_image" value="img/avatars/default1.png" />
+                      <label className="mdl-avatar__label" htmlFor="profile_image">Profile Image</label>
+                  </div>
                 </div>
               </div>
               <div className="mdl-tabs__panel" id="tab-2">
