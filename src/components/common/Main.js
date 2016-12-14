@@ -1,4 +1,5 @@
 import React from 'react';
+import { DatePicker } from 'react-mdl-datepicker';
 import moment from 'moment';
 
 class Main extends React.Component {
@@ -95,6 +96,13 @@ class Main extends React.Component {
                       <input className="mdl-avatar__input" type="text" name="profile_image" id="profile_image" value="img/avatars/default1.png" />
                       <label className="mdl-avatar__label" htmlFor="profile_image">Profile Image</label>
                   </div>
+
+                  <DatePicker
+                    label="Date Start"
+                    defaultDate={moment()}
+                    maxDate={moment()}
+                    onChange={() => {}}
+                  />
                 </div>
               </div>
               <div className="mdl-tabs__panel" id="tab-2">
