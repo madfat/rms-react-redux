@@ -9,6 +9,9 @@ import EmploymentHistory from '../EmploymentHistory/EmploymentHistory';
 import GradeHistory from '../GradeHistory/GradeHistory';
 import Location from '../Location/Location';
 import PersonsList from './PersonsList';
+import SearchBar from './SearchBar';
+import Sort from './Sort';
+import Filter from './Filter';
 
 class Main extends React.Component {
   constructor(props){ 
@@ -19,7 +22,6 @@ class Main extends React.Component {
     };
 
   }
-
 
   handleChange(event, index, value){
     this.setState({value: value}); 
@@ -34,26 +36,17 @@ class Main extends React.Component {
           <div className="mdl-cell mdl-cell--4-col">
             <div className="mdl-sub">
               <div className="mdl-sub__header-row">
-                <div className="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
-                  <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="fixed-header-drawer-exp">
-                    <i className="material-icons">search</i>
-                  </label>
-                  <div className="mdl-textfield__expandable-holder">
-                    <input className="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
-                  </div>
-                </div>
+                
+                <SearchBar />
                 <div className="mdl-layout-spacer" />
-                <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="fixed-header-drawer-exp">
-                  <i className="material-icons">sort</i>
-                </label>
-                <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="fixed-header-drawer-exp">
-                  <i className="material-icons">filter_list</i>
-                </label>
+                <Sort />
+                <Filter />
+
               </div>
             </div>
-            <div>
-              <PersonsList />
-            </div>
+
+            <PersonsList persons={EMPLOYEES} />
+
           </div>
 
           <div className="mdl-cell mdl-cell--8-col">
@@ -96,5 +89,12 @@ class Main extends React.Component {
     );
   }
 }
+
+var EMPLOYEES = [
+  {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'}
+];
 
 export default Main;

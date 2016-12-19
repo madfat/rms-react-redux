@@ -37,6 +37,7 @@ class PersonList extends React.Component{
   }
 
   render(){
+
     const actions = [
       <FlatButton
         label="Save"
@@ -46,21 +47,27 @@ class PersonList extends React.Component{
       />,
     ];
 
+    var rows = [];
+    this.props.persons.forEach(function(person) {
+      rows.push(<div><ListItem 
+                  leftAvatar={<Avatar src={require('../../img/test.png')} />}
+                  rightIconButton={<i className="material-icons">radio_button_checked</i>}
+                  primaryText={person.firstName + ' ' + person.lastName}
+                  secondaryText={
+                    <p>
+                      <span>{person.division + '-' + person.grade + ', ' + person.stream + ' ' + person.jobFamily}</span><br />
+                      <small>{person.location + ', ' + person.phone}</small>
+                    </p>
+                  }
+                  secondaryTextLines={2}
+                  key={person.id} />
+                  <Divider inset={true} />
+                  </div>);
+    });
+
     return(
       <List>
-        <ListItem
-          leftAvatar={<Avatar src={require('../../img/test.png')} />}
-          rightIconButton={<i className="material-icons">radio_button_checked</i>}
-          primaryText="Brendan Lim"
-          secondaryText={
-            <p>
-              <span>SE-AP, CDC JAVA</span><br />
-              <small>Yogyakarta, +6285645987705</small>
-            </p>
-          }
-          secondaryTextLines={2}
-        />
-        <Divider inset={true} />
+        {rows}
         <div>
           <FloatingActionButton style={styles.ButtonAddEmployee} onTouchTap={this.handleOpen}>
             <ContentAdd />

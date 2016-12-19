@@ -1,9 +1,12 @@
 import React from 'react';
+import * as styles from '../common/styles';
 
 class Location extends React.Component{
   render(){
     return(
-      <span>From Location</span>
+      <div style={styles.FormControl}>
+        <h4>Location</h4>
+      </div>
     );
   }
 }
