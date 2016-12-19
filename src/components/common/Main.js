@@ -16,15 +16,23 @@ import Filter from './Filter';
 class Main extends React.Component {
   constructor(props){ 
     super(props);  
-    this.handleChange = this.handleChange.bind(this);         
+          
     this.state = {
-      value: 2
+      value: 2,
+      filterText:''
     };
-
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);   
   }
 
   handleChange(event, index, value){
     this.setState({value: value}); 
+  }
+
+  handleUserInput(filterText){
+    this.setState({
+      filterText: filterText
+    });
   }
 
   render() {
@@ -37,7 +45,10 @@ class Main extends React.Component {
             <div className="mdl-sub">
               <div className="mdl-sub__header-row">
                 
-                <SearchBar />
+                <SearchBar
+                  filterText={this.state.filterText}
+                  onUserInput={this.handleUserInput}
+                 />
                 <div className="mdl-layout-spacer" />
                 <Sort />
                 <Filter />
@@ -45,7 +56,9 @@ class Main extends React.Component {
               </div>
             </div>
 
-            <PersonsList persons={EMPLOYEES} />
+            <PersonsList 
+              persons={EMPLOYEES}
+              filterText={this.state.filterText} />
 
           </div>
 
@@ -94,7 +107,10 @@ var EMPLOYEES = [
   {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
   {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
   {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
-  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'}
+  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
+  {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285645987705', stream: 'CDC', jobFamily: 'Java'},
 ];
 
 export default Main;

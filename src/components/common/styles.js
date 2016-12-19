@@ -6,7 +6,7 @@ export const tabHeader = {
   }
   
   export const ButtonAddEmployee = {
-    marginTop: '350px',
+    Top: '450px',
     marginLeft: '350px',
   }
   

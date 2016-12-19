@@ -21,8 +21,7 @@ class PersonList extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      open: false,
-
+      open: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -49,6 +48,10 @@ class PersonList extends React.Component{
 
     var rows = [];
     this.props.persons.forEach(function(person) {
+      let fullName = person.firstName +' '+ person.lastName;
+      if (fullName.indexOf(this.props.filterText) === -1){
+        return;
+      }
       rows.push(<div><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}
                   rightIconButton={<i className="material-icons">radio_button_checked</i>}
@@ -63,7 +66,7 @@ class PersonList extends React.Component{
                   key={person.id} />
                   <Divider inset={true} />
                   </div>);
-    });
+    }, this);
 
     return(
       <List>
