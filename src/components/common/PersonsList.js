@@ -21,37 +21,29 @@ class PersonList extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      open: false
+      rows: []
     };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   
-  handleOpen(){
-    this.setState({open: true});
+  handleClick(e){
+    console.log(e);
+    this.props.updatePersonDetail(e);
   }
-  
-  handleClose(){
-    this.setState({open: false});
+
+  updateCounter(e){
+    this.props.updateCounter(e)
   }
 
   render(){
-
-    const actions = [
-      <FlatButton
-        label="Save"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
-      />,
-    ];
-
-    var rows = [];
+    let rows = [];
     this.props.persons.forEach(function(person) {
+      
       let fullName = person.firstName +' '+ person.lastName;
-      if (fullName.indexOf(this.props.filterText) === -1){
+      if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText) === -1){
         return;
       }
+
       rows.push(<div><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}
                   rightIconButton={<i className="material-icons">radio_button_checked</i>}
@@ -63,29 +55,16 @@ class PersonList extends React.Component{
                     </p>
                   }
                   secondaryTextLines={2}
+                  onClick = {this.handleClick.bind(this, person)}
                   key={person.id} />
                   <Divider inset={true} />
-                  </div>);
+                </div>);
     }, this);
 
     return(
       <List>
-        {rows}
-        <div>
-          <FloatingActionButton style={styles.ButtonAddEmployee} onTouchTap={this.handleOpen}>
-            <ContentAdd />
-          </FloatingActionButton>
-          <Dialog
-            title="Create New Employee"
-            actions={actions}
-            modal={false}
-            open={this.state.open}
-            onRequestClose={this.handleClose}
-            contentStyle={styles.ModalEmployee}
-            autoScrollBodyContent={true}
-          >
-            <ModalEmployee />
-          </Dialog>
+        <div style={{overflowY:'scroll', height: '500px'}}>
+          {rows}
         </div>
       </List>
     );

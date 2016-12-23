@@ -6,8 +6,11 @@ export const tabHeader = {
   }
   
   export const ButtonAddEmployee = {
-    Top: '450px',
-    marginLeft: '350px',
+    top: '75%',
+    left: '25%',
+    position: 'fixed',
+    buttom: 'auto',
+    right:'auto'
   }
   
   export const FormControl = {
