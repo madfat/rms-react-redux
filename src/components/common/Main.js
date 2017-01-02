@@ -133,7 +133,8 @@ class Main extends React.Component {
               <Tab
                 icon={<FontIcon className="material-icons">layers</FontIcon>}
                 style={styles.tabHeader}>
-                <EmploymentHistory />
+                <EmploymentHistory 
+                  employmentHistories = {this.state.person.employmentHistories}/>
               </Tab>
               <Tab
                 icon={<FontIcon className="material-icons">wc</FontIcon>}
@@ -161,13 +162,42 @@ class Main extends React.Component {
 }
 
 var EMPLOYEES = [
-  {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2011,10,15), gender:2, status: 2, nationality: 'Indonesia', marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: 2},{name: 'Nabila Syakieb', dob: new Date(2013,4,3), gender: 3, type: 'Child', active: 2}]},
-  {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AN', location:'Bali', phone:'+6285517705', stream: 'CDC', jobFamily: 'Mobile', hiredDate: new Date(2012,12,15), gender:2, status: 2, nationality: 'Indonesia', marital: 3,email: 'john.doe@mitrais.com', dob: new Date(1996,4,12)},
-  {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285623705', stream: 'CDC', jobFamily: 'MEAN', hiredDate: new Date(2001,11,13), gender:2, status: 2, nationality: 'Indonesia', marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13)},
-  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14)},
-  {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15)},
-  {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'JP', location:'Jakarta', phone:'+628563405', stream: 'CDC', jobFamily: '.NET', hiredDate: new Date(2013,5,15), gender:2, status: 2, nationality: 'Indonesia', marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17)},
-  {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Bali', phone:'+6284453705', stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia', marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18)},
+  {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', 
+   stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2011,10,15), gender:2, status: 2, nationality: 'Indonesia', 
+   marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), 
+   dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
+                {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', active: true}
+               ],
+   employmentHistories: [{startDate: new Date(2015,5,2), endDate:'', employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], active: true},
+                         {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], active: false},
+                        ]
+  },
+  {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AN', location:'Bali', phone:'+6285517705', 
+  stream: 'CDC', jobFamily: 'Mobile', hiredDate: new Date(2012,12,15), gender:2, status: 2, nationality: 'Indonesia', 
+  marital: 3,email: 'john.doe@mitrais.com', dob: new Date(1996,4,12),
+  dependents: [{name: 'Melani Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
+                {name: 'Agus Decaprio', dob: new Date(2013,5,13), gender: 2, type: 'Child', active: true}
+               ]
+  },
+  {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285623705', 
+  stream: 'CDC', jobFamily: 'MEAN', hiredDate: new Date(2001,11,13), gender:2, status: 2, nationality: 'Indonesia', 
+  marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13),
+  dependents: [{name: 'Jesica Alba', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
+                {name: 'Multazam Azam', dob: new Date(2013,5,13), gender: 3, type: 'Child', active: true}
+              ]
+  },
+  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', 
+   stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', 
+   marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14)},
+  {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', 
+   stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', 
+   marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15)},
+  {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'JP', location:'Jakarta', phone:'+628563405', 
+   stream: 'CDC', jobFamily: '.NET', hiredDate: new Date(2013,5,15), gender:2, status: 2, nationality: 'Indonesia',
+   marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17)},
+  {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Bali', phone:'+6284453705', 
+   stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia',
+   marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18)},
 ];
 
 export default Main;

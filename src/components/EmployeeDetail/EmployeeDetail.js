@@ -8,6 +8,14 @@ import MenuItem from 'material-ui/MenuItem';
 class EmployeeDetail extends React.Component{
   constructor(props){
     super(props)
+    this.state = {
+      
+    }
+    this.firstNameOnChange = this.firstNameOnChange.bind(this);
+  }
+
+  firstNameOnChange(e) {
+
   }
 
   render(){
@@ -21,6 +29,7 @@ class EmployeeDetail extends React.Component{
                 hintText="First Name"
                 floatingLabelText="First Name"
                 value={this.props.person.firstName}
+                onChange={this.firstNameOnChange}
               />
             </div>
             <div className="mdl-cell mdl-cell--5-col">

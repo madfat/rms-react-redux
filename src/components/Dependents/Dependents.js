@@ -1,78 +1,112 @@
 import React from 'react';
+import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
+  from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
-import * as styles from '../common/styles';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import Toggle from 'material-ui/Toggle';
+import DatePicker from 'material-ui/DatePicker';
+
+const styles = {
+  propContainer: {
+    width: 200,
+    overflow: 'hidden',
+    margin: '20px auto 0',
+  },
+  propToggleHeader: {
+    margin: '20px auto 10px',
+  },
+};
 
 class Dependents extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      rows: []
-    }
-  }
-  render(){
-    // var rows = '';
-    // console.log(this.props.dependents);
-    // if (this.props.dependents != null){
-    //   this.props.dependents.forEach(function(dependent){
-    //     rows.append(<TableRow id={dependent.name}>
-    //         <TableRowColumn>{dependent.name}</TableRowColumn>
-    //         <TableRowColumn>{dependent.gender}</TableRowColumn>
-    //         <TableRowColumn>{dependent.dob}</TableRowColumn>
-    //         <TableRowColumn>{dependent.type}</TableRowColumn>
-    //         <TableRowColumn>{dependent.active}</TableRowColumn>
-    //       </TableRow>);
-    //   }, this);
-    // } else {
-    //   <p>...</p>
-    // }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fixedHeader: true,
+      fixedFooter: true,
+      stripedRows: false,
+      showRowHover: false,
+      showCheckboxes: false,
+      height: '300px',
+      dependents: this.props.dependents || []
+    };
+  }
+
+  handleToggle(event, toggled){
+    this.setState({
+      [event.target.name]: toggled,
+    });
+  }
+
+  handleChange(event){
+    this.setState({height: event.target.value});
+  }
+
+
+  render(){
     var dependents = this.props.dependents;
     if (dependents != null){
       return(
-        <div style={styles.FormControl}>
+        <div>
           <h4>Dependents</h4>
-          <div className="mdl-grid">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>Name</TableHeaderColumn>
-                  <TableHeaderColumn>Gender</TableHeaderColumn>
-                  <TableHeaderColumn>Date of Birth</TableHeaderColumn>
-                  <TableHeaderColumn>Type</TableHeaderColumn>
-                  <TableHeaderColumn>Active</TableHeaderColumn>
+
+          <Table
+            height={this.state.height}
+            fixedHeader={this.state.fixedHeader}
+            fixedFooter={this.state.fixedFooter}
+          >
+            <TableHeader
+            >
+              <TableRow>
+                <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Gender">Gender</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The DoB">Date of Birth</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Type">Type</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Type">Active</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              showRowHover={this.state.showRowHover}
+              stripedRows={this.state.stripedRows}
+            >
+              {dependents.map( (row, index) => (
+                <TableRow key={index}>
+                  <TableRowColumn>{row.name}</TableRowColumn> 
+                  <TableRowColumn>{row.gender==2?'Male':'Female'}</TableRowColumn> 
+                  <TableRowColumn>{row.dob.getMonth()+1+'-'+row.dob.getDate()+'-'+row.dob.getFullYear()}</TableRowColumn>
+                  <TableRowColumn>{row.type}</TableRowColumn> 
+                  <TableRowColumn>{row.active==true?'Yes':'No'}</TableRowColumn> 
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {dependents.map((row, index) => {
-                  <TableRow>
-                    <TableRowColumn>{row.name}</TableRowColumn>
-                  </TableRow>
-                })}
-              </TableBody>
-            </Table>
-          </div>
+                ))}
+            </TableBody>
+          </Table>
         </div>
       );
-    }else{
+    } else {
       return(
-        <div style={styles.FormControl}>
+        <div>
           <h4>Dependents</h4>
-          <div className="mdl-grid">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>Name</TableHeaderColumn>
-                  <TableHeaderColumn>Gender</TableHeaderColumn>
-                  <TableHeaderColumn>Date of Birth</TableHeaderColumn>
-                  <TableHeaderColumn>Type</TableHeaderColumn>
-                  <TableHeaderColumn>Active</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-              </TableBody>
-            </Table>
-          </div>
+
+          <Table
+            height={this.state.height}
+            fixedHeader={this.state.fixedHeader}
+            fixedFooter={this.state.fixedFooter}
+          >
+            <TableHeader
+            >
+              <TableRow>
+                <TableHeaderColumn tooltip="The ID">ID</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Status">Status</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              showRowHover={this.state.showRowHover}
+              stripedRows={this.state.stripedRows}
+            >
+
+            </TableBody>
+          </Table>
         </div>
       );
     }
