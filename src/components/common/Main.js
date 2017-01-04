@@ -2,12 +2,6 @@ import React from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import * as styles from './styles.js';
-import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
-import Address from '../Address/Address';
-import Dependents from '../Dependents/Dependents';
-import EmploymentHistory from '../EmploymentHistory/EmploymentHistory';
-import GradeHistory from '../GradeHistory/GradeHistory';
-import Location from '../Location/Location';
 import PersonsList from './PersonsList';
 import SearchBar from './SearchBar';
 import Sort from './Sort';
@@ -18,6 +12,7 @@ import FlatButton from 'material-ui/FlatButton';
 import ModalEmployee from './ModalEmployee';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import DetailTabs from './DetailTabs';
 import {
   Step,
   Stepper,
@@ -32,7 +27,8 @@ class Main extends React.Component {
       filterText:'',
       counterList: 0,
       person: {},
-      open: false
+      open: false,
+      employees: EMPLOYEES
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updatePersonDetail = this.updatePersonDetail.bind(this);  
@@ -94,14 +90,15 @@ class Main extends React.Component {
             </div>
 
             <PersonsList 
-              persons={EMPLOYEES}
+              key={this.state.employees.id}
+              persons={this.state.employees}
               filterText={this.state.filterText}
               updatePersonDetail={this.updatePersonDetail}
               updateCounter = {this.updateCounter}/>
 
           </div>
 
-          <div>
+          <div key={'floatingButton-1'}>
             <FloatingActionButton style={styles.ButtonAddEmployee} onTouchTap={this.handleOpen}>
               <ContentAdd />
             </FloatingActionButton>
@@ -118,41 +115,11 @@ class Main extends React.Component {
             </Dialog>
           </div>
 
-          <div className="mdl-cell mdl-cell--8-col">
-            <Tabs>
-              <Tab
-                icon={<FontIcon className="material-icons">person</FontIcon>}
-                style={styles.tabHeader}>
-                <EmployeeDetail person={this.state.person}/>
-              </Tab>
-              <Tab
-                icon={<FontIcon className="material-icons">history</FontIcon>}
-                style={styles.tabHeader}>
-                <GradeHistory />
-              </Tab>
-              <Tab
-                icon={<FontIcon className="material-icons">layers</FontIcon>}
-                style={styles.tabHeader}>
-                <EmploymentHistory 
-                  employmentHistories = {this.state.person.employmentHistories}/>
-              </Tab>
-              <Tab
-                icon={<FontIcon className="material-icons">wc</FontIcon>}
-                style={styles.tabHeader}>
-                <Dependents 
-                  dependents = {this.state.person.dependents} />
-              </Tab>
-              <Tab
-                icon={<FontIcon className="material-icons">home</FontIcon>}
-                style={styles.tabHeader}>
-                <Address />
-              </Tab>
-              <Tab
-                icon={<FontIcon className="material-icons">location_on</FontIcon>}
-                style={styles.tabHeader}>
-                <Location />
-              </Tab>
-            </Tabs>
+          <div key={"tabsWrapper"} className="mdl-cell mdl-cell--8-col">
+            <DetailTabs 
+              person={this.state.person}
+              updatePersonDetail={this.updatePersonDetail}
+            />
           </div>
 
         </div>
@@ -164,40 +131,40 @@ class Main extends React.Component {
 var EMPLOYEES = [
   {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', 
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2011,10,15), gender:2, status: 2, nationality: 'Indonesia', 
-   marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), 
-   dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
-                {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', active: true}
+   marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), activeInd: true,
+   dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
+                {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false}
                ],
-   employmentHistories: [{startDate: new Date(2015,5,2), endDate:'', employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], active: true},
-                         {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], active: false},
+   employmentHistories: [{startDate: new Date(2015,5,2), endDate:'', employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], activeInd: true},
+                         {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], activeInd: false},
                         ]
   },
   {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AN', location:'Bali', phone:'+6285517705', 
   stream: 'CDC', jobFamily: 'Mobile', hiredDate: new Date(2012,12,15), gender:2, status: 2, nationality: 'Indonesia', 
-  marital: 3,email: 'john.doe@mitrais.com', dob: new Date(1996,4,12),
-  dependents: [{name: 'Melani Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
-                {name: 'Agus Decaprio', dob: new Date(2013,5,13), gender: 2, type: 'Child', active: true}
+  marital: 3,email: 'john.doe@mitrais.com', dob: new Date(1996,4,12), activeInd: false,
+  dependents: [{name: 'Melani Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
+                {name: 'Agus Decaprio', dob: new Date(2013,5,13), gender: 2, type: 'Child', activeInd: true}
                ]
   },
   {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285623705', 
   stream: 'CDC', jobFamily: 'MEAN', hiredDate: new Date(2001,11,13), gender:2, status: 2, nationality: 'Indonesia', 
-  marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13),
-  dependents: [{name: 'Jesica Alba', dob: new Date(1990,1,1), gender: 3, type: 'Wife', active: true},
-                {name: 'Multazam Azam', dob: new Date(2013,5,13), gender: 3, type: 'Child', active: true}
+  marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13), activeInd: true,
+  dependents: [{name: 'Jesica Alba', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
+                {name: 'Multazam Azam', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: true}
               ]
   },
   {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', 
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', 
-   marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14)},
+   marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14), activeInd: true},
   {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', 
    stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', 
-   marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15)},
+   marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15), activeInd: true},
   {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'JP', location:'Jakarta', phone:'+628563405', 
    stream: 'CDC', jobFamily: '.NET', hiredDate: new Date(2013,5,15), gender:2, status: 2, nationality: 'Indonesia',
-   marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17)},
+   marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17), activeInd: true},
   {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Bali', phone:'+6284453705', 
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia',
-   marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18)},
+   marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18),activeInd: false},
 ];
 
 export default Main;

@@ -4,17 +4,8 @@ import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow,
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import DatePicker from 'material-ui/DatePicker';
-
-const styles = {
-  propContainer: {
-    width: 200,
-    overflow: 'hidden',
-    margin: '20px auto 0',
-  },
-  propToggleHeader: {
-    margin: '20px auto 10px',
-  },
-};
+import Checkbox from 'material-ui/Checkbox';
+import * as styles from '../common/styles';
 
 class Dependents extends React.Component{
 
@@ -47,7 +38,7 @@ class Dependents extends React.Component{
     var dependents = this.props.dependents;
     if (dependents != null){
       return(
-        <div>
+        <div style={styles.FormControl}>
           <h4>Dependents</h4>
 
           <Table
@@ -63,6 +54,7 @@ class Dependents extends React.Component{
                 <TableHeaderColumn tooltip="The DoB">Date of Birth</TableHeaderColumn>
                 <TableHeaderColumn tooltip="The Type">Type</TableHeaderColumn>
                 <TableHeaderColumn tooltip="The Type">Active</TableHeaderColumn>
+                <TableHeaderColumn>Actions</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -75,7 +67,8 @@ class Dependents extends React.Component{
                   <TableRowColumn>{row.gender==2?'Male':'Female'}</TableRowColumn> 
                   <TableRowColumn>{row.dob.getMonth()+1+'-'+row.dob.getDate()+'-'+row.dob.getFullYear()}</TableRowColumn>
                   <TableRowColumn>{row.type}</TableRowColumn> 
-                  <TableRowColumn>{row.active==true?'Yes':'No'}</TableRowColumn> 
+                  <TableRowColumn><Checkbox checked={row.activeInd} disabled/></TableRowColumn> 
+                  <TableRowColumn><a href='#'><i className="material-icons">mode_edit</i></a> &nbsp; <a href='#'><i className="material-icons">delete</i></a></TableRowColumn>
                 </TableRow>
                 ))}
             </TableBody>
@@ -84,29 +77,11 @@ class Dependents extends React.Component{
       );
     } else {
       return(
-        <div>
+        <div style={styles.FormControl}>
           <h4>Dependents</h4>
-
-          <Table
-            height={this.state.height}
-            fixedHeader={this.state.fixedHeader}
-            fixedFooter={this.state.fixedFooter}
-          >
-            <TableHeader
-            >
-              <TableRow>
-                <TableHeaderColumn tooltip="The ID">ID</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Status">Status</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              showRowHover={this.state.showRowHover}
-              stripedRows={this.state.stripedRows}
-            >
-
-            </TableBody>
-          </Table>
+          <div>
+            No Dependents
+          </div>
         </div>
       );
     }

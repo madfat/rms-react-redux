@@ -3,6 +3,9 @@ import * as styles from '../common/styles';
 import TextField from 'material-ui/TextField';
 
 class GradeHistory extends React.Component{
+  constructor(props){
+    super(props);
+  }
   render(){
     return(
       <div style={styles.FormControl}>
@@ -12,6 +15,7 @@ class GradeHistory extends React.Component{
             <TextField
               hintText="Hint Text"
               floatingLabelText="Floating Label Text"
+              value={this.props.person.firstName}
             />
           </div>
           <div className="mdl-cell mdl-cell--5-col">

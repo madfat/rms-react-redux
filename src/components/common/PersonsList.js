@@ -39,14 +39,13 @@ class PersonList extends React.Component{
     let rows = [];
     this.props.persons.forEach(function(person) {
       
-      let fullName = person.firstName +' '+ person.lastName;
-      if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText) === -1){
+      let fullName = person.firstName.toLowerCase() +' '+ person.lastName.toLowerCase();
+      if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText.toLowerCase()) === -1){
         return;
       }
 
-      rows.push(<div><ListItem 
+      rows.push(<div key={person.id}><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}
-                  rightIconButton={<i className="material-icons">radio_button_checked</i>}
                   primaryText={person.firstName + ' ' + person.lastName}
                   secondaryText={
                     <p>
@@ -56,10 +55,14 @@ class PersonList extends React.Component{
                   }
                   secondaryTextLines={2}
                   onClick = {this.handleClick.bind(this, person)}
+                  rightIconButton={person.activeInd==true?<i className="material-icons">radio_button_checked</i>:<i className="material-icons">radio_button_unchecked</i>}
                   key={person.id} />
                   <Divider inset={true} />
                 </div>);
     }, this);
+
+    console.log(rows.length);
+//    this.updateCounter(rows.length);
 
     return(
       <List>

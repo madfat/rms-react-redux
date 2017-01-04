@@ -50,11 +50,12 @@ class EmploymentHistory extends React.Component{
       lines.map((row, index) => {
         lineEmployment.push(
         <div>
+          <Divider />
           <div className="mdl-grid">
             <div className="mdl-cell mdl-cell--3-col" style={{borderRight: '0.25px solid', borderRightColor:'silver', marginLeft:'10px'}}>
               <TextField
                 value= {this.getMonth(row.startDate.getMonth())}
-                inputStyle={{textAlign:'right'}}
+                inputStyle={{textAlign:'left'}}
                 style={{width:'50px', fontSize:'10px', height:'15px'}}
                 underlineShow={false}
               />
@@ -99,6 +100,7 @@ class EmploymentHistory extends React.Component{
               </div>
             </div>
             <div className="mdl-cell mdl-cell--5-col" style={styles.FormControl}>
+              <bold>JOB DESCRIPTION</bold><br />
               {row.jobDesc}
             </div>
           </div>
@@ -109,7 +111,7 @@ class EmploymentHistory extends React.Component{
     } else {
       lineEmployment.push(
         <div>
-          Test
+          No Employment History
         </div>
       );
    }
