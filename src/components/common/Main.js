@@ -37,12 +37,15 @@ class Main extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
-    this.updateListEmployees = this.updateListEmployees.bind(this);
     this.updateNewEmployee = this.updateNewEmployee.bind(this);
   }
 
   handleOpen(){
     this.setState({open: true});
+  }
+
+  updateNewEmployee(e){
+    this.setState({newEmployee: e});
   }
   
   handleSave(){
@@ -50,10 +53,6 @@ class Main extends React.Component {
     temp.push(Object.assign(this.state.newEmployee,{id: Math.random() * (1000 - 8) + 7}));
     
     this.setState({open: false, employees:temp});
-  }
-
-  updateNewEmployee(e) {
-    this.setState({newEmployee: e});
   }
 
   handleCancelCreate(){
@@ -70,9 +69,6 @@ class Main extends React.Component {
     this.setState({counterList: counted});
   }
 
-  updateListEmployees(e){
-    this.setState({employees: e});
-  }
 
   updatePersonDetail(e){
     this.setState({
@@ -133,6 +129,7 @@ class Main extends React.Component {
             >
               <ModalEmployee
                 employees={this.state.employees}
+                newEmployee={this.state.newEmployee}
                 updateNewEmployee={this.updateNewEmployee}
               />
             </Dialog>
@@ -183,15 +180,15 @@ let EMPLOYEES = [
   {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', 
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', 
    marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14), activeInd: true},
-  {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', 
-   stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', 
-   marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15), activeInd: true},
-  {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'JP', location:'Jakarta', phone:'+628563405', 
-   stream: 'CDC', jobFamily: '.NET', hiredDate: new Date(2013,5,15), gender:2, status: 2, nationality: 'Indonesia',
-   marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17), activeInd: true},
-  {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Bali', phone:'+6284453705', 
-   stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia',
-   marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18),activeInd: false},
+  // {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', 
+  //  stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', 
+  //  marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15), activeInd: true},
+  // {id:'6', firstName: 'Robo', lastName: 'Cop', division: 'SE', grade:'JP', location:'Jakarta', phone:'+628563405', 
+  //  stream: 'CDC', jobFamily: '.NET', hiredDate: new Date(2013,5,15), gender:2, status: 2, nationality: 'Indonesia',
+  //  marital: 3,  email: 'robo.cop@mitrais.com', dob: new Date(1992,7,17), activeInd: true},
+  // {id:'7', firstName: 'Shania', lastName: 'Twain', division: 'SE', grade:'AP', location:'Bali', phone:'+6284453705', 
+  //  stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia',
+  //  marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18),activeInd: false},
 ];
 
 export default Main;

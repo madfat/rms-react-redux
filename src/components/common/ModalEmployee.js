@@ -25,8 +25,8 @@ class ModalEmployee extends React.Component{
     this.handlePrev = this.handlePrev.bind(this);
     this.getStepContent = this.getStepContent.bind(this);
     this.renderContent = this.renderContent.bind(this);
-    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    // this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    // this.handleLastNameChange = this.handleLastNameChange.bind(this);
   }
 
   handleNext(){
@@ -35,6 +35,8 @@ class ModalEmployee extends React.Component{
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 5,
     });
+    this.props.updateNewEmployee(Object.assign(this.props.newEmployee, this.state.newEmployee.a));
+    //this.props.updateNewEmployee(Object.assign(this.props.newEmployee, this.state.newEmployee.a));
   }
 
   handlePrev() {
@@ -44,39 +46,32 @@ class ModalEmployee extends React.Component{
     }
   }
 
-  handleFirstNameChange(e){
-    this.setState({firstName: e.target.value});
-    let newEmpl = Object.assign(this.state.newEmployee, {
-      firstName: e.target.value
-    });
-    this.props.updateNewEmployee(newEmpl);
+  updateNewEmployee(e){
+    console.log('==in modal==');
+    console.log(e);
+    //this.setState({newEmployee: e});
   }
 
-  handleLastNameChange(e){
-    this.setState({lastName: e.target.value});
-    this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {lastName:e.target.value}));
-  }
+  // handleFirstNameChange(e){
+  //   this.setState({firstName: e.target.value});
+  //   this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {firstName: e.target.value}));
+  // }
+
+  // handleLastNameChange(e){
+  //   this.setState({lastName: e.target.value});
+  //   this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {lastName:e.target.value}));
+  // }
 
   getStepContent(stepIndex) {
     let newEmployee = this.state.newEmployee;
     switch (stepIndex) {
       case 0:
         return (
-          <div style={styles.FormControl}>
-            <p>Employee Detail</p>
-            <TextField
-              hintText="First Name"
-              floatingLabelText="First Name"
-              value={newEmployee.firstName}
-              onChange={this.handleFirstNameChange}
-            />
-            <TextField
-              hintText="Last Name"
-              floatingLabelText="First Name"
-              value={newEmployee.lastName}
-              onChange={this.handleLastNameChange}
-            />
-          </div>
+          <EmployeeDetail
+            updateNewEmployee={this.updateNewEmployee} 
+            person={newEmployee}
+            createMode={true}
+          />
         );
       case 1:
         return (

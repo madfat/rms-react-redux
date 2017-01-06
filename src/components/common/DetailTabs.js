@@ -23,6 +23,7 @@ class DetailTabs extends React.Component{
           <EmployeeDetail 
             person={this.props.person || {}}
             updatePersonDetail={this.props.updatePersonDetail}
+            createMode={false}
           />
         </Tab>
         <Tab
