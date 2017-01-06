@@ -17,22 +17,30 @@ import {
   StepLabel,
 } from 'material-ui/Stepper';
 
+
+
 class PersonList extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      rows: []
+      numberItem: 0
     };
     this.handleClick = this.handleClick.bind(this);
+    this.test = this.test.bind(this);
   }
   
   handleClick(e){
-    console.log(e);
+    //console.log(e);
     this.props.updatePersonDetail(e);
   }
 
   updateCounter(e){
     this.props.updateCounter(e)
+  }
+
+  test(e){
+    // console.log('did month');
+    // this.props.updateCounter(e);
   }
 
   render(){
@@ -62,7 +70,9 @@ class PersonList extends React.Component{
     }, this);
 
     console.log(rows.length);
-//    this.updateCounter(rows.length);
+
+    //this.setState({numberItem: rows.length});
+    //this.updateCounter(rows.length);
 
     return(
       <List>

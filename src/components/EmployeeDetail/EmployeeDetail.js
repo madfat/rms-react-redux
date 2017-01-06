@@ -47,29 +47,28 @@ class EmployeeDetail extends React.Component{
   }
 
   componentDidMount(){
-    console.log('did month')
+    console.log('did month');
   }
   componentWillReceiveProps(nextProps){
-    console.log(this.props);
-    console.log(this.nextProps);
-      this.setState ({
-        id: nextProps.person.id||'',
-        firstName: nextProps.person.firstName||'' ,
-        lastName: nextProps.person.lastName || '' ,
-        division: nextProps.person.division || '',
-        stream: nextProps.person.stream || '', 
-        gender: nextProps.person.gender || '',
-        hiredDate: nextProps.person.hiredDate || '',
-        suspendDate: nextProps.person.suspendDate || '',
-        dob: nextProps.person.dob || '',
-        nationality: nextProps.person.nationality || '',
-        grade: nextProps.person.grade || '',
-        marital: nextProps.person.marital || '',
-        status: nextProps.person.status || '',
-        phone: nextProps.person.phone || '',
-        email: nextProps.person.email || ''
-      });
-    
+    // console.log(this.props);
+    // console.log(this.nextProps);
+    this.setState ({
+      id: nextProps.person.id||'',
+      firstName: nextProps.person.firstName||'' ,
+      lastName: nextProps.person.lastName || '' ,
+      division: nextProps.person.division || '',
+      stream: nextProps.person.stream || '', 
+      gender: nextProps.person.gender || '',
+      hiredDate: nextProps.person.hiredDate || {},
+      suspendDate: nextProps.person.suspendDate || {},
+      dob: nextProps.person.dob || {},
+      nationality: nextProps.person.nationality || '',
+      grade: nextProps.person.grade || '',
+      marital: nextProps.person.marital || '',
+      status: nextProps.person.status || '',
+      phone: nextProps.person.phone || '',
+      email: nextProps.person.email || ''
+    });
   }
 
   handleStatusChange(e,i,v){
@@ -119,7 +118,7 @@ class EmployeeDetail extends React.Component{
   }
   handleSaveClick(){
     this.setState({protectMode: true});
-    var newDetailPerson = Object.assign(this.props.person, {
+    let newDetailPerson = Object.assign(this.props.person, {
       firstName: this.state.firstName,
       lastName: this.state.lastName, 
       division: this.state.division, 
@@ -144,8 +143,8 @@ class EmployeeDetail extends React.Component{
 
 
   render(){
-    console.log(this.props.person);
-    console.log(this.state);
+    // console.log(this.props.person);
+    // console.log(this.state);
     const styleButton = {
       margin: 5,
     };
@@ -199,7 +198,7 @@ class EmployeeDetail extends React.Component{
               <SelectField
                 floatingLabelText="Gender"
                 value={this.state.gender}
-                onChange={(event, index, value) => this.handleGenderChange(event, index, value)}
+                onChange={(event, index, value)=> this.handleGenderChange(event, index, value)}
                 disabled={this.state.protectMode}
               >
                 <MenuItem value={1} primaryText="" />

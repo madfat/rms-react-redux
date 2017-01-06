@@ -2,43 +2,13 @@ import React from 'react';
 import * as styles from '../common/styles';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import * as Util from '../common/util';
 
 class EmploymentHistory extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       employmentHistories: this.props.employmentHistories || []
-    }
-  }
-
-  getMonth(month){
-    switch(month) {
-      case 1:
-        return 'January';
-      case 2:
-        return 'February';
-      case 3:
-        return 'March';
-      case 4:
-        return 'April';
-      case 5:
-        return 'May';
-      case 6:
-        return 'June';
-      case 7:
-        return 'July';
-      case 8:
-        return 'August';
-      case 9:
-        return 'September';
-      case 10:
-        return 'October';
-      case 11:
-        return 'November';
-      case 12:
-        return 'December';
-      default:
-        return 'error'      
     }
   }
 
@@ -49,12 +19,12 @@ class EmploymentHistory extends React.Component{
    if (lines != null){
       lines.map((row, index) => {
         lineEmployment.push(
-        <div>
+        <div key={row.id}>
           <Divider />
           <div className="mdl-grid">
             <div className="mdl-cell mdl-cell--3-col" style={{borderRight: '0.25px solid', borderRightColor:'silver', marginLeft:'10px'}}>
               <TextField
-                value= {this.getMonth(row.startDate.getMonth())}
+                value= {Util.getMonth(row.startDate.getMonth())}
                 inputStyle={{textAlign:'left'}}
                 style={{width:'50px', fontSize:'10px', height:'15px'}}
                 underlineShow={false}
@@ -81,7 +51,7 @@ class EmploymentHistory extends React.Component{
                 >    -    </span>
                 
                 <TextField
-                  value= {row.endDate==''? 'PRESENT':row.endDate.getFullYear()}
+                  value= {isNaN(Date.parse(row.endDate)) ? 'PRESENT':row.endDate.getFullYear()}
                   style={{width:'100px', height:'20px', fontSize:'20px'}}
                   underlineShow={false}
                 />
@@ -110,7 +80,7 @@ class EmploymentHistory extends React.Component{
       });
     } else {
       lineEmployment.push(
-        <div>
+        <div key={'noline'}>
           No Employment History
         </div>
       );

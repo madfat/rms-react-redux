@@ -28,20 +28,35 @@ class Main extends React.Component {
       counterList: 0,
       person: {},
       open: false,
-      employees: EMPLOYEES
+      employees: EMPLOYEES, 
+      newEmployee: {}
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updatePersonDetail = this.updatePersonDetail.bind(this);  
     this.updateCounter = this.updateCounter.bind(this); 
     this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleCancelCreate = this.handleCancelCreate.bind(this);
+    this.updateListEmployees = this.updateListEmployees.bind(this);
+    this.updateNewEmployee = this.updateNewEmployee.bind(this);
   }
 
   handleOpen(){
     this.setState({open: true});
   }
   
-  handleClose(){
+  handleSave(){
+    let temp = this.state.employees;
+    temp.push(Object.assign(this.state.newEmployee,{id: Math.random() * (1000 - 8) + 7}));
+    
+    this.setState({open: false, employees:temp});
+  }
+
+  updateNewEmployee(e) {
+    this.setState({newEmployee: e});
+  }
+
+  handleCancelCreate(){
     this.setState({open: false});
   }
 
@@ -55,19 +70,24 @@ class Main extends React.Component {
     this.setState({counterList: counted});
   }
 
+  updateListEmployees(e){
+    this.setState({employees: e});
+  }
+
   updatePersonDetail(e){
     this.setState({
       person: e
-    })
+    });
   }
 
   render() {
     const actions = [
       <FlatButton
+        key={'flatbutton-1'}
         label="Save"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.handleSave}
       />,
     ];
     return (
@@ -85,7 +105,7 @@ class Main extends React.Component {
                 <div className="mdl-layout-spacer" />
                 <Sort />
                 <Filter />
-                <Chip>{this.state.counterList}</Chip>
+                <Chip>{this.state.employees.length}</Chip>
               </div>
             </div>
 
@@ -107,11 +127,14 @@ class Main extends React.Component {
               actions={actions}
               modal={false}
               open={this.state.open}
-              onRequestClose={this.handleClose}
+              onRequestClose={this.handleCancelCreate}
               contentStyle={styles.ModalEmployee}
               autoScrollBodyContent={true}
             >
-              <ModalEmployee />
+              <ModalEmployee
+                employees={this.state.employees}
+                updateNewEmployee={this.updateNewEmployee}
+              />
             </Dialog>
           </div>
 
@@ -128,16 +151,20 @@ class Main extends React.Component {
   }
 }
 
-var EMPLOYEES = [
+let EMPLOYEES = [
   {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', 
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2011,10,15), gender:2, status: 2, nationality: 'Indonesia', 
    marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), activeInd: true,
    dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
                 {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false}
                ],
-   employmentHistories: [{startDate: new Date(2015,5,2), endDate:'', employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], activeInd: true},
+   employmentHistories: [{startDate: new Date(2015,5,2), endDate:{}, employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], activeInd: true},
                          {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], activeInd: false},
-                        ]
+                        ],
+   locationHistory:[{id:1,relocationStartDate: new Date(2016,3,2), relocationEndDate:{}, branchOffice: 'Yogyakarta', address:'Jl. Sidobali No. 2 Umbulharjo, Mujamuju, Yogyakarta'},
+                    {id:2, relocationStartDate: new Date(2014,2,2), relocationEndDate:new Date(2016,3,2), branchOffice: 'Bali', address:'Jl. By Pass Ngurah Rai gg. Mina Utama No. 1 Suwung 80223, Bali'}
+                   ],
+   addressHistory:[{id: 1, address: 'Bantul', activeInd: true}]
   },
   {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AN', location:'Bali', phone:'+6285517705', 
   stream: 'CDC', jobFamily: 'Mobile', hiredDate: new Date(2012,12,15), gender:2, status: 2, nationality: 'Indonesia', 

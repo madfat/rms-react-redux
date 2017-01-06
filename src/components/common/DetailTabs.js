@@ -14,7 +14,7 @@ class DetailTabs extends React.Component{
     super(props);
   }
   render(){
-    console.log(this.props);
+    //console.log(this.props);
     return(
       <Tabs>
         <Tab
@@ -45,12 +45,12 @@ class DetailTabs extends React.Component{
         <Tab
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
-          <Address />
+          <Address addressHistory={this.props.person.addressHistory}/>
         </Tab>
         <Tab
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
-          <Location />
+          <Location locationHistory={this.props.person.locationHistory}/>
         </Tab>
       </Tabs>
     );

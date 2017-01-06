@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import TextField from 'material-ui/TextField';
 import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
+import * as styles from './styles';
 
 class ModalEmployee extends React.Component{
   constructor(props){
@@ -17,12 +18,15 @@ class ModalEmployee extends React.Component{
       loading: false,
       finished: false,
       stepIndex: 0,
+      newEmployee:{}
     };
 
     this.handleNext = this.handleNext.bind(this);
     this.handlePrev = this.handlePrev.bind(this);
     this.getStepContent = this.getStepContent.bind(this);
     this.renderContent = this.renderContent.bind(this);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
   }
 
   handleNext(){
@@ -40,11 +44,39 @@ class ModalEmployee extends React.Component{
     }
   }
 
+  handleFirstNameChange(e){
+    this.setState({firstName: e.target.value});
+    let newEmpl = Object.assign(this.state.newEmployee, {
+      firstName: e.target.value
+    });
+    this.props.updateNewEmployee(newEmpl);
+  }
+
+  handleLastNameChange(e){
+    this.setState({lastName: e.target.value});
+    this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {lastName:e.target.value}));
+  }
+
   getStepContent(stepIndex) {
+    let newEmployee = this.state.newEmployee;
     switch (stepIndex) {
       case 0:
         return (
-          <EmployeeDetail />
+          <div style={styles.FormControl}>
+            <p>Employee Detail</p>
+            <TextField
+              hintText="First Name"
+              floatingLabelText="First Name"
+              value={newEmployee.firstName}
+              onChange={this.handleFirstNameChange}
+            />
+            <TextField
+              hintText="Last Name"
+              floatingLabelText="First Name"
+              value={newEmployee.lastName}
+              onChange={this.handleLastNameChange}
+            />
+          </div>
         );
       case 1:
         return (

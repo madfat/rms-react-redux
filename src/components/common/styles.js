@@ -1,4 +1,4 @@
-export const tabHeader = {
+  export const tabHeader = {
     backgroundColor: '#5C6AC0',	
     height: '47px',
     color: '#FFFFFF',
