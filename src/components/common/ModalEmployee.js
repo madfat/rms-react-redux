@@ -35,8 +35,7 @@ class ModalEmployee extends React.Component{
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 5,
     });
-    this.props.updateNewEmployee(Object.assign(this.props.newEmployee, this.state.newEmployee.a));
-    //this.props.updateNewEmployee(Object.assign(this.props.newEmployee, this.state.newEmployee.a));
+    this.props.updateNewEmployee(this.state.newEmployee.a);
   }
 
   handlePrev() {
