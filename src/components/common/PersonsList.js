@@ -47,10 +47,10 @@ class PersonList extends React.Component{
     let rows = [];
     this.props.persons.forEach(function(person) {
       
-      let fullName = person.firstName.toLowerCase() +' '+ person.lastName.toLowerCase();
-      if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText.toLowerCase()) === -1){
-        return;
-      }
+      // let fullName = person.firstName.toLowerCase() +' '+ person.lastName.toLowerCase();
+      // if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText.toLowerCase()) === -1){
+      //   return;
+      // }
 
       rows.push(<div key={person.id}><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}

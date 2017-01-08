@@ -29,7 +29,8 @@ class Main extends React.Component {
       person: {},
       open: false,
       employees: EMPLOYEES, 
-      newEmployee: {}
+      newEmployee: {},
+      SearchResult: []
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updatePersonDetail = this.updatePersonDetail.bind(this);  
@@ -42,6 +43,10 @@ class Main extends React.Component {
 
   handleOpen(){
     this.setState({open: true});
+  }
+
+  componentDidMount(){
+    this.setState({SearchResult: this.state.employees});
   }
 
   updateNewEmployee(e){
@@ -63,6 +68,19 @@ class Main extends React.Component {
     this.setState({
       filterText: filterText,
     });
+    if (this.state.filterText.length >= 3){
+      let empl = [];
+      this.state.employees.forEach((employee) => {
+        let fullName = employee.firstName.toLowerCase() +' '+ employee.lastName.toLowerCase();
+        if (fullName.indexOf(this.state.filterText.toLowerCase()) === -1){
+          return;
+        } 
+        empl.push(employee);
+      });
+      this.setState({SearchResult: empl});
+    } else{
+      this.setState({SearchResult: this.state.employees});
+    }
   }
 
   updateCounter(counted){
@@ -101,13 +119,13 @@ class Main extends React.Component {
                 <div className="mdl-layout-spacer" />
                 <Sort />
                 <Filter />
-                <Chip>{this.state.employees.length}</Chip>
+                <Chip>{this.state.SearchResult.length}</Chip>
               </div>
             </div>
 
             <PersonsList 
               key={this.state.employees.id}
-              persons={this.state.employees}
+              persons={this.state.SearchResult}
               filterText={this.state.filterText}
               updatePersonDetail={this.updatePersonDetail}
               updateCounter = {this.updateCounter}/>
