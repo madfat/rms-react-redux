@@ -20,3 +20,7 @@
   export const ModalEmployee = {
     maxWidth: 'none'
   }
+
+  export const FormField = {
+    fontSize: '14px'
+  }

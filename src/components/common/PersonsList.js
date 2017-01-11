@@ -69,11 +69,6 @@ class PersonList extends React.Component{
                 </div>);
     }, this);
 
-    console.log(rows.length);
-
-    //this.setState({numberItem: rows.length});
-    //this.updateCounter(rows.length);
-
     return(
       <List>
         <div style={{overflowY:'scroll', height: '500px'}}>

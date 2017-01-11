@@ -46,8 +46,8 @@ class ModalEmployee extends React.Component{
   }
 
   updateNewEmployee(e){
-    console.log('==in modal==');
-    console.log(e);
+    // console.log('==in modal==');
+    // console.log(e);
     //this.setState({newEmployee: e});
   }
 

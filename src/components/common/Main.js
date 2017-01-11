@@ -68,7 +68,7 @@ class Main extends React.Component {
     this.setState({
       filterText: filterText,
     });
-    if (this.state.filterText.length >= 3){
+    if (this.state.filterText.length > 2){
       let empl = [];
       this.state.employees.forEach((employee) => {
         let fullName = employee.firstName.toLowerCase() +' '+ employee.lastName.toLowerCase();

@@ -71,7 +71,7 @@ class EmployeeDetail extends React.Component{
   handleStatusChange(e,i,v){
     this.setState({status: v});
     if (this.props.createMode){
-      this.updateNewEmployee('gender', v);
+      this.updateNewEmployee('status', v);
     }
   }
 
@@ -161,8 +161,8 @@ class EmployeeDetail extends React.Component{
 
   updateNewEmployee(key,value){
     this.state.newEmployee[key] = value;
-    console.log('==in detail==');
-    console.log(this.state.newEmployee);
+    // console.log('==in detail==');
+    // console.log(this.state.newEmployee);
     let a = this.state.newEmployee;
     this.props.updateNewEmployee(Object.assign(this.props.person, {a}));
   }

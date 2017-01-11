@@ -41,7 +41,9 @@ class DetailTabs extends React.Component{
           icon={<FontIcon className="material-icons">wc</FontIcon>}
           style={styles.tabHeader}>
           <Dependents 
-            dependents = {this.props.person.dependents} />
+            person={this.props.person || {}}
+            dependents = {this.props.person.dependents}
+            updatePersonDetail = {this.props.updatePersonDetail} />
         </Tab>
         <Tab
           icon={<FontIcon className="material-icons">home</FontIcon>}

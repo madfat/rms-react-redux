@@ -6,6 +6,10 @@ import Toggle from 'material-ui/Toggle';
 import DatePicker from 'material-ui/DatePicker';
 import Checkbox from 'material-ui/Checkbox';
 import * as styles from '../common/styles';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import update from 'react-addons-update';
+import DependentRow from './DependentRow';
 
 class Dependents extends React.Component{
 
@@ -19,23 +23,58 @@ class Dependents extends React.Component{
       showRowHover: false,
       showCheckboxes: false,
       height: '300px',
-      dependents: this.props.dependents || []
+      dependents: this.props.dependents || [],
+      protectMode:true,
+      selectedIndex: null,
+      dependent:{}
     };
+    this.handleEditMode = this.handleEditMode.bind(this);
+    this.handleSaveMode = this.handleSaveMode.bind(this);
+    this.handleTextField = this.handleTextField.bind(this);
   }
 
-  handleToggle(event, toggled){
-    this.setState({
-      [event.target.name]: toggled,
+  componentWillReceiveProps(nextProps){
+    this.setState({dependents: nextProps.dependents || []});
+    this.setState({selectedIndex: null})
+  }
+
+  handleEditMode(index){
+    this.setState({selectedIndex: index})
+  }
+
+  handleSaveMode(index){
+    var newUpdate = Object.assign(this.props.person.dependents, this.state.dependents);
+    this.setState({dependents: newUpdate});
+    this.setState({selectedIndex: null})
+  }
+
+  handleTextField(e, key, index){
+    var newDependents = update(this.state.dependents, {
+      [index]: {
+        [key]:{$set: e.target.value}
+      }
     });
+    console.log(newDependents);
+    this.setState({dependents: newDependents});
   }
-
-  handleChange(event){
-    this.setState({height: event.target.value});
-  }
-
 
   render(){
-    var dependents = this.props.dependents;
+    var dependents = this.state.dependents;
+    if (dependents.length > 0) {
+      var line = dependents.map((dependent,index)=>
+        <DependentRow
+          key={index}
+          index={index}
+          dependent={dependent}
+          handleTextField={this.handleTextField}
+          selectedIndex={this.state.selectedIndex}
+          handleEditMode={this.handleEditMode}
+          handleSaveMode={this.handleSaveMode}
+        />
+      );
+      console.log("line");
+      console.log(line);
+    }
     if (dependents != null){
       return(
         <div style={styles.FormControl}>
@@ -45,8 +84,11 @@ class Dependents extends React.Component{
             height={this.state.height}
             fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}
+            displaySelectAll={false}
           >
             <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}
             >
               <TableRow>
                 <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
@@ -60,17 +102,9 @@ class Dependents extends React.Component{
             <TableBody
               showRowHover={this.state.showRowHover}
               stripedRows={this.state.stripedRows}
+              displayRowCheckbox={false}
             >
-              {dependents.map( (row, index) => (
-                <TableRow key={index}>
-                  <TableRowColumn>{row.name}</TableRowColumn> 
-                  <TableRowColumn>{row.gender==2?'Male':'Female'}</TableRowColumn> 
-                  <TableRowColumn>{row.dob.getMonth()+1+'-'+row.dob.getDate()+'-'+row.dob.getFullYear()}</TableRowColumn>
-                  <TableRowColumn>{row.type}</TableRowColumn> 
-                  <TableRowColumn><Checkbox checked={row.activeInd} disabled/></TableRowColumn> 
-                  <TableRowColumn><a href='#'><i className="material-icons">mode_edit</i></a> &nbsp; <a href='#'><i className="material-icons">delete</i></a></TableRowColumn>
-                </TableRow>
-                ))}
+              {line}
             </TableBody>
           </Table>
         </div>
