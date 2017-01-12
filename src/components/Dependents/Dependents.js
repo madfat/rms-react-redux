@@ -24,7 +24,7 @@ class Dependents extends React.Component{
       stripedRows: false,
       showRowHover: false,
       showCheckboxes: false,
-      height: '300px',
+      height: '400px',
       dependents: this.props.dependents || [],
       protectMode:true,
       selectedIndex: null,
@@ -37,6 +37,7 @@ class Dependents extends React.Component{
     this.handleDateField = this.handleDateField.bind(this);
     this.handleDeleteClick =this.handleDeleteClick.bind(this);
     this.handleCheckField = this.handleCheckField.bind(this);
+    this.handleAddDependent = this.handleAddDependent.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -61,13 +62,20 @@ class Dependents extends React.Component{
   }
 
   handleTextField(e, key, indexDependent){
-    var newDependents = update(this.state.dependents, {
-      [indexDependent]: {
-        [key]:{$set: e.target.value}
-      }
-    });
-    console.log(newDependents);
+    let newDependents = Object.assign([],this.state.dependents);
+    newDependents[indexDependent][key]=e.target.value;
+
     this.setState({dependents: newDependents});
+//    this.props.updatePersonDetail(newDependents);
+
+//    this.props.updatePersonDetail(newDependents);
+    // var newDependents = update(this.state.dependents, {
+    //   [indexDependent]: {
+    //     [key]:{$set: e.target.value}
+    //   }
+    // });
+    // console.log(newDependents);
+    // this.setState({dependents: newDependents});
   }
 
   handleSelectField(event, index, value, key, indexDependent){
@@ -98,11 +106,26 @@ class Dependents extends React.Component{
     });
     this.setState({dependents: newDependents});
   }
+  
+  handleAddDependent(){
+    let newLine = {
+      'name': '',
+      'gender':0,
+      'date':{},
+      'type':'',
+      'activeInd':false
+    };
+    console.log(newLine);
+    let a = Object.assign([],this.props.person.dependents);
+    a.push(newLine);
+    this.setState({dependents: a});
+  }
 
   render(){
-    var dependents = this.state.dependents;
-    if (dependents.length > 0) {
-      var line = dependents.map((dependent,index)=>
+    var ds = this.state.dependents;
+    var line={};
+    if (ds.length > 0) {
+      line = ds.map((dependent,index) =>
         <DependentRow
           key={index}
           index={index}
@@ -117,56 +140,62 @@ class Dependents extends React.Component{
           handleCheckField = {this.handleCheckField}
         />
       );
-      console.log("line");
-      console.log(line);
     }
-    if (dependents.length > 0){
-      return(
-        <div style={styles.FormControl}>
-          <h4>Dependents</h4>
 
-          <Table
-            height={this.state.height}
-            fixedHeader={this.state.fixedHeader}
-            fixedFooter={this.state.fixedFooter}
+    return(
+      <div style={styles.FormControl}>
+        <h4>Dependents</h4>
+
+        <Table
+          height={this.state.height}
+          fixedHeader={this.state.fixedHeader}
+          fixedFooter={this.state.fixedFooter}
+          displaySelectAll={false}
+        >
+          <TableHeader
             displaySelectAll={false}
+            adjustForCheckbox={false}
           >
-            <TableHeader
-              displaySelectAll={false}
-              adjustForCheckbox={false}
-            >
-              <TableRow>
-                <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Gender">Gender</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The DoB">Date of Birth</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Type">Type</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Type">Active</TableHeaderColumn>
-                <TableHeaderColumn>Actions</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              showRowHover={this.state.showRowHover}
-              stripedRows={this.state.stripedRows}
-              displayRowCheckbox={false}
-            >
-              {line}
-            </TableBody>
-          </Table>
-          <FloatingActionButton style={styles.ButtonAddDetail} onTouchTap={this.handleOpen}>
-            <ContentAdd />
-          </FloatingActionButton>
-        </div>
-      );
-    } else {
-      return(
-        <div style={styles.FormControl}>
-          <h4>Dependents</h4>
-          <div>
-            No Dependents
-          </div>
-        </div>
-      );
-    }
+            <TableRow>
+              <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Gender">Gender</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The DoB">Date of Birth</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Type">Type</TableHeaderColumn>
+              <TableHeaderColumn tooltip="The Type">Active</TableHeaderColumn>
+              <TableHeaderColumn>Actions</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          {
+            ds.length > 0 ?
+              <TableBody
+                showRowHover={this.state.showRowHover}
+                stripedRows={this.state.stripedRows}
+                displayRowCheckbox={false}
+              >
+                {line}
+              </TableBody>
+            :
+              <TableBody
+                showRowHover={this.state.showRowHover}
+                stripedRows={this.state.stripedRows}
+                displayRowCheckbox={false}
+              >
+                <TableRow>
+                  <TableRowColumn>
+                      <div style={styles.NoRecordFound}>
+                      <span>No Record Found</span>
+                      </div>
+                  </TableRowColumn>
+                </TableRow>
+              </TableBody>
+          }
+
+        </Table>
+        <FloatingActionButton style={styles.ButtonAddDetail} onTouchTap={this.handleAddDependent}>
+          <ContentAdd />
+        </FloatingActionButton>
+      </div>
+    );
   }
 }
 

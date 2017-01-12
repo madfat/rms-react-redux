@@ -15,7 +15,7 @@
   
     export const ButtonAddDetail = {
     top: '75%',
-    left: '90%',
+    left: '85%',
     position: 'fixed',
     buttom: 'auto',
     right:'auto'
@@ -31,4 +31,11 @@
 
   export const FormField = {
     fontSize: '14px'
+  }
+
+  export const NoRecordFound = {
+    height: '70px',
+    lineHeight: '70px',
+    textAlign: 'center',
+    verticalAlign: 'middle'
   }
