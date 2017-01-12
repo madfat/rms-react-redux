@@ -171,7 +171,8 @@ let EMPLOYEES = [
    stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2011,10,15), gender:2, status: 2, nationality: 'Indonesia', 
    marital: 3, email: 'akhmad.fathoni@mitrais.com', dob: new Date(1990,1,1), activeInd: true,
    dependents: [{name: 'Dian Sastro', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
-                {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false}
+                {name: 'Nabila Syakieb', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false},
+                {name: 'Nabila Syakieb2', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false}
                ],
    employmentHistories: [{startDate: new Date(2015,5,2), endDate:{}, employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], activeInd: true},
                          {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], activeInd: false},

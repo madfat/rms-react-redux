@@ -271,10 +271,10 @@ class EmployeeDetail extends React.Component{
           </div>        
           <div className="mdl-cell mdl-cell--5-col">
             <DatePicker floatingLabelText="Suspend Date" hintText="Suspend Date" 
-            value={this.state.suspendDate}
-            onChange={(event, date) => this.handleSuspendDate(event,date)} 
-            disabled={this.state.protectMode}
-          />
+              value={this.state.suspendDate}
+              onChange={(event, date) => this.handleSuspendDate(event,date)} 
+              disabled={this.state.protectMode}
+            />
           </div>        
         </div>
 

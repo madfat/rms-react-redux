@@ -10,6 +10,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import update from 'react-addons-update';
 import DependentRow from './DependentRow';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Dependents extends React.Component{
 
@@ -31,6 +33,10 @@ class Dependents extends React.Component{
     this.handleEditMode = this.handleEditMode.bind(this);
     this.handleSaveMode = this.handleSaveMode.bind(this);
     this.handleTextField = this.handleTextField.bind(this);
+    this.handleSelectField = this.handleSelectField.bind(this);
+    this.handleDateField = this.handleDateField.bind(this);
+    this.handleDeleteClick =this.handleDeleteClick.bind(this);
+    this.handleCheckField = this.handleCheckField.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -42,19 +48,54 @@ class Dependents extends React.Component{
     this.setState({selectedIndex: index})
   }
 
-  handleSaveMode(index){
+  handleSaveMode(){
     var newUpdate = Object.assign(this.props.person.dependents, this.state.dependents);
     this.setState({dependents: newUpdate});
     this.setState({selectedIndex: null})
   }
 
-  handleTextField(e, key, index){
+  handleDeleteClick(index){
+    this.setState({dependents: this.state.dependents.splice(index,1)});
+    console.log(this.state.dependents);
+//    this.state.dependents.splice(indexDependent,1);
+  }
+
+  handleTextField(e, key, indexDependent){
     var newDependents = update(this.state.dependents, {
-      [index]: {
+      [indexDependent]: {
         [key]:{$set: e.target.value}
       }
     });
     console.log(newDependents);
+    this.setState({dependents: newDependents});
+  }
+
+  handleSelectField(event, index, value, key, indexDependent){
+    var newDependents = update(this.state.dependents, {
+      [indexDependent]: {
+        [key]:{$set: value}
+      }
+    });
+    console.log(newDependents);
+    this.setState({dependents: newDependents});
+  }
+
+  handleDateField(event, value, key, indexDependent) {
+    var newDependents = update(this.state.dependents, {
+      [indexDependent]: {
+        [key]:{$set: value}
+      }
+    });
+    console.log(newDependents);
+    this.setState({dependents: newDependents});
+  }
+
+  handleCheckField(event, key, indexDependent){
+    var newDependents = update(this.state.dependents, {
+      [indexDependent]: {
+        [key]:{$set: event.target.checked}
+      }
+    });
     this.setState({dependents: newDependents});
   }
 
@@ -70,12 +111,16 @@ class Dependents extends React.Component{
           selectedIndex={this.state.selectedIndex}
           handleEditMode={this.handleEditMode}
           handleSaveMode={this.handleSaveMode}
+          handleSelectField = {this.handleSelectField}
+          handleDateField = {this.handleDateField}
+          handleDeleteClick = {this.handleDeleteClick}
+          handleCheckField = {this.handleCheckField}
         />
       );
       console.log("line");
       console.log(line);
     }
-    if (dependents != null){
+    if (dependents.length > 0){
       return(
         <div style={styles.FormControl}>
           <h4>Dependents</h4>
@@ -107,6 +152,9 @@ class Dependents extends React.Component{
               {line}
             </TableBody>
           </Table>
+          <FloatingActionButton style={styles.ButtonAddDetail} onTouchTap={this.handleOpen}>
+            <ContentAdd />
+          </FloatingActionButton>
         </div>
       );
     } else {

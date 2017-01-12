@@ -30,6 +30,17 @@ class DependentRow extends React.Component{
     this.props.handleSaveMode(event, this.props.index);
   }
 
+  handleSelectField(event, index, value, key) {
+    this.props.handleSelectField(event, index, value, key, this.props.index);
+  }
+
+  handleDateField(event, value, key) {
+    this.props.handleDateField(event, value, key, this.props.index);
+  }
+  handleCheckField(event, key){
+    this.props.handleCheckField(event, key, this.props.index);
+  }
+
   render() {
     return(
         <TableRow key={this.props.index}>
@@ -45,7 +56,7 @@ class DependentRow extends React.Component{
           <TableRowColumn>
             <SelectField
               value={this.props.dependent.gender}
-              onChange={(event, index, value)=> this.handleGenderChange(event, index, value)}
+              onChange={(event, index, value)=>this.handleSelectField(event,index,value,'gender')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
               style={styles.FormField}
@@ -58,7 +69,7 @@ class DependentRow extends React.Component{
           <TableRowColumn>
             <DatePicker
               value={this.props.dependent.dob}
-              onChange={(event, date) => this.handleSuspendDate(event,date)} 
+              onChange={(event, date) => this.handleDateField(event,date,'dob')} 
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
               style={styles.FormField}
@@ -67,14 +78,18 @@ class DependentRow extends React.Component{
           <TableRowColumn>
             <TextField
               value={this.props.dependent.type}
-              onChange={this.handleTypeChange}
+              onChange={(event) => this.handleChangeValue(event,'type')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
               style={styles.FormField}
             />
           </TableRowColumn> 
           <TableRowColumn>
-            <Checkbox checked={this.props.dependent.activeInd} disabled={this.props.selectedIndex==this.props.index?false:true}/>
+            <Checkbox 
+              checked={this.props.dependent.activeInd} 
+              disabled={this.props.selectedIndex==this.props.index?false:true}
+              onClick={(event, key) => this.handleCheckField(event, 'activeInd')}
+            />
           </TableRowColumn> 
           <TableRowColumn> 
             {this.props.selectedIndex != this.props.index ? 
@@ -82,7 +97,7 @@ class DependentRow extends React.Component{
               : 
               <a href='#' onClick={this.props.handleSaveMode.bind(this,this.props.index)}><i className="material-icons">save</i></a>} 
               &nbsp; 
-              <a href='#'><i className="material-icons">delete</i></a>
+              <a href='#' onClick={this.props.handleDeleteClick.bind(this,this.props.index)}><i className="material-icons">delete</i></a>
           </TableRowColumn>
         </TableRow>
     );

@@ -13,6 +13,14 @@
     right:'auto'
   }
   
+    export const ButtonAddDetail = {
+    top: '75%',
+    left: '90%',
+    position: 'fixed',
+    buttom: 'auto',
+    right:'auto'
+  }
+
   export const FormControl = {
     marginLeft: '10px'
   }
