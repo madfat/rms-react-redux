@@ -12,6 +12,8 @@ import update from 'react-addons-update';
 import DependentRow from './DependentRow';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 
 class Dependents extends React.Component{
 
@@ -58,7 +60,6 @@ class Dependents extends React.Component{
   handleDeleteClick(index){
     this.setState({dependents: this.state.dependents.splice(index,1)});
     console.log(this.state.dependents);
-//    this.state.dependents.splice(indexDependent,1);
   }
 
   handleTextField(e, key, indexDependent){
@@ -66,16 +67,6 @@ class Dependents extends React.Component{
     newDependents[indexDependent][key]=e.target.value;
 
     this.setState({dependents: newDependents});
-//    this.props.updatePersonDetail(newDependents);
-
-//    this.props.updatePersonDetail(newDependents);
-    // var newDependents = update(this.state.dependents, {
-    //   [indexDependent]: {
-    //     [key]:{$set: e.target.value}
-    //   }
-    // });
-    // console.log(newDependents);
-    // this.setState({dependents: newDependents});
   }
 
   handleSelectField(event, index, value, key, indexDependent){
@@ -145,7 +136,13 @@ class Dependents extends React.Component{
     return(
       <div style={styles.FormControl}>
         <h4>Dependents</h4>
-
+        <FlatButton
+          backgroundColor="#a4c639"
+          hoverColor="#8AA62F"
+          icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
+          style={styles.ButtonAddDetail}
+          onTouchTap={this.handleAddDependent}
+        />
         <Table
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}
@@ -189,11 +186,7 @@ class Dependents extends React.Component{
                 </TableRow>
               </TableBody>
           }
-
         </Table>
-        <FloatingActionButton style={styles.ButtonAddDetail} onTouchTap={this.handleAddDependent}>
-          <ContentAdd />
-        </FloatingActionButton>
       </div>
     );
   }

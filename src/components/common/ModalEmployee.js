@@ -25,6 +25,7 @@ class ModalEmployee extends React.Component{
     this.handlePrev = this.handlePrev.bind(this);
     this.getStepContent = this.getStepContent.bind(this);
     this.renderContent = this.renderContent.bind(this);
+    this.addNewEmployeeFinished = this.addNewEmployeeFinished.bind(this);
     // this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     // this.handleLastNameChange = this.handleLastNameChange.bind(this);
   }
@@ -36,6 +37,11 @@ class ModalEmployee extends React.Component{
       finished: stepIndex >= 5,
     });
     this.props.updateNewEmployee(this.state.newEmployee.a);
+    console.log(this.state.stepIndex);
+    console.log(this.state.finished);
+    if (stepIndex==5){
+      this.props.AddNewEmployeeFinished(true);
+    }
   }
 
   handlePrev() {
@@ -44,22 +50,6 @@ class ModalEmployee extends React.Component{
         this.setState({stepIndex: stepIndex - 1});
     }
   }
-
-  updateNewEmployee(e){
-    // console.log('==in modal==');
-    // console.log(e);
-    //this.setState({newEmployee: e});
-  }
-
-  // handleFirstNameChange(e){
-  //   this.setState({firstName: e.target.value});
-  //   this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {firstName: e.target.value}));
-  // }
-
-  // handleLastNameChange(e){
-  //   this.setState({lastName: e.target.value});
-  //   this.props.updateNewEmployee(Object.assign(this.state.newEmployee, {lastName:e.target.value}));
-  // }
 
   getStepContent(stepIndex) {
     let newEmployee = this.state.newEmployee;
@@ -95,6 +85,10 @@ class ModalEmployee extends React.Component{
       default:
         return 'You\'re a long way from home sonny jim!';
     }
+  }
+
+  addNewEmployeeFinished(e){
+    this.props.AddNewEmployeeFinished(e);
   }
 
   renderContent() {

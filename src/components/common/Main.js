@@ -30,7 +30,8 @@ class Main extends React.Component {
       open: false,
       employees: EMPLOYEES, 
       newEmployee: {},
-      SearchResult: []
+      SearchResult: [],
+      ShowAction: false
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updatePersonDetail = this.updatePersonDetail.bind(this);  
@@ -39,10 +40,12 @@ class Main extends React.Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
     this.updateNewEmployee = this.updateNewEmployee.bind(this);
+    this.AddNewEmployeeFinished = this.AddNewEmployeeFinished.bind(this);
   }
 
   handleOpen(){
     this.setState({open: true});
+    this.setState({ShowAction: false})
   }
 
   componentDidMount(){
@@ -86,7 +89,10 @@ class Main extends React.Component {
   updateCounter(counted){
     this.setState({counterList: counted});
   }
-
+  
+  AddNewEmployeeFinished(e){
+    this.setState({ShowAction: e});
+  }
 
   updatePersonDetail(e){
     this.setState({
@@ -95,7 +101,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const actions = [
+    const actions = this.state.ShowAction == true ? [
       <FlatButton
         key={'flatbutton-1'}
         label="Save"
@@ -103,7 +109,10 @@ class Main extends React.Component {
         keyboardFocused={true}
         onTouchTap={this.handleSave}
       />,
-    ];
+    ]
+    :
+    []
+    ;
     return (
       <main className="mdl-layout__content">
         <div className="mdl-grid">
@@ -149,6 +158,7 @@ class Main extends React.Component {
                 employees={this.state.employees}
                 newEmployee={this.state.newEmployee}
                 updateNewEmployee={this.updateNewEmployee}
+                AddNewEmployeeFinished={this.AddNewEmployeeFinished}
               />
             </Dialog>
           </div>

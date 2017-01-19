@@ -13,12 +13,11 @@
     right:'auto'
   }
   
-    export const ButtonAddDetail = {
+  export const ButtonAddDetail = {
     top: '75%',
     left: '85%',
-    position: 'fixed',
     buttom: 'auto',
-    right:'auto'
+    right:'auto', 
   }
 
   export const FormControl = {
