@@ -28,7 +28,6 @@ class Dependents extends React.Component{
       showCheckboxes: false,
       height: '400px',
       dependents: this.props.dependents || [],
-      protectMode:true,
       selectedIndex: null,
       dependent:{}
     };
@@ -44,7 +43,9 @@ class Dependents extends React.Component{
 
   componentWillReceiveProps(nextProps){
     this.setState({dependents: nextProps.dependents || []});
-    this.setState({selectedIndex: null})
+    if (this.props.person.id !== nextProps.person.id){
+      this.setState({selectedIndex: null})
+    }
   }
 
   handleEditMode(index){
@@ -59,13 +60,19 @@ class Dependents extends React.Component{
 
   handleDeleteClick(index){
     this.setState({dependents: this.state.dependents.splice(index,1)});
-    console.log(this.state.dependents);
+    // console.log(this.state.dependents);
   }
 
   handleTextField(e, key, indexDependent){
-    let newDependents = Object.assign([],this.state.dependents);
-    newDependents[indexDependent][key]=e.target.value;
+    // let newDependents = Object.assign([],this.state.dependents);
+    // newDependents[indexDependent][key]=e.target.value;
 
+    // this.setState({dependents: newDependents});
+    var newDependents = update(this.state.dependents, {
+      [indexDependent]: {
+        [key]:{$set: e.target.value}
+      }
+    });
     this.setState({dependents: newDependents});
   }
 
@@ -75,7 +82,7 @@ class Dependents extends React.Component{
         [key]:{$set: value}
       }
     });
-    console.log(newDependents);
+    // console.log(newDependents);
     this.setState({dependents: newDependents});
   }
 
@@ -85,7 +92,7 @@ class Dependents extends React.Component{
         [key]:{$set: value}
       }
     });
-    console.log(newDependents);
+    // console.log(newDependents);
     this.setState({dependents: newDependents});
   }
 
@@ -106,7 +113,7 @@ class Dependents extends React.Component{
       'type':'',
       'activeInd':false
     };
-    console.log(newLine);
+    // console.log(newLine);
     let a = Object.assign([],this.props.person.dependents);
     a.push(newLine);
     this.setState({dependents: a});
@@ -154,7 +161,7 @@ class Dependents extends React.Component{
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '200px'}} tooltip="The Name">Name</TableHeaderColumn>
               <TableHeaderColumn tooltip="The Gender">Gender</TableHeaderColumn>
               <TableHeaderColumn tooltip="The DoB">Date of Birth</TableHeaderColumn>
               <TableHeaderColumn tooltip="The Type">Type</TableHeaderColumn>

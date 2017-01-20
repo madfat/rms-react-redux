@@ -12,17 +12,17 @@ import MenuItem from 'material-ui/MenuItem';
 class DependentRow extends React.Component{
   constructor(props){
     super(props);
-    console.log('constructor');
+    // console.log('constructor');
     this.handleChangeValue = this.handleChangeValue.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
-    console.log('will recieve');
+    // console.log('will recieve');
     this.setState({dependent: nextProps.dependent || []});
   }
 
   handleChangeValue(event,key){
-    console.log("handleChangeValue")
+    // console.log("handleChangeValue")
     this.props.handleTextField(event,key,this.props.index);
   }
 
@@ -44,8 +44,9 @@ class DependentRow extends React.Component{
   render() {
     return(
         <TableRow key={this.props.index}>
-          <TableRowColumn>
+          <TableRowColumn style={{width: '200px'}}>
             <TextField
+              id="name"
               value={this.props.dependent.name}
               onChange={(event) => this.handleChangeValue(event,'name')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
@@ -55,6 +56,7 @@ class DependentRow extends React.Component{
           </TableRowColumn> 
           <TableRowColumn>
             <SelectField
+              id="gender"
               value={this.props.dependent.gender}
               onChange={(event, index, value)=>this.handleSelectField(event,index,value,'gender')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
@@ -77,6 +79,7 @@ class DependentRow extends React.Component{
           </TableRowColumn>
           <TableRowColumn>
             <TextField
+              id="type"
               value={this.props.dependent.type}
               onChange={(event) => this.handleChangeValue(event,'type')}
               disabled={this.props.selectedIndex==this.props.index?false:true}

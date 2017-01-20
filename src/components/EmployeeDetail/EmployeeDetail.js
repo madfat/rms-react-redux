@@ -26,7 +26,29 @@ class EmployeeDetail extends React.Component{
       phone:'', 
       email:'',
       protectMode: this.props.createMode==true?false:true,
-      newEmployee:{}
+      newEmployee:{
+          id:'',
+          firstName: '', 
+          lastName: '', 
+          division: '', 
+          grade:'', 
+          location:'', 
+          phone:'', 
+          stream: '', 
+          jobFamily: '', 
+          hiredDate: {}, 
+          gender:'', 
+          status:'', 
+          nationality: '', 
+          marital: '', 
+          email: '', 
+          dob: {}, 
+          activeInd: false,
+          dependents: [],
+          employmentHistories: [],
+          locationHistory:[],
+          addressHistory:[]
+      }
     };
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
@@ -217,6 +239,7 @@ class EmployeeDetail extends React.Component{
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="firstName"
               hintText="First Name"
               floatingLabelText="First Name"
               value={this.state.firstName}
@@ -226,6 +249,7 @@ class EmployeeDetail extends React.Component{
           </div>
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="lastName"
               hintText="Last Name"
               floatingLabelText="Last Name"
               value={this.state.lastName}
@@ -238,6 +262,7 @@ class EmployeeDetail extends React.Component{
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="division"
               hintText="Division"
               floatingLabelText="Division"
               value={this.state.division}
@@ -247,6 +272,7 @@ class EmployeeDetail extends React.Component{
           </div>
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="subdivision"
               hintText="Sub Division"
               floatingLabelText="Sub Division"
               value={this.state.stream}
@@ -259,6 +285,7 @@ class EmployeeDetail extends React.Component{
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <SelectField
+              id="gender"
               floatingLabelText="Gender"
               value={this.state.gender}
               onChange={(event, index, value)=> this.handleGenderChange(event, index, value)}
@@ -298,6 +325,7 @@ class EmployeeDetail extends React.Component{
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="nationality"
               hintText="Nationality"
               floatingLabelText="Nationality"
               value={this.state.nationality}
@@ -307,6 +335,7 @@ class EmployeeDetail extends React.Component{
           </div>
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="grade"
               hintText="Grade"
               floatingLabelText="Grade"
               value={this.state.grade}
@@ -347,6 +376,7 @@ class EmployeeDetail extends React.Component{
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="phone"
               hintText="Phone"
               floatingLabelText="Phone"
               value={this.state.phone}
@@ -356,6 +386,7 @@ class EmployeeDetail extends React.Component{
           </div>
           <div className="mdl-cell mdl-cell--5-col">
             <TextField
+              id="email"
               hintText="Email"
               floatingLabelText="Email"
               value={this.state.email}

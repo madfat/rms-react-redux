@@ -10,6 +10,7 @@ import ExpandTransition from 'material-ui/internal/ExpandTransition';
 import TextField from 'material-ui/TextField';
 import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
 import * as styles from './styles';
+import Dependents from '../Dependents/Dependents';
 
 class ModalEmployee extends React.Component{
   constructor(props){
@@ -37,8 +38,8 @@ class ModalEmployee extends React.Component{
       finished: stepIndex >= 5,
     });
     this.props.updateNewEmployee(this.state.newEmployee.a);
-    console.log(this.state.stepIndex);
-    console.log(this.state.finished);
+    // console.log(this.state.stepIndex);
+    // console.log(this.state.finished);
     if (stepIndex==5){
       this.props.AddNewEmployeeFinished(true);
     }
@@ -72,7 +73,11 @@ class ModalEmployee extends React.Component{
         );
       case 3:
         return (
-          <p>Dependents</p>
+          <Dependents 
+            updateNewEmployee={this.updateNewEmployee} 
+            person={newEmployee}
+            createMode={true}
+          />
         );
       case 4:
         return (

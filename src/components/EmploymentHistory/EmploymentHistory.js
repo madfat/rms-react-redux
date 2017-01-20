@@ -24,6 +24,7 @@ class EmploymentHistory extends React.Component{
           <div className="mdl-grid">
             <div className="mdl-cell mdl-cell--3-col" style={{borderRight: '0.25px solid', borderRightColor:'silver', marginLeft:'10px'}}>
               <TextField
+                id="startDate"
                 value= {Util.getMonth(row.startDate.getMonth())}
                 inputStyle={{textAlign:'left'}}
                 style={{width:'50px', fontSize:'10px', height:'15px'}}
@@ -34,6 +35,7 @@ class EmploymentHistory extends React.Component{
                 style={{width:'50px'}}
               >       </span>
               <TextField
+                id="endDate"
                 hintStyle=''
                 style={{width:'100px', fontSize:'10px', height:'15px'}}
                   underlineShow={false}
@@ -41,6 +43,7 @@ class EmploymentHistory extends React.Component{
 
               <div style={{height:'30px'}}>						
                 <TextField
+                  id="startYear"
                   value= {row.startDate.getFullYear()}
                   inputStyle={{textAlign:'right'}}
                   style={{width:'50px',height:'20px', fontSize:'20px'}}
@@ -51,6 +54,7 @@ class EmploymentHistory extends React.Component{
                 >    -    </span>
                 
                 <TextField
+                  id="endYear"
                   value= {isNaN(Date.parse(row.endDate)) ? 'PRESENT':row.endDate.getFullYear()}
                   style={{width:'100px', height:'20px', fontSize:'20px'}}
                   underlineShow={false}
@@ -61,6 +65,7 @@ class EmploymentHistory extends React.Component{
               <div style={{height:'100px', float:'right'}}>						
               
                 <TextField
+                  id="employer"
                   value= {row.employer}
                   style={{width:'150px', fontSize:'16px', textAlign:'right'}}
                   textareaStyle={{height:'150px'}}

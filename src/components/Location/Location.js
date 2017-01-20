@@ -25,6 +25,7 @@ class Location extends React.Component{
               <div className="mdl-grid">
                 <div className="mdl-cell mdl-cell--3-col" style={{borderRight: '0.25px solid', borderRightColor:'silver', marginLeft:'10px'}}>
                   <TextField
+                    id="startDate"
                     value= {Util.getMonth(line.relocationStartDate.getMonth())}
                     inputStyle={{textAlign:'left'}}
                     style={{width:'50px', fontSize:'10px', height:'15px'}}
@@ -35,6 +36,7 @@ class Location extends React.Component{
                     style={{width:'50px'}}
                   >       </span>
                   <TextField
+                    id="none"
                     hintStyle=''
                     style={{width:'100px', fontSize:'10px', height:'15px'}}
                       underlineShow={false}
@@ -42,6 +44,7 @@ class Location extends React.Component{
 
                   <div style={{height:'30px'}}>						
                     <TextField
+                      id="startYear"
                       value= {line.relocationStartDate.getFullYear()}
                       inputStyle={{textAlign:'left'}}
                       style={{width:'50px',height:'20px', fontSize:'20px'}}
@@ -52,6 +55,7 @@ class Location extends React.Component{
                     >    -    </span>
                     
                     <TextField
+                      id="endYear"
                       value= {isNaN(Date.parse(line.relocationEndDate)) ? 'PRESENT':line.relocationEndDate.getFullYear()}
                       style={{width:'100px', height:'20px', fontSize:'20px'}}
                       underlineShow={false}
@@ -61,6 +65,7 @@ class Location extends React.Component{
                 </div>
                 <div className="mdl-cell mdl-cell--9-col" style={styles.FormControl}>
                   <TextField
+                    id="location"
                     floatingLabelText="Office Location"
                     value= {line.branchOffice}
                     style={{width:'95%', fontSize:'16px', textAlign:'left'}}
@@ -68,6 +73,7 @@ class Location extends React.Component{
                     underlineShow={true}
                   /><br />
                   <TextField
+                    id="address"
                     floatingLabelText="Address"
                     value= {line.address}
                     style={{width:'95%', fontSize:'16px', textAlign:'left'}}

@@ -117,6 +117,7 @@ class Main extends React.Component {
                   </div>
                   <DatePicker1 hintText="Portrait Dialog" />
                   <TextField
+                    id="hint"
                     hintText="Hint Text"
                     floatingLabelText="Floating Label Text"
                   />

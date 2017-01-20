@@ -43,12 +43,14 @@ class DetailTabs extends React.Component{
           <Dependents 
             person={this.props.person || {}}
             dependents = {this.props.person.dependents}
-            updatePersonDetail = {this.props.updatePersonDetail} />
+            createMode={false} />
         </Tab>
         <Tab
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
-          <Address addressHistory={this.props.person.addressHistory}/>
+          <Address
+            person={this.props.person || {}}
+            addressHistory={this.props.person.addressHistory}/>
         </Tab>
         <Tab
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
