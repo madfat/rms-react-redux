@@ -183,10 +183,8 @@ class EmployeeDetail extends React.Component{
 
   updateNewEmployee(key,value){
     this.state.newEmployee[key] = value;
-    // console.log('==in detail==');
-    // console.log(this.state.newEmployee);
     let a = this.state.newEmployee;
-    this.props.updateNewEmployee(Object.assign(this.props.person, {a}));
+    this.props.updateNewEmployee(Object.assign(this.props.person, a));
   }
 
   handleSaveClick(){
@@ -233,9 +231,14 @@ class EmployeeDetail extends React.Component{
         </div>
       );
     }
+
+    var displayTitle = [];
+    if (!this.props.createMode){
+      displayTitle.push(<h4>Employee Detail</h4>);
+    }
     return(
       <div style={styles.FormControl}>
-        <h4>Employee Detail</h4>
+        {displayTitle}  
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--5-col">
             <TextField

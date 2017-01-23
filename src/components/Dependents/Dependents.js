@@ -39,6 +39,7 @@ class Dependents extends React.Component{
     this.handleDeleteClick =this.handleDeleteClick.bind(this);
     this.handleCheckField = this.handleCheckField.bind(this);
     this.handleAddDependent = this.handleAddDependent.bind(this);
+    this.updateNewEmployee = this.updateNewEmployee.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -56,11 +57,17 @@ class Dependents extends React.Component{
     var newUpdate = Object.assign(this.props.person.dependents, this.state.dependents);
     this.setState({dependents: newUpdate});
     this.setState({selectedIndex: null})
+    if (this.props.createMode){
+      this.updateNewEmployee(newUpdate)
+    }
   }
 
   handleDeleteClick(index){
-    this.setState({dependents: this.state.dependents.splice(index,1)});
-    // console.log(this.state.dependents);
+    var newDependents = this.state.dependents;
+    newDependents.splice(index,1);
+    this.setState({dependents: newDependents});
+    var newPersonDetail = Object.assign(this.props.person, newDependents);
+    this.props.updatePersonDetail(newPersonDetail);
   }
 
   handleTextField(e, key, indexDependent){
@@ -119,8 +126,14 @@ class Dependents extends React.Component{
     this.setState({dependents: a});
   }
 
+  updateNewEmployee(dependents){
+    this.props.updateNewEmployee(Object.assign(this.props.person.dependents, dependents));
+  }
+
   render(){
     var ds = this.state.dependents;
+    var addButton = [];
+    var displayTitle = [];
     var line={};
     if (ds.length > 0) {
       line = ds.map((dependent,index) =>
@@ -140,16 +153,24 @@ class Dependents extends React.Component{
       );
     }
 
+    if (this.props.person.id !== undefined || this.props.createMode){
+      addButton.push(<FlatButton
+                    backgroundColor="#a4c639"
+                    hoverColor="#8AA62F"
+                    icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
+                    style={styles.ButtonAddDetail}
+                    onTouchTap={this.handleAddDependent}
+      />);
+    }
+
+    if (!this.props.createMode){
+      displayTitle.push(<h4>Dependents</h4>);
+    }
+
     return(
       <div style={styles.FormControl}>
-        <h4>Dependents</h4>
-        <FlatButton
-          backgroundColor="#a4c639"
-          hoverColor="#8AA62F"
-          icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
-          style={styles.ButtonAddDetail}
-          onTouchTap={this.handleAddDependent}
-        />
+        {displayTitle}
+        {addButton}
         <Table
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}

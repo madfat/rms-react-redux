@@ -51,7 +51,11 @@ class Address extends React.Component{
   }
 
   handleDeleteClick(index){
-   this.setState({addressHistory: this.state.addressHistory.splice(index,1)});
+    var newAddressHistory = this.state.addressHistory;
+    newAddressHistory.splice(index,1);
+    this.setState({addressHistory: newAddressHistory});
+    var newPersonDetail = Object.assign(this.props.person, newAddressHistory);
+    this.props.updatePersonDetail(newPersonDetail);
   }
 
   handleAddAddress(){
@@ -88,6 +92,7 @@ class Address extends React.Component{
   render(){
     var ah = this.state.addressHistory;
     var line = {};
+    var addButton=[];
     if (ah.length){
       line = ah.map((address, index) => 
         <AddressRow
@@ -103,9 +108,8 @@ class Address extends React.Component{
         />
       );
     }
-    return(
-      <div style={styles.FormControl}>
-        <h4>Address History</h4>
+    if (this.props.person.id !== undefined){
+      addButton.push(
         <FlatButton
           backgroundColor="#a4c639"
           hoverColor="#8AA62F"
@@ -113,6 +117,12 @@ class Address extends React.Component{
           style={styles.ButtonAddDetail}
           onTouchTap={this.handleAddAddress}
         />
+      );
+    }
+    return(
+      <div style={styles.FormControl}>
+        <h4>Address History</h4>
+        {addButton}
         <Table
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}

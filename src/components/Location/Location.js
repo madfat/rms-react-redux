@@ -36,8 +36,7 @@ class Location extends React.Component{
                     style={{width:'50px'}}
                   >       </span>
                   <TextField
-                    id="none"
-                    hintStyle=''
+                    id="endDate"
                     style={{width:'100px', fontSize:'10px', height:'15px'}}
                       underlineShow={false}
                   />
@@ -71,7 +70,7 @@ class Location extends React.Component{
                     style={{width:'95%', fontSize:'16px', textAlign:'left'}}
                     textareaStyle={{height:'30px'}}
                     underlineShow={true}
-                  /><br />
+                  />
                   <TextField
                     id="address"
                     floatingLabelText="Address"

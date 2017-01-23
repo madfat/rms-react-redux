@@ -19,7 +19,29 @@ class ModalEmployee extends React.Component{
       loading: false,
       finished: false,
       stepIndex: 0,
-      newEmployee:{}
+      newEmployee:{
+          id:'',
+          firstName: '', 
+          lastName: '', 
+          division: '', 
+          grade:'', 
+          location:'', 
+          phone:'', 
+          stream: '', 
+          jobFamily: '', 
+          hiredDate: {}, 
+          gender:'', 
+          status:'', 
+          nationality: '', 
+          marital: '', 
+          email: '', 
+          dob: {}, 
+          activeInd: false,
+          dependents: [],
+          employmentHistories: [],
+          locationHistory:[],
+          addressHistory:[]
+      }
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -37,7 +59,7 @@ class ModalEmployee extends React.Component{
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 5,
     });
-    this.props.updateNewEmployee(this.state.newEmployee.a);
+    this.props.updateNewEmployee(this.state.newEmployee);
     // console.log(this.state.stepIndex);
     // console.log(this.state.finished);
     if (stepIndex==5){
