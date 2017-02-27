@@ -93,6 +93,7 @@ class Address extends React.Component{
     var ah = this.state.addressHistory;
     var line = {};
     var addButton=[];
+    var displayTitle=[];
     if (ah.length){
       line = ah.map((address, index) => 
         <AddressRow
@@ -119,9 +120,12 @@ class Address extends React.Component{
         />
       );
     }
+    if(!this.props.createMode){
+      displayTitle.push(<h4>Address History</h4>);
+    }
     return(
       <div style={styles.FormControl}>
-        <h4>Address History</h4>
+        {displayTitle}
         {addButton}
         <Table
           height={this.state.height}

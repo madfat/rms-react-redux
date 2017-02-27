@@ -12,6 +12,13 @@ class EmploymentHistory extends React.Component{
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({employmentHistories: nextProps.employmentHistories || []});
+    if (this.props.person.id !== nextProps.person.id){
+      this.setState({selectedIndex: null})
+    }
+  }
+
   render(){
    let lines = this.props.employmentHistories;
 

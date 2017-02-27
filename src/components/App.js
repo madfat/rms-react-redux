@@ -13,7 +13,6 @@ class App extends React.Component {
       <div key={'divMain'} className="mdl-layout mdl-js-layout mdl-layout--no-drawer-button mdl-layout--fixed-header mdl-color--grey-100 mdl-layout--fixed-tabs">
 
         <Header />
-        <Main key={'main'} />
 
         {this.props.children}
       </div>

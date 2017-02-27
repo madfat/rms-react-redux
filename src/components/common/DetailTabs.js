@@ -8,16 +8,19 @@ import GradeHistory from '../GradeHistory/GradeHistory';
 import Location from '../Location/Location';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
+import { Link, IndexLink } from 'react-router';
 
 class DetailTabs extends React.Component{
   constructor(props){
     super(props);
   }
   render(){
+    console.dir(this.props);
     //console.log(this.props);
     return(
       <Tabs>
         <Tab
+          value='detail'
           icon={<FontIcon className="material-icons">person</FontIcon>}
           style={styles.tabHeader}>
           <EmployeeDetail 
@@ -27,17 +30,23 @@ class DetailTabs extends React.Component{
           />
         </Tab>
         <Tab
+          value='grade'
           icon={<FontIcon className="material-icons">history</FontIcon>}
           style={styles.tabHeader}>
-          <GradeHistory person={this.props.person}/>
+          <GradeHistory 
+            person={this.props.person || {}}
+            gradeHistory={this.props.person.gradeHistory}/>
         </Tab>
         <Tab
+          value='employment'
           icon={<FontIcon className="material-icons">layers</FontIcon>}
           style={styles.tabHeader}>
-          <EmploymentHistory 
+          <EmploymentHistory
+            person={this.props.person || {}}
             employmentHistories = {this.props.person.employmentHistories}/>
         </Tab>
         <Tab
+          value='dependent'
           icon={<FontIcon className="material-icons">wc</FontIcon>}
           style={styles.tabHeader}>
           <Dependents 
@@ -46,6 +55,7 @@ class DetailTabs extends React.Component{
             createMode={false} />
         </Tab>
         <Tab
+          value='address'
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
           <Address
@@ -53,11 +63,12 @@ class DetailTabs extends React.Component{
             addressHistory={this.props.person.addressHistory}/>
         </Tab>
         <Tab
+          value='location'
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
           <Location locationHistory={this.props.person.locationHistory}/>
         </Tab>
-      </Tabs>
+    </Tabs>
     );
   }
 }

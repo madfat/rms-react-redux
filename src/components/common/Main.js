@@ -124,10 +124,14 @@ class Main extends React.Component {
                 <SearchBar
                   filterText={this.state.filterText}
                   onUserInput={this.handleUserInput}
-                 />
+                />
+
                 <div className="mdl-layout-spacer" />
+
                 <Sort />
+
                 <Filter />
+
                 <Chip>{this.state.SearchResult.length}</Chip>
               </div>
             </div>
@@ -137,7 +141,8 @@ class Main extends React.Component {
               persons={this.state.SearchResult}
               filterText={this.state.filterText}
               updatePersonDetail={this.updatePersonDetail}
-              updateCounter = {this.updateCounter}/>
+              updateCounter = {this.updateCounter} 
+            />
 
           </div>
 
@@ -190,7 +195,8 @@ let EMPLOYEES = [
    locationHistory:[{id:1,relocationStartDate: new Date(2016,3,2), relocationEndDate:{}, branchOffice: 'Yogyakarta', address:'Jl. Sidobali No. 2 Umbulharjo, Mujamuju, Yogyakarta'},
                     {id:2, relocationStartDate: new Date(2014,2,2), relocationEndDate:new Date(2016,3,2), branchOffice: 'Bali', address:'Jl. By Pass Ngurah Rai gg. Mina Utama No. 1 Suwung 80223, Bali'}
                    ],
-   addressHistory:[{id: 1, address: 'Bantul', activeInd: true}]
+   addressHistory:[{id: 1, address: 'Bantul', activeInd: true}],
+   gradeHistory:[{id: 1,startDate: new Date(2016,3,2), endDate:new Date(2016,3,2),grade:1,devStage:'JP'}]
   },
   {id:'2', firstName: 'John', lastName: 'Doe', division: 'SE', grade:'AN', location:'Bali', phone:'+6285517705', 
   stream: 'CDC', jobFamily: 'Mobile', hiredDate: new Date(2012,12,15), gender:2, status: 2, nationality: 'Indonesia', 

@@ -11,6 +11,8 @@ import TextField from 'material-ui/TextField';
 import EmployeeDetail from '../EmployeeDetail/EmployeeDetail';
 import * as styles from './styles';
 import Dependents from '../Dependents/Dependents';
+import GradeHistory from '../GradeHistory/GradeHistory';
+import Address from '../Address/Address';
 
 class ModalEmployee extends React.Component{
   constructor(props){
@@ -40,7 +42,8 @@ class ModalEmployee extends React.Component{
           dependents: [],
           employmentHistories: [],
           locationHistory:[],
-          addressHistory:[]
+          addressHistory:[],
+          gradeHistory:[]
       }
     };
 
@@ -49,8 +52,6 @@ class ModalEmployee extends React.Component{
     this.getStepContent = this.getStepContent.bind(this);
     this.renderContent = this.renderContent.bind(this);
     this.addNewEmployeeFinished = this.addNewEmployeeFinished.bind(this);
-    // this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-    // this.handleLastNameChange = this.handleLastNameChange.bind(this);
   }
 
   handleNext(){
@@ -60,8 +61,6 @@ class ModalEmployee extends React.Component{
       finished: stepIndex >= 5,
     });
     this.props.updateNewEmployee(this.state.newEmployee);
-    // console.log(this.state.stepIndex);
-    // console.log(this.state.finished);
     if (stepIndex==5){
       this.props.AddNewEmployeeFinished(true);
     }
@@ -87,7 +86,11 @@ class ModalEmployee extends React.Component{
         );
       case 1:
         return (
-          <p>Grades History</p>
+          <GradeHistory
+            updateNewEmployee={this.updateNewEmployee} 
+            person={newEmployee}
+            createMode={true}
+          />
         );
       case 2:
         return (
@@ -103,7 +106,11 @@ class ModalEmployee extends React.Component{
         );
       case 4:
         return (
-          <p>Address</p>
+          <Address 
+            updateNewEmployee={this.updateNewEmployee} 
+            person={newEmployee}
+            createMode={true}
+          />
         );
       case 5:
         return (
