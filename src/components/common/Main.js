@@ -31,7 +31,8 @@ class Main extends React.Component {
       employees: EMPLOYEES, 
       newEmployee: {},
       SearchResult: [],
-      ShowAction: false
+      ShowAction: false,
+      currentTab:'detail'
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updatePersonDetail = this.updatePersonDetail.bind(this);  
@@ -41,6 +42,7 @@ class Main extends React.Component {
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
     this.updateNewEmployee = this.updateNewEmployee.bind(this);
     this.AddNewEmployeeFinished = this.AddNewEmployeeFinished.bind(this);
+    this.setCurrentTab = this.setCurrentTab.bind(this);
   }
 
   handleOpen(){
@@ -98,6 +100,10 @@ class Main extends React.Component {
     this.setState({
       person: e
     });
+  }
+
+  setCurrentTab(value){
+    this.setState({currentTab: value})
   }
 
   render() {
@@ -170,6 +176,7 @@ class Main extends React.Component {
 
           <div key={"tabsWrapper"} className="mdl-cell mdl-cell--8-col">
             <DetailTabs 
+              setCurrentTab={this.setCurrentTab}
               person={this.state.person}
               updatePersonDetail={this.updatePersonDetail}
             />

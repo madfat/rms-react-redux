@@ -8,12 +8,19 @@ import GradeHistory from '../GradeHistory/GradeHistory';
 import Location from '../Location/Location';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
-import { Link, IndexLink } from 'react-router';
+import { Link, IndexLink,browserHistory } from 'react-router';
 
 class DetailTabs extends React.Component{
   constructor(props){
     super(props);
+    this.tabClicked = this.tabClicked.bind(this);
   }
+
+  tabClicked (e) {
+    this.props.setCurrentTab(e.props.value);
+    browserHistory.push('/' + e.props.value);
+  }
+
   render(){
     console.dir(this.props);
     //console.log(this.props);
@@ -21,9 +28,12 @@ class DetailTabs extends React.Component{
       <Tabs>
         <Tab
           value='detail'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">person</FontIcon>}
           style={styles.tabHeader}>
           <EmployeeDetail 
+            value='detail'
+            onActive={this.tabClicked}
             person={this.props.person || {}}
             updatePersonDetail={this.props.updatePersonDetail}
             createMode={false}
@@ -31,6 +41,7 @@ class DetailTabs extends React.Component{
         </Tab>
         <Tab
           value='grade'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">history</FontIcon>}
           style={styles.tabHeader}>
           <GradeHistory 
@@ -39,6 +50,7 @@ class DetailTabs extends React.Component{
         </Tab>
         <Tab
           value='employment'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">layers</FontIcon>}
           style={styles.tabHeader}>
           <EmploymentHistory
@@ -47,6 +59,7 @@ class DetailTabs extends React.Component{
         </Tab>
         <Tab
           value='dependent'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">wc</FontIcon>}
           style={styles.tabHeader}>
           <Dependents 
@@ -56,6 +69,7 @@ class DetailTabs extends React.Component{
         </Tab>
         <Tab
           value='address'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
           <Address
@@ -64,6 +78,7 @@ class DetailTabs extends React.Component{
         </Tab>
         <Tab
           value='location'
+          onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
           <Location locationHistory={this.props.person.locationHistory}/>
