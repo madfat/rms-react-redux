@@ -89,7 +89,6 @@ class Dependents extends React.Component{
         [key]:{$set: value}
       }
     });
-    // console.log(newDependents);
     this.setState({dependents: newDependents});
   }
 
@@ -99,7 +98,6 @@ class Dependents extends React.Component{
         [key]:{$set: value}
       }
     });
-    // console.log(newDependents);
     this.setState({dependents: newDependents});
   }
 
@@ -120,7 +118,7 @@ class Dependents extends React.Component{
       'type':'',
       'activeInd':false
     };
-    // console.log(newLine);
+    
     let a = Object.assign([],this.props.person.dependents);
     a.push(newLine);
     this.setState({dependents: a});
@@ -155,6 +153,7 @@ class Dependents extends React.Component{
 
     if (this.props.person.id !== undefined || this.props.createMode){
       addButton.push(<FlatButton
+                    key='add-dependent'
                     backgroundColor="#a4c639"
                     hoverColor="#8AA62F"
                     icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
@@ -164,7 +163,7 @@ class Dependents extends React.Component{
     }
 
     if (!this.props.createMode){
-      displayTitle.push(<h4>Dependents</h4>);
+      displayTitle.push(<h4 key='dependent'>Dependents</h4>);
     }
 
     return(

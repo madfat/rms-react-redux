@@ -45,14 +45,12 @@ class GradeHistory extends React.Component{
   handleEditMode(index){
     this.setState({selectedIndex: index,
       oldGradeHistory: this.state.gradeHistory});
-    // var tempGradeHistory = Object.assign({}, this.state.)
   }
 
   handleSaveMode(){
     var newUpdate = Object.assign(this.props.person.gradeHistory, this.state.gradeHistory);
     this.setState({gradeHistory: newUpdate});
     this.setState({selectedIndex: null});
-    console.log(this.state.oldGradeHistory);
   }
 
   handleDeleteClick(index){
@@ -83,10 +81,6 @@ class GradeHistory extends React.Component{
   }
 
   handleNumericField(value, key, indexGrade){
-    // let newGradeHistory = Object.assign([],this.state.gradeHistory);
-    // newGradeHistory[indexGrade][key]=event.target.value;
-
-    // this.setState({gradeHistory: newGradeHistory});
     var newGradeHistory = update(this.state.gradeHistory, {
       [indexGrade]: {
         [key]:{$set: value}
@@ -146,6 +140,7 @@ class GradeHistory extends React.Component{
     if (this.props.person.id !== undefined){
       addButton.push(
         <FlatButton
+          key="btn-add-grade"
           backgroundColor="#a4c639"
           hoverColor="#8AA62F"
           icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
@@ -156,7 +151,7 @@ class GradeHistory extends React.Component{
     }
 
     if (!this.props.createMode){
-      displayTitle.push(<h4>Grade History</h4>);
+      displayTitle.push(<h4 key='grade-history'>Grade History</h4>);
     }
     return(
       <div style={styles.FormControl}>

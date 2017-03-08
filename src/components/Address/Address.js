@@ -112,6 +112,7 @@ class Address extends React.Component{
     if (this.props.person.id !== undefined){
       addButton.push(
         <FlatButton
+          key='add-address'
           backgroundColor="#a4c639"
           hoverColor="#8AA62F"
           icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
@@ -121,7 +122,7 @@ class Address extends React.Component{
       );
     }
     if(!this.props.createMode){
-      displayTitle.push(<h4>Address History</h4>);
+      displayTitle.push(<h4 key='title-address-history'>Address History</h4>);
     }
     return(
       <div style={styles.FormControl}>

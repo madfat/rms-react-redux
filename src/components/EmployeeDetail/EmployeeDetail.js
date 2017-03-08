@@ -234,7 +234,7 @@ class EmployeeDetail extends React.Component{
 
     var displayTitle = [];
     if (!this.props.createMode){
-      displayTitle.push(<h4>Employee Detail</h4>);
+      displayTitle.push(<h4 key='emp-detail'>Employee Detail</h4>);
     }
     return(
       <div style={styles.FormControl}>
