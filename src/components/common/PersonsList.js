@@ -16,8 +16,11 @@ import {
   Stepper,
   StepLabel,
 } from 'material-ui/Stepper';
-
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+import UncheckedIcon from 'material-ui/svg-icons/toggle/radio-button-unchecked';
+import CheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 
 class PersonList extends React.Component{
   constructor(props){
@@ -26,11 +29,10 @@ class PersonList extends React.Component{
       numberItem: 0
     };
     this.handleClick = this.handleClick.bind(this);
-    this.test = this.test.bind(this);
+
   }
-  
+
   handleClick(e){
-    //console.log(e);
     this.props.updatePersonDetail(e);
   }
 
@@ -38,33 +40,23 @@ class PersonList extends React.Component{
     this.props.updateCounter(e)
   }
 
-  test(e){
-    // console.log('did month');
-    // this.props.updateCounter(e);
-  }
-
   render(){
+    console.log(this.props);
     let rows = [];
-    this.props.persons.forEach(function(person) {
-      
-      // let fullName = person.firstName.toLowerCase() +' '+ person.lastName.toLowerCase();
-      // if (this.props.filterText.length >= 3 && fullName.indexOf(this.props.filterText.toLowerCase()) === -1){
-      //   return;
-      // }
+    this.props.employees.forEach(function(employee) {
 
-      rows.push(<div key={person.id}><ListItem 
+      rows.push(<div key={employee.id}><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}
-                  primaryText={person.firstName + ' ' + person.lastName}
+                  primaryText={employee.firstName + ' ' + employee.lastName}
                   secondaryText={
                     <p>
-                      <span>{person.division + '-' + person.grade + ', ' + person.stream + ' ' + person.jobFamily}</span><br />
-                      <small>{person.location + ', ' + person.phone}</small>
+                      <span>{employee.division + '-' + employee.grade + ', ' + employee.stream + ' ' + employee.jobFamily}</span><br />
+                      <small>{employee.location + ', ' + employee.phone}</small>
                     </p>
                   }
                   secondaryTextLines={2}
-                  onClick = {this.handleClick.bind(this, person)}
-                  rightIconButton={person.activeInd==true?<i className="material-icons">radio_button_checked</i>:<i className="material-icons">radio_button_unchecked</i>}
-                  key={person.id} />
+                  onClick = {this.handleClick.bind(this, employee)}
+                  key={employee.id} />
                   <Divider inset={true} />
                 </div>);
     }, this);
@@ -79,4 +71,16 @@ class PersonList extends React.Component{
   }
 }
 
-export default PersonList;
+function mapStateToProps(state, ownProps){
+    return {
+        employees: state.employees  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions : bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonList);

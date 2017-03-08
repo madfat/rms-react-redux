@@ -11,6 +11,7 @@ import './components/libs/material.components.ext.min.css';
 import './components/libs/material.components.ext.min.js';
 import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
+import {loadEmployeeList} from './actions/employeeActions';
 // import '../node_modules/react-mdl/extra/material.css'; 
 // import '../node_modules/react-mdl/extra/material.js';
 
@@ -19,6 +20,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
  
 const store = configureStore();
+store.dispatch(loadEmployeeList());
 
 render (
   <Provider store={store}>

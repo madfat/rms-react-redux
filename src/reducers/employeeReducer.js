@@ -5,9 +5,7 @@ export default function employeeReducer(state = [], action) {
   switch (action.type) {
     case types.LOAD_EMPLOYEE_LIST_SUCCESS:
     //   return action.employees;
-    return [...state,
-      Object.assign({},action.employee)
-    ];
+    return action.employees ;
 
     default:
       return state;

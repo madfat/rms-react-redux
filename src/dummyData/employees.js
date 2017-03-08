@@ -1,4 +1,4 @@
-const EMPLOYEES = [
+const employees = [
   {
     id:'1', 
     firstName: 'Akhmad', 
@@ -88,4 +88,4 @@ const EMPLOYEES = [
     activeInd: true},
 ];
 
-export default EMPLOYEES;
+export default employees;
