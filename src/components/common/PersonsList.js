@@ -33,7 +33,7 @@ class PersonList extends React.Component{
   }
 
   handleClick(e){
-    this.props.updatePersonDetail(e);
+    this.props.actions.setCurrentEmployee(e);
   }
 
   updateCounter(e){
@@ -79,7 +79,7 @@ function mapStateToProps(state, ownProps){
 
 function mapDispatchToProps(dispatch){
     return {
-        actions : bindActionCreators(employeeActions, dispatch)
+        actions: bindActionCreators(employeeActions, dispatch)
     };
 }
 

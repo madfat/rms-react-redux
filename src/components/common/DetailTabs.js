@@ -9,6 +9,9 @@ import Location from '../Location/Location';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
 import { Link, IndexLink,browserHistory } from 'react-router';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
 
 class DetailTabs extends React.Component{
   constructor(props){
@@ -22,6 +25,8 @@ class DetailTabs extends React.Component{
   }
 
   render(){
+    console.log(this.props);
+    const {currentEmployee} = this.props;
     return(
       <Tabs>
         <Tab
@@ -32,7 +37,7 @@ class DetailTabs extends React.Component{
           <EmployeeDetail 
             value='detail'
             onActive={this.tabClicked}
-            person={this.props.person || {}}
+            person={currentEmployee || {}}
             updatePersonDetail={this.props.updatePersonDetail}
             createMode={false}
           />
@@ -43,8 +48,8 @@ class DetailTabs extends React.Component{
           icon={<FontIcon className="material-icons">history</FontIcon>}
           style={styles.tabHeader}>
           <GradeHistory 
-            person={this.props.person || {}}
-            gradeHistory={this.props.person.gradeHistory}/>
+            person={currentEmployee || {}}
+            gradeHistory={currentEmployee.gradeHistory}/>
         </Tab>
         <Tab
           value='employment'
@@ -52,8 +57,8 @@ class DetailTabs extends React.Component{
           icon={<FontIcon className="material-icons">layers</FontIcon>}
           style={styles.tabHeader}>
           <EmploymentHistory
-            person={this.props.person || {}}
-            employmentHistories = {this.props.person.employmentHistories}/>
+            person={currentEmployee || {}}
+            employmentHistories = {currentEmployee.employmentHistories}/>
         </Tab>
         <Tab
           value='dependent'
@@ -61,8 +66,8 @@ class DetailTabs extends React.Component{
           icon={<FontIcon className="material-icons">wc</FontIcon>}
           style={styles.tabHeader}>
           <Dependents 
-            person={this.props.person || {}}
-            dependents = {this.props.person.dependents}
+            person={currentEmployee || {}}
+            dependents = {currentEmployee.dependents}
             createMode={false} />
         </Tab>
         <Tab
@@ -71,19 +76,32 @@ class DetailTabs extends React.Component{
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
           <Address
-            person={this.props.person || {}}
-            addressHistory={this.props.person.addressHistory}/>
+            person={currentEmployee || {}}
+            addressHistory={currentEmployee.addressHistory}/>
         </Tab>
         <Tab
           value='location'
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
-          <Location locationHistory={this.props.person.locationHistory}/>
+          <Location locationHistory={currentEmployee.locationHistory}/>
         </Tab>
     </Tabs>
     );
   }
 }
 
-export default DetailTabs;
+
+function mapStateToProps(state, ownProps){
+    return {
+        currentEmployee: state.currentEmployee  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailTabs);

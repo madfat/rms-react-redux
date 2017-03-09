@@ -26,7 +26,6 @@ class Main extends React.Component {
     this.state = {
       filterText:'',
       counterList: 0,
-      person: {},
       open: false,
       employees: EMPLOYEES, 
       newEmployee: {},
@@ -35,7 +34,6 @@ class Main extends React.Component {
       currentTab:'detail'
     };
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.updatePersonDetail = this.updatePersonDetail.bind(this);  
     this.updateCounter = this.updateCounter.bind(this); 
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -96,12 +94,6 @@ class Main extends React.Component {
     this.setState({ShowAction: e});
   }
 
-  updatePersonDetail(e){
-    this.setState({
-      person: e
-    });
-  }
-
   setCurrentTab(value){
     this.setState({currentTab: value})
   }
@@ -143,10 +135,7 @@ class Main extends React.Component {
             </div>
 
             <PersonsList 
-              key={this.state.employees.id}
-              persons={this.state.SearchResult}
               filterText={this.state.filterText}
-              updatePersonDetail={this.updatePersonDetail}
               updateCounter = {this.updateCounter} 
             />
 
@@ -177,8 +166,6 @@ class Main extends React.Component {
           <div key={"tabsWrapper"} className="mdl-cell mdl-cell--8-col">
             <DetailTabs 
               setCurrentTab={this.setCurrentTab}
-              person={this.state.person}
-              updatePersonDetail={this.updatePersonDetail}
             />
           </div>
 
@@ -187,6 +174,9 @@ class Main extends React.Component {
     );
   }
 }
+
+
+export default Main;
 
 let EMPLOYEES = [
   {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', 
@@ -212,16 +202,16 @@ let EMPLOYEES = [
                 {name: 'Agus Decaprio', dob: new Date(2013,5,13), gender: 2, type: 'Child', activeInd: true}
                ]
   },
-  {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285623705', 
-  stream: 'CDC', jobFamily: 'MEAN', hiredDate: new Date(2001,11,13), gender:2, status: 2, nationality: 'Indonesia', 
-  marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13), activeInd: true,
-  dependents: [{name: 'Jesica Alba', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
-                {name: 'Multazam Azam', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: true}
-              ]
-  },
-  {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', 
-   stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', 
-   marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14), activeInd: true},
+  // {id:'3', firstName: 'Roberto', lastName: 'Carlos', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+6285623705', 
+  // stream: 'CDC', jobFamily: 'MEAN', hiredDate: new Date(2001,11,13), gender:2, status: 2, nationality: 'Indonesia', 
+  // marital: 3, email: 'roberto.carlos@mitrais.com', dob: new Date(1995,2,13), activeInd: true,
+  // dependents: [{name: 'Jesica Alba', dob: new Date(1990,1,1), gender: 3, type: 'Wife', activeInd: true},
+  //               {name: 'Multazam Azam', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: true}
+  //             ]
+  // },
+  // {id:'4', firstName: 'Angelina', lastName: 'Jolie', division: 'SE', grade:'PG', location:'Bandung', phone:'+62856487705', 
+  //  stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2010,7,17), gender:3, status: 2, nationality: 'Indonesia', 
+  //  marital: 3,  email: 'angelina.jolie@mitrais.com', dob: new Date(1994,3,14), activeInd: true},
   // {id:'5', firstName: 'Iron', lastName: 'Man', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+62854387705', 
   //  stream: 'CDC', jobFamily: 'MERN', hiredDate: new Date(2011,10,18), gender:2, status: 2, nationality: 'Indonesia', 
   //  marital: 3, email: 'iron.man@mitrais.com', dob: new Date(1993,6,15), activeInd: true},
@@ -232,5 +222,3 @@ let EMPLOYEES = [
   //  stream: 'CDC', jobFamily: 'Java', hiredDate: new Date(2015,10,13),gender:3, status: 2, nationality: 'Indonesia',
   //  marital: 3,  email: 'shania.train@mitrais.com', dob: new Date(1991,8,18),activeInd: false},
 ];
-
-export default Main;
