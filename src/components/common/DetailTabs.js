@@ -25,7 +25,6 @@ class DetailTabs extends React.Component{
   }
 
   render(){
-    console.log(this.props);
     const {currentEmployee} = this.props;
     return(
       <Tabs>

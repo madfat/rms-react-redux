@@ -18,6 +18,9 @@ import {
   Stepper,
   StepLabel,
 } from 'material-ui/Stepper';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
 
 class Main extends React.Component {
   constructor(props){ 
@@ -26,7 +29,6 @@ class Main extends React.Component {
     this.state = {
       filterText:'',
       counterList: 0,
-      open: false,
       employees: EMPLOYEES, 
       newEmployee: {},
       SearchResult: [],
@@ -35,16 +37,15 @@ class Main extends React.Component {
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.updateCounter = this.updateCounter.bind(this); 
-    this.handleOpen = this.handleOpen.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
-    this.updateNewEmployee = this.updateNewEmployee.bind(this);
     this.AddNewEmployeeFinished = this.AddNewEmployeeFinished.bind(this);
     this.setCurrentTab = this.setCurrentTab.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   handleOpen(){
-    this.setState({open: true});
+    this.props.actions.setOpenDialog(true);
     this.setState({ShowAction: false})
   }
 
@@ -52,19 +53,18 @@ class Main extends React.Component {
     this.setState({SearchResult: this.state.employees});
   }
 
-  updateNewEmployee(e){
-    this.setState({newEmployee: e});
-  }
-  
+ 
   handleSave(){
-    let temp = this.state.employees;
-    temp.push(Object.assign(this.state.newEmployee,{id: Math.random() * (1000 - 8) + 7}));
-    
-    this.setState({open: false, employees:temp});
+    console.log(this.props.employees);
+    Object.assign(this.props.newEmployee,{id: Math.random() * (1000 - 8) + 7});
+    console.log(this.props.newEmployee);
+    this.props.actions.updateEmployeeList(this.props.newEmployee);
+    console.log(this.props.employees);
+    this.props.actions.setOpenDialog(false);
   }
 
   handleCancelCreate(){
-    this.setState({open: false});
+    this.props.actions.setOpenDialog(false);
   }
 
   handleUserInput(filterText){
@@ -149,15 +149,12 @@ class Main extends React.Component {
               title="Create New Employee"
               actions={actions}
               modal={false}
-              open={this.state.open}
+              open={this.props.openDialog}
               onRequestClose={this.handleCancelCreate}
               contentStyle={styles.ModalEmployee}
               autoScrollBodyContent={true}
             >
               <ModalEmployee
-                employees={this.state.employees}
-                newEmployee={this.state.newEmployee}
-                updateNewEmployee={this.updateNewEmployee}
                 AddNewEmployeeFinished={this.AddNewEmployeeFinished}
               />
             </Dialog>
@@ -176,7 +173,22 @@ class Main extends React.Component {
 }
 
 
-export default Main;
+function mapStateToProps(state, ownProps){
+    return {
+        openDialog: state.openDialog,  //state.openDialog refers to reducers/index.js
+        newEmployee: state.newEmployee,
+        employees: state.employees
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
 
 let EMPLOYEES = [
   {id:'1', firstName: 'Akhmad', lastName: 'Fathoni', division: 'SE', grade:'AP', location:'Yogyakarta', phone:'+628562347705', 

@@ -43,7 +43,7 @@ class EmploymentHistory extends React.Component{
               >       </span>
               <TextField
                 id="endDate"
-                hintStyle=''
+                hintStyle=""
                 style={{width:'100px', fontSize:'10px', height:'15px'}}
                   underlineShow={false}
               />

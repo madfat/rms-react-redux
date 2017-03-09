@@ -9,6 +9,13 @@ export function loadEmployeeListSuccess(employees) {
   }
 }
 
+export function updateEmployeeListSuccess(newEmployee) {
+  return {
+    type: types.UPDATE_EMPLOYEE_LIST,
+    newEmployee
+  }
+}
+
 export function setCurrentEmployeeSuccess(currentEmployee) {
   return {
     type: types.SET_CURRENT_EMPLOYEE_SUCCESS,
@@ -16,19 +23,30 @@ export function setCurrentEmployeeSuccess(currentEmployee) {
   }
 }
 
-export function loadCurrentEmployeeSuccess(currentEmployee) {
+export function setOpenDialogSuccess(openDialog) {
   return {
-    type: types.LOAD_CURRENT_EMPLOYEE_SUCCESS,
-    currentEmployee
+    type: types.SET_OPEN_DIALOG,
+    openDialog
   }
 }
 
-
+export function setNewEmployeeSuccess(newEmployee){
+  return {
+    type: types.SET_NEW_EMPLOYEE,
+    newEmployee
+  }
+}
 
 
 export function loadEmployeeList(){
   return function(dispatch){
     dispatch(loadEmployeeListSuccess(dummyEmployee)); 
+  }
+}
+
+export function updateEmployeeList(newEmployee) {
+  return function(dispatch) {
+    dispatch(updateEmployeeListSuccess(newEmployee));
   }
 }
 
@@ -38,8 +56,14 @@ export function setCurrentEmployee(employee){
   }
 }
 
-export function loadCurrentEmployee(employee) {
+export function setOpenDialog(openDialog){
   return function(dispatch) {
-    dispatch(loadCurrentEmployeeSuccess(employee));
+    dispatch(setOpenDialogSuccess(openDialog));
+  }
+}
+
+export function setNewEmployee(newEmployee) {
+  return function(dispatch){
+    dispatch(setNewEmployeeSuccess(newEmployee));
   }
 }

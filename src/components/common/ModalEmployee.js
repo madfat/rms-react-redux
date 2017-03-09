@@ -13,6 +13,9 @@ import * as styles from './styles';
 import Dependents from '../Dependents/Dependents';
 import GradeHistory from '../GradeHistory/GradeHistory';
 import Address from '../Address/Address';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
 
 class ModalEmployee extends React.Component{
   constructor(props){
@@ -60,7 +63,7 @@ class ModalEmployee extends React.Component{
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 5,
     });
-    this.props.updateNewEmployee(this.state.newEmployee);
+    this.props.actions.setNewEmployee(this.props.newEmployee);
     if (stepIndex==5){
       this.props.AddNewEmployeeFinished(true);
     }
@@ -74,12 +77,11 @@ class ModalEmployee extends React.Component{
   }
 
   getStepContent(stepIndex) {
-    let newEmployee = this.state.newEmployee;
+    let newEmployee = this.props.newEmployee;
     switch (stepIndex) {
       case 0:
         return (
-          <EmployeeDetail
-            updateNewEmployee={this.updateNewEmployee} 
+          <EmployeeDetail 
             person={newEmployee}
             createMode={true}
           />
@@ -87,7 +89,6 @@ class ModalEmployee extends React.Component{
       case 1:
         return (
           <GradeHistory
-            updateNewEmployee={this.updateNewEmployee} 
             person={newEmployee}
             createMode={true}
           />
@@ -99,7 +100,6 @@ class ModalEmployee extends React.Component{
       case 3:
         return (
           <Dependents 
-            updateNewEmployee={this.updateNewEmployee} 
             person={newEmployee}
             createMode={true}
           />
@@ -107,7 +107,6 @@ class ModalEmployee extends React.Component{
       case 4:
         return (
           <Address 
-            updateNewEmployee={this.updateNewEmployee} 
             person={newEmployee}
             createMode={true}
           />
@@ -188,4 +187,17 @@ class ModalEmployee extends React.Component{
   }
 }
 
-export default ModalEmployee;
+function mapStateToProps(state, ownProps){
+    return {
+        employees: state.employees,  //state.employees refers to reducers/index.js,
+        newEmployee: state.newEmployee
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEmployee);

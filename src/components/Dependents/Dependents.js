@@ -15,6 +15,10 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+
 class Dependents extends React.Component{
 
   constructor(props) {
@@ -71,10 +75,6 @@ class Dependents extends React.Component{
   }
 
   handleTextField(e, key, indexDependent){
-    // let newDependents = Object.assign([],this.state.dependents);
-    // newDependents[indexDependent][key]=e.target.value;
-
-    // this.setState({dependents: newDependents});
     var newDependents = update(this.state.dependents, {
       [indexDependent]: {
         [key]:{$set: e.target.value}
@@ -125,7 +125,7 @@ class Dependents extends React.Component{
   }
 
   updateNewEmployee(dependents){
-    this.props.updateNewEmployee(Object.assign(this.props.person.dependents, dependents));
+    this.props.updateNewEmployee(Object.assign(this.props.newEmployee.dependents, dependents));
   }
 
   render(){
@@ -219,4 +219,16 @@ class Dependents extends React.Component{
   }
 }
 
-export default Dependents;
+function mapStateToProps(state, ownProps){
+    return {
+        newEmployee: state.newEmployee  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dependents);

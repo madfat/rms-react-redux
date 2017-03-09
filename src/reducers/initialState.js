@@ -1,4 +1,6 @@
 export default {
   employees: [],
-  currentEmployee: {}
+  currentEmployee: {},
+  openDialog: false,
+  newEmployee: {}
 };

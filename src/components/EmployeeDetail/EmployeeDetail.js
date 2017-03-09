@@ -6,6 +6,10 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+
 class EmployeeDetail extends React.Component{
   constructor(props){
   super(props);
@@ -184,7 +188,7 @@ class EmployeeDetail extends React.Component{
   updateNewEmployee(key,value){
     this.state.newEmployee[key] = value;
     let a = this.state.newEmployee;
-    this.props.updateNewEmployee(Object.assign(this.props.person, a));
+    this.props.actions.setNewEmployee(Object.assign(this.props.newEmployee, a))
   }
 
   handleSaveClick(){
@@ -205,7 +209,7 @@ class EmployeeDetail extends React.Component{
       phone: this.state.phone, 
       email:this.state.email
     });
-    this.props.updatePersonDetail(newDetailPerson);
+    this.props.actions.setNewEmployee(newDetailPerson);
   }
   
   handleCancelClick(){
@@ -406,4 +410,16 @@ class EmployeeDetail extends React.Component{
   }
 }
 
-export default EmployeeDetail;
+function mapStateToProps(state, ownProps){
+    return {
+        newEmployee: state.newEmployee  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeDetail);
