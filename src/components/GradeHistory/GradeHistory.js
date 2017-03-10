@@ -7,6 +7,9 @@ import GradeHistoryRow from './GradeHistoryRow';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import update from 'react-addons-update';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
 
 class GradeHistory extends React.Component{
   constructor(props) {
@@ -19,10 +22,10 @@ class GradeHistory extends React.Component{
       showRowHover: false,
       showCheckboxes: false,
       height: '300px',
-      gradeHistory: this.props.gradeHistory || [],
+      gradeHistory: [],
       selectedIndex: null,
       protectMode:true,
-      oldGradeHistory: this.props.gradeHistory || []
+      oldGradeHistory: []
     };
 
     this.handleSaveMode = this.handleSaveMode.bind(this);
@@ -32,6 +35,7 @@ class GradeHistory extends React.Component{
     this.handleNumericField = this.handleNumericField.bind(this);
     this.handleDateField = this.handleDateField.bind(this);
     this.setStage = this.setStage.bind(this);
+
   }
 
   componentWillReceiveProps(nextProps){
@@ -47,9 +51,21 @@ class GradeHistory extends React.Component{
       oldGradeHistory: this.state.gradeHistory});
   }
 
-  handleSaveMode(){
-    var newUpdate = Object.assign(this.props.person.gradeHistory, this.state.gradeHistory);
-    this.setState({gradeHistory: newUpdate});
+  handleSaveMode(index){
+    const tmpPerson = this.props.person;
+    tmpPerson['gradeHistory'] = this.state.gradeHistory;
+
+    if (this.props.createMode){
+      this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.employees.forEach((employee,index)=>{
+        if (employee.id == tmpPerson.id) {
+          this.props.actions.setCurrentEmployee(tmpPerson);
+        }
+      });
+
+    }
     this.setState({selectedIndex: null});
   }
 
@@ -57,7 +73,7 @@ class GradeHistory extends React.Component{
     var newGradeHistory = this.state.gradeHistory;
     newGradeHistory.splice(index,1);
     this.setState({gradeHistory: newGradeHistory});
-    var newPersonDetail = Object.assign(this.props.person, newGradeHistory);
+    var newPersonDetail = Object.assign(this.props.employee, newGradeHistory);
     this.props.updatePersonDetail(newPersonDetail);
   }
 
@@ -137,7 +153,8 @@ class GradeHistory extends React.Component{
         />
       );
     }
-    if (this.props.person.id !== undefined){
+    //debugger;
+    if (this.props.person.id !== undefined || this.props.createMode){
       addButton.push(
         <FlatButton
           key="btn-add-grade"
@@ -205,4 +222,17 @@ class GradeHistory extends React.Component{
   }
 }
 
-export default GradeHistory;
+function mapStateToProps(state, ownProps){
+    return {
+        newEmployee: state.newEmployee,  //state.employees refers to reducers/index.js
+        employees: state.employees
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GradeHistory);

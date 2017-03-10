@@ -41,7 +41,6 @@ class PersonList extends React.Component{
   }
 
   render(){
-   // console.log(this.props);
     let rows = [];
     this.props.employees.forEach(function(employee) {
 

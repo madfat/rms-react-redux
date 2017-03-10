@@ -9,9 +9,16 @@ export function loadEmployeeListSuccess(employees) {
   }
 }
 
-export function updateEmployeeListSuccess(newEmployee) {
+export function updateEmployeeListSuccess(modifiedEmployee) {
   return {
     type: types.UPDATE_EMPLOYEE_LIST,
+    modifiedEmployee
+  }
+}
+
+export function addEmployeeListSuccess(newEmployee) {
+  return {
+    type: types.ADD_EMPLOYEE_LIST,
     newEmployee
   }
 }
@@ -22,6 +29,7 @@ export function setCurrentEmployeeSuccess(currentEmployee) {
     currentEmployee  // similar with currentEmployee: currentEmployee
   }
 }
+
 
 export function setOpenDialogSuccess(openDialog) {
   return {

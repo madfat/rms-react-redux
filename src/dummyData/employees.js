@@ -23,8 +23,8 @@ const employees = [
       {name: 'Nabila Syakieb2', dob: new Date(2013,5,13), gender: 3, type: 'Child', activeInd: false}
     ],
     employmentHistories: [
-      {startDate: new Date(2015,5,2), endDate:{}, employer: 'Mitrais', jobDesc:['Backend developer, Frontend Developer'], activeInd: true},
-      {startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], activeInd: false},
+      {id: '1', startDate: new Date(2015,5,2), endDate:{}, employer: 'Mitrais', jobDesc:['Backend developer', 'Frontend Developer'], activeInd: true},
+      {id: '2', startDate: new Date(2010,4,2), endDate: new Date(2014,12,31), employer: 'Google', jobDesc:['Backend developer, Frontend Developer'], activeInd: false},
     ],
     locationHistory:[
       {id:1,relocationStartDate: new Date(2016,3,2), relocationEndDate:{}, branchOffice: 'Yogyakarta', address:'Jl. Sidobali No. 2 Umbulharjo, Mujamuju, Yogyakarta'},
@@ -33,7 +33,7 @@ const employees = [
     addressHistory:[
       {id: 1, address: 'Bantul', activeInd: true}
     ],
-    radeHistory:[
+    gradeHistory:[
       {id: 1,startDate: new Date(2016,3,2), endDate:new Date(2016,3,2),grade:1,devStage:'JP'}
     ]
   },

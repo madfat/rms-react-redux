@@ -17,7 +17,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
  
 const store = configureStore();
-store.dispatch(loadEmployeeList());
+//store.dispatch(loadEmployeeList());
 
 render (
   <Provider store={store}>

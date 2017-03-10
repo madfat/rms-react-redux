@@ -48,6 +48,7 @@ class EmployeeDetail extends React.Component{
           email: '', 
           dob: {}, 
           activeInd: false,
+          gradeHistory:[],
           dependents: [],
           employmentHistories: [],
           locationHistory:[],
@@ -76,21 +77,21 @@ class EmployeeDetail extends React.Component{
 
   componentWillReceiveProps(nextProps){
     this.setState ({
-      id: nextProps.person.id||'',
-      firstName: nextProps.person.firstName||'' ,
-      lastName: nextProps.person.lastName || '' ,
-      division: nextProps.person.division || '',
-      stream: nextProps.person.stream || '', 
-      gender: nextProps.person.gender || '',
-      hiredDate: nextProps.person.hiredDate || {},
-      suspendDate: nextProps.person.suspendDate || {},
-      dob: nextProps.person.dob || {},
-      nationality: nextProps.person.nationality || '',
-      grade: nextProps.person.grade || '',
-      marital: nextProps.person.marital || '',
-      status: nextProps.person.status || '',
-      phone: nextProps.person.phone || '',
-      email: nextProps.person.email || ''
+      id: nextProps.currentEmployee.id||'',
+      firstName: nextProps.currentEmployee.firstName||'' ,
+      lastName: nextProps.currentEmployee.lastName || '' ,
+      division: nextProps.currentEmployee.division || '',
+      stream: nextProps.currentEmployee.stream || '', 
+      gender: nextProps.currentEmployee.gender || '',
+      hiredDate: nextProps.currentEmployee.hiredDate || {},
+      suspendDate: nextProps.currentEmployee.suspendDate || {},
+      dob: nextProps.currentEmployee.dob || {},
+      nationality: nextProps.currentEmployee.nationality || '',
+      grade: nextProps.currentEmployee.grade || '',
+      marital: nextProps.currentEmployee.marital || '',
+      status: nextProps.currentEmployee.status || '',
+      phone: nextProps.currentEmployee.phone || '',
+      email: nextProps.currentEmployee.email || ''
     });
   }
 
@@ -193,7 +194,7 @@ class EmployeeDetail extends React.Component{
 
   handleSaveClick(){
     this.setState({protectMode: true});
-    let newDetailPerson = Object.assign(this.props.person, {
+    let newDetailPerson = Object.assign(this.props.currentEmployee, {
       firstName: this.state.firstName,
       lastName: this.state.lastName, 
       division: this.state.division, 
@@ -209,12 +210,22 @@ class EmployeeDetail extends React.Component{
       phone: this.state.phone, 
       email:this.state.email
     });
-    this.props.actions.setNewEmployee(newDetailPerson);
+    debugger;
+    if (this.props.createMode) {
+      this.props.actions.setNewEmployee(newDetailPerson);
+    } else {
+      this.props.employees.forEach((employee,index)=>{
+        if (employee.id == newDetailPerson.id) {
+          this.props.actions.setCurrentEmployee(newDetailPerson);
+          this.props.actions.updateEmployeeList(newDetailPerson);
+        }
+      });
+    }
   }
   
   handleCancelClick(){
     this.setState({protectMode:true,
-      firstName: this.props.person.firstName});
+      firstName: this.props.employee.firstName});
   }
 
   render(){
@@ -412,7 +423,8 @@ class EmployeeDetail extends React.Component{
 
 function mapStateToProps(state, ownProps){
     return {
-        newEmployee: state.newEmployee  //state.employees refers to reducers/index.js
+        newEmployee: state.newEmployee,  //state.employees refers to reducers/index.js
+        employees: state.employees
     };
 }
 

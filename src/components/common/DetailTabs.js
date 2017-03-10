@@ -36,7 +36,7 @@ class DetailTabs extends React.Component{
           <EmployeeDetail 
             value='detail'
             onActive={this.tabClicked}
-            person={currentEmployee || {}}
+            currentEmployee={currentEmployee || {}}
             updatePersonDetail={this.props.updatePersonDetail}
             createMode={false}
           />

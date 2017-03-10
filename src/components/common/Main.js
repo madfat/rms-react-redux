@@ -51,9 +51,10 @@ class Main extends React.Component {
 
   componentDidMount(){
     this.setState({SearchResult: this.state.employees});
+    this.props.actions.loadEmployeeList();
   }
 
- 
+
   handleSave(){
     console.log(this.props.employees);
     Object.assign(this.props.newEmployee,{id: Math.random() * (1000 - 8) + 7});
