@@ -25,7 +25,6 @@ class GradeHistory extends React.Component{
       gradeHistory: [],
       selectedIndex: null,
       protectMode:true,
-      oldGradeHistory: []
     };
 
     this.handleSaveMode = this.handleSaveMode.bind(this);
@@ -40,15 +39,13 @@ class GradeHistory extends React.Component{
 
   componentWillReceiveProps(nextProps){
     this.setState({gradeHistory: nextProps.gradeHistory || []});
-    this.setState({oldGradeHistory: nextProps.gradeHistory || []});
     if (this.props.person.id !== nextProps.person.id){
       this.setState({selectedIndex: null})
     }
   }
 
   handleEditMode(index){
-    this.setState({selectedIndex: index,
-      oldGradeHistory: this.state.gradeHistory});
+    this.setState({selectedIndex: index});
   }
 
   handleSaveMode(index){
@@ -59,22 +56,23 @@ class GradeHistory extends React.Component{
       this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
-      this.props.employees.forEach((employee,index)=>{
-        if (employee.id == tmpPerson.id) {
-          this.props.actions.setCurrentEmployee(tmpPerson);
-        }
-      });
-
+      this.props.actions.setCurrentEmployee(tmpPerson);
     }
     this.setState({selectedIndex: null});
   }
 
   handleDeleteClick(index){
-    var newGradeHistory = this.state.gradeHistory;
-    newGradeHistory.splice(index,1);
-    this.setState({gradeHistory: newGradeHistory});
-    var newPersonDetail = Object.assign(this.props.employee, newGradeHistory);
-    this.props.updatePersonDetail(newPersonDetail);
+    this.state.gradeHistory.splice(index,1);
+    const tmpPerson = this.props.person;
+    tmpPerson['gradeHistory'] = this.state.gradeHistory;
+
+    if (this.props.createMode){
+      this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.actions.setCurrentEmployee(tmpPerson);
+    }
+
   }
 
   handleAddGrade(){

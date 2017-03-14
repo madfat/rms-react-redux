@@ -56,11 +56,8 @@ class Main extends React.Component {
 
 
   handleSave(){
-    console.log(this.props.employees);
     Object.assign(this.props.newEmployee,{id: Math.random() * (1000 - 8) + 7});
-    console.log(this.props.newEmployee);
     this.props.actions.updateEmployeeList(this.props.newEmployee);
-    console.log(this.props.employees);
     this.props.actions.setOpenDialog(false);
   }
 
