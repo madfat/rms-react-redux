@@ -71,6 +71,7 @@ class GradeHistory extends React.Component{
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
       this.props.actions.setCurrentEmployee(tmpPerson);
+      this.setState({gradeHistory: tmpPerson.gradeHistory});
     }
 
   }
