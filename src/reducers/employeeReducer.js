@@ -6,7 +6,6 @@ export default function employeeReducer(state = intialState.employees, action) {
     case types.LOAD_EMPLOYEE_LIST_SUCCESS:
       return action.employees ;
     case types.UPDATE_EMPLOYEE_LIST:
-      debugger;
       return [
         ...state.filter((modifiedEmployee) => modifiedEmployee.id !== action.modifiedEmployee.id), 
         Object.assign({}, action.modifiedEmployee)

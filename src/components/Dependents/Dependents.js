@@ -58,20 +58,30 @@ class Dependents extends React.Component{
   }
 
   handleSaveMode(){
-    var newUpdate = Object.assign(this.props.person.dependents, this.state.dependents);
-    this.setState({dependents: newUpdate});
-    this.setState({selectedIndex: null})
+    const tmpPerson = this.props.person;
+    tmpPerson['dependents'] = this.state.dependents;
+
     if (this.props.createMode){
-      this.updateNewEmployee(newUpdate)
+      this.props.newEmployee['dependents'] = this.state.dependents;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.actions.setCurrentEmployee(tmpPerson);
     }
+    this.setState({selectedIndex: null});
   }
 
   handleDeleteClick(index){
-    var newDependents = this.state.dependents;
-    newDependents.splice(index,1);
-    this.setState({dependents: newDependents});
-    var newPersonDetail = Object.assign(this.props.person, newDependents);
-    this.props.updatePersonDetail(newPersonDetail);
+    this.state.dependents.splice(index,1);
+    const tmpPerson = this.props.person;
+    tmpPerson['dependents'] = this.state.dependents;
+
+    if (this.props.createMode){
+      this.props.newEmployee['dependents'] = this.state.dependents;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.actions.setCurrentEmployee(tmpPerson);
+      this.setState({dependents: tmpPerson.dependents});
+    }
   }
 
   handleTextField(e, key, indexDependent){

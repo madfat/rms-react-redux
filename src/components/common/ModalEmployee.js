@@ -13,6 +13,8 @@ import * as styles from './styles';
 import Dependents from '../Dependents/Dependents';
 import GradeHistory from '../GradeHistory/GradeHistory';
 import Address from '../Address/Address';
+import EmploymentHistory from '../EmploymentHistory/EmploymentHistory';
+import Location from '../Location/Location';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as employeeActions from '../../actions/employeeActions';
@@ -77,43 +79,51 @@ class ModalEmployee extends React.Component{
   }
 
   getStepContent(stepIndex) {
-    let newEmployee = this.props.newEmployee;
+    //let newEmployee = this.props.newEmployee;
+    console.log( this.state);
+    console.log(this.props.newEmployee);
     switch (stepIndex) {
       case 0:
         return (
           <EmployeeDetail 
-            person={newEmployee}
+            person={this.props.newEmployee}
             createMode={true}
           />
         );
       case 1:
         return (
           <GradeHistory
-            person={newEmployee}
+            person={this.props.newEmployee}
             createMode={true}
           />
         );
       case 2:
         return (
-          <p>Employment History</p>
+          <EmploymentHistory
+            person={this.props.newEmployee}
+            createMode={true}
+          />
         );
       case 3:
         return (
           <Dependents 
-            person={newEmployee}
+            person={this.props.newEmployee}
             createMode={true}
           />
         );
       case 4:
         return (
           <Address 
-            person={newEmployee}
+            person={this.props.newEmployee}
             createMode={true}
           />
         );
       case 5:
         return (
-          <p>Location</p>
+          <Location
+            person={this.props.newEmployee}
+            createMode={true}
+          />
         );
       default:
         return 'You\'re a long way from home sonny jim!';
@@ -135,6 +145,7 @@ class ModalEmployee extends React.Component{
         </div>
       );
     }
+
     return (
       <div style={contentStyle}>
         <div>{this.getStepContent(stepIndex)}</div>

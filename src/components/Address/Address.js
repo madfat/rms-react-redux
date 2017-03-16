@@ -9,6 +9,10 @@ import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import update from 'react-addons-update';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+
 class Address extends React.Component{
   constructor(props) {
     super(props);
@@ -45,17 +49,30 @@ class Address extends React.Component{
   }
 
   handleSaveMode(){
-    var newUpdate = Object.assign(this.props.person.addressHistory, this.state.addressHistory);
-    this.setState({addressHistory: newUpdate});
-    this.setState({selectedIndex: null})
+    const tmpPerson = this.props.person;
+    tmpPerson['addressHistory'] = this.state.addressHistory;
+
+    if (this.props.createMode){
+      this.props.newEmployee['addressHistory'] = this.state.addressHistory;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.actions.setCurrentEmployee(tmpPerson);
+    }
+    this.setState({selectedIndex: null});
   }
 
   handleDeleteClick(index){
-    var newAddressHistory = this.state.addressHistory;
-    newAddressHistory.splice(index,1);
-    this.setState({addressHistory: newAddressHistory});
-    var newPersonDetail = Object.assign(this.props.person, newAddressHistory);
-    this.props.updatePersonDetail(newPersonDetail);
+    this.state.addressHistory.splice(index,1);
+    const tmpPerson = this.props.person;
+    tmpPerson['addressHistory'] = this.state.addressHistory;
+
+    if (this.props.createMode){
+      this.props.newEmployee['addressHistory'] = this.state.addressHistory;
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+    } else {
+      this.props.actions.setCurrentEmployee(tmpPerson);
+      this.setState({addressHistory: tmpPerson.addressHistory});
+    }
   }
 
   handleAddAddress(){
@@ -76,10 +93,6 @@ class Address extends React.Component{
   }
 
   handleTextField(event, key, indexAddress){
-    // let newAddressHistory = Object.assign([],this.state.addressHistory);
-    // newAddressHistory[indexDependent][key]=event.target.value;
-
-    // this.setState({addressHistory: newAddressHistory});
     var newAddressHistory = update(this.state.addressHistory, {
       [indexAddress]: {
         [key]:{$set: event.target.value}
@@ -109,7 +122,7 @@ class Address extends React.Component{
         />
       );
     }
-    if (this.props.person.id !== undefined){
+    if (this.props.person.id !== undefined || this.props.createMode){
       addButton.push(
         <FlatButton
           key='add-address'
@@ -174,4 +187,16 @@ class Address extends React.Component{
   }
 }
 
-export default Address;
+function mapStateToProps(state, ownProps){
+    return {
+        newEmployee: state.newEmployee  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Address);

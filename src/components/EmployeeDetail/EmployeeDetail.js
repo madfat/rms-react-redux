@@ -210,7 +210,7 @@ class EmployeeDetail extends React.Component{
       phone: this.state.phone, 
       email:this.state.email
     });
-    debugger;
+
     if (this.props.createMode) {
       this.props.actions.setNewEmployee(newDetailPerson);
     } else {

@@ -152,7 +152,7 @@ class GradeHistory extends React.Component{
         />
       );
     }
-    //debugger;
+    
     if (this.props.person.id !== undefined || this.props.createMode){
       addButton.push(
         <FlatButton

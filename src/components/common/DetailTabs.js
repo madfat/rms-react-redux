@@ -48,7 +48,9 @@ class DetailTabs extends React.Component{
           style={styles.tabHeader}>
           <GradeHistory 
             person={currentEmployee || {}}
-            gradeHistory={currentEmployee.gradeHistory}/>
+            gradeHistory={currentEmployee.gradeHistory}
+            createMode={false} 
+          />
         </Tab>
         <Tab
           value='employment'
@@ -57,7 +59,9 @@ class DetailTabs extends React.Component{
           style={styles.tabHeader}>
           <EmploymentHistory
             person={currentEmployee || {}}
-            employmentHistories = {currentEmployee.employmentHistories}/>
+            employmentHistories = {currentEmployee.employmentHistories}
+            createMode={false}
+          />
         </Tab>
         <Tab
           value='dependent'
@@ -76,14 +80,19 @@ class DetailTabs extends React.Component{
           style={styles.tabHeader}>
           <Address
             person={currentEmployee || {}}
-            addressHistory={currentEmployee.addressHistory}/>
+            addressHistory={currentEmployee.addressHistory}
+            createMode={false}
+          />
         </Tab>
         <Tab
           value='location'
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
-          <Location locationHistory={currentEmployee.locationHistory}/>
+          <Location
+            locationHistory={currentEmployee.locationHistory}
+            createMode={false}
+          />
         </Tab>
     </Tabs>
     );
