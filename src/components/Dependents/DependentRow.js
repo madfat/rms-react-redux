@@ -9,6 +9,10 @@ import * as styles from '../common/styles';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+
 class DependentRow extends React.Component{
   constructor(props){
     super(props);
@@ -39,12 +43,27 @@ class DependentRow extends React.Component{
   }
 
   render() {
+    console.log(this.props.lookup);
+    const genderLookup=[];
+    this.props.lookup.GENDER.forEach(function(item){
+      genderLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+    
+    const typeLookup=[];
+    this.props.lookup.DEPTYPE.forEach(function(item){
+      typeLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+
+
+
+    const objDependent = this.props.dependent;
+    const fullName = objDependent.firstName + ' ' + objDependent.lastName;
     return(
         <TableRow key={this.props.index}>
           <TableRowColumn style={{width: '200px'}}>
             <TextField
               id="name"
-              value={this.props.dependent.name}
+              value={fullName}
               onChange={(event) => this.handleChangeValue(event,'name')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
@@ -60,9 +79,8 @@ class DependentRow extends React.Component{
               underlineShow={false}
               style={styles.FormField}
             >
-              <MenuItem value={1} primaryText="" />
-              <MenuItem value={2} primaryText="Male" />
-              <MenuItem value={3} primaryText="Female" />
+              {genderLookup}
+
             </SelectField>
           </TableRowColumn> 
           <TableRowColumn>
@@ -75,14 +93,17 @@ class DependentRow extends React.Component{
             />
           </TableRowColumn>
           <TableRowColumn>
-            <TextField
+            <SelectField
               id="type"
               value={this.props.dependent.type}
-              onChange={(event) => this.handleChangeValue(event,'type')}
+              onChange={(event, index, value)=>this.handleSelectField(event,index,value,'type')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
               style={styles.FormField}
-            />
+            >
+              {typeLookup}
+
+            </SelectField>
           </TableRowColumn> 
           <TableRowColumn>
             <Checkbox 
@@ -104,4 +125,17 @@ class DependentRow extends React.Component{
   }
 }
 
-export default DependentRow;
+
+function mapStateToProps(state, ownProps){
+    return {
+        lookup: state.lookup  //state.employees refers to reducers/index.js
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DependentRow);

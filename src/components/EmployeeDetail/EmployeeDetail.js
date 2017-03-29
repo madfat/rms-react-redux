@@ -5,6 +5,8 @@ import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import moment from 'moment';
+import * as Util from '../common/util'
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -83,13 +85,13 @@ class EmployeeDetail extends React.Component{
       division: nextProps.currentEmployee.division || '',
       stream: nextProps.currentEmployee.stream || '', 
       gender: nextProps.currentEmployee.gender || '',
-      hiredDate: nextProps.currentEmployee.hiredDate || {},
-      suspendDate: nextProps.currentEmployee.suspendDate || {},
-      dob: nextProps.currentEmployee.dob || {},
+      hiredDate: Util.parseStrToDate(nextProps.currentEmployee.hiredDate),
+      suspendDate: Util.parseStrToDate(nextProps.currentEmployee.suspendDate),
+      dob:  Util.parseStrToDate(nextProps.currentEmployee.dob) || {},
       nationality: nextProps.currentEmployee.nationality || '',
       grade: nextProps.currentEmployee.grade || '',
-      marital: nextProps.currentEmployee.marital || '',
-      status: nextProps.currentEmployee.status || '',
+      marital: nextProps.currentEmployee.maritalStatus || '',
+      status: nextProps.currentEmployee.employmentStatus || '',
       phone: nextProps.currentEmployee.phone || '',
       email: nextProps.currentEmployee.email || ''
     });
@@ -251,6 +253,22 @@ class EmployeeDetail extends React.Component{
     if (!this.props.createMode){
       displayTitle.push(<h4 key='emp-detail'>Employee Detail</h4>);
     }
+
+    const maritalLookup=[];
+    this.props.lookup.MARITAL.forEach(function(item){
+      maritalLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+
+    const genderLookup=[];
+    this.props.lookup.GENDER.forEach(function(item){
+      genderLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+
+    const employmentStatusLookup=[];
+    this.props.lookup.EMPSTAT.forEach(function(item){
+      employmentStatusLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+
     return(
       <div style={styles.FormControl}>
         {displayTitle}  
@@ -309,9 +327,9 @@ class EmployeeDetail extends React.Component{
               onChange={(event, index, value)=> this.handleGenderChange(event, index, value)}
               disabled={this.state.protectMode}
             >
-              <MenuItem value={1} primaryText="" />
-              <MenuItem value={2} primaryText="Male" />
-              <MenuItem value={3} primaryText="Female" />
+              
+              {genderLookup}
+
             </SelectField>
           </div>        
           <div className="mdl-cell mdl-cell--5-col">
@@ -371,10 +389,7 @@ class EmployeeDetail extends React.Component{
               onChange={(event,index, value) => this.handleMaritalChange(event,index,value)}
               disabled={this.state.protectMode}
             >
-              <MenuItem value={1} primaryText="" />
-              <MenuItem value={2} primaryText="Single" />
-              <MenuItem value={3} primaryText="Merried" />
-              <MenuItem value={4} primaryText="Widowed/Widower" />
+              {maritalLookup}
             </SelectField>
           </div>
           <div className="mdl-cell mdl-cell--5-col">
@@ -384,9 +399,8 @@ class EmployeeDetail extends React.Component{
               onChange={(event, index, value) => this.handleStatusChange(event, index, value)}
               disabled={this.state.protectMode}
             >
-              <MenuItem value={1} primaryText="" />
-              <MenuItem value={2} primaryText="Permanent" />
-              <MenuItem value={3} primaryText="Contract" />
+              {employmentStatusLookup}
+
             </SelectField>
           </div>        
         </div>
@@ -424,7 +438,8 @@ class EmployeeDetail extends React.Component{
 function mapStateToProps(state, ownProps){
     return {
         newEmployee: state.newEmployee,  //state.employees refers to reducers/index.js
-        employees: state.employees
+        employees: state.employees,
+        lookup: state.lookup
     };
 }
 

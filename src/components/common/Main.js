@@ -52,6 +52,14 @@ class Main extends React.Component {
   componentDidMount(){
     this.setState({SearchResult: this.state.employees});
     this.props.actions.loadEmployeeList();
+    this.props.actions.loadLookup('MARITAL');
+    this.props.actions.loadLookup('ERROR');
+    this.props.actions.loadLookup('GRADE');
+    this.props.actions.loadLookup('NATION');
+    this.props.actions.loadLookup('EMPSTAT');
+    this.props.actions.loadLookup('DEPTYPE');
+    this.props.actions.loadLookup('JOBFAM');
+    this.props.actions.loadLookup('GENDER');
   }
 
 
@@ -175,7 +183,8 @@ function mapStateToProps(state, ownProps){
     return {
         openDialog: state.openDialog,  //state.openDialog refers to reducers/index.js
         newEmployee: state.newEmployee,
-        employees: state.employees
+        employees: state.employees,
+        lookup: state.lookup
     };
 }
 

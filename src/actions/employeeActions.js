@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios';
 import dummyEmployee from '../dummyData/employees';
+import fetch from 'isomorphic-fetch'
 
 export function loadEmployeeListSuccess(employees) {
   return {
@@ -45,10 +46,34 @@ export function setNewEmployeeSuccess(newEmployee){
   }
 }
 
+export function loadLookupSuccess(lookup){
+  return {
+    type: types.LOAD_LOOKUP,
+    lookup
+  }
+}
+
+export function loadLookup(type){
+  return function(dispatch){
+    return axios.get('https://localhost:7896/api/lookup/' + type)
+      .then(function(response){
+        dispatch(loadLookupSuccess(response));
+      })
+
+  }
+}
+
 
 export function loadEmployeeList(){
   return function(dispatch){
-    dispatch(loadEmployeeListSuccess(dummyEmployee)); 
+    return axios.get('https://localhost:7896/api/employees?&page=10&size=10')
+      .then(function(response){
+        const extracted_employees = response["data"]["content"];
+        dispatch(loadEmployeeListSuccess(extracted_employees));
+      })
+      .catch(function(error){
+        throw(error);
+      }); 
   }
 }
 

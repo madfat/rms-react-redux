@@ -123,7 +123,7 @@ class Dependents extends React.Component{
   handleAddDependent(){
     let newLine = {
       'name': '',
-      'gender':0,
+      'gender':'',
       'date':{},
       'type':'',
       'activeInd':false

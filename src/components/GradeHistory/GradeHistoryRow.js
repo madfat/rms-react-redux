@@ -5,6 +5,7 @@ import DatePicker from 'material-ui/DatePicker';
 import NumericInput from 'react-numeric-input';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
+import * as Util from '../common/util';
 
 class GradeHistoryRow extends React.Component{
   constructor(props){
@@ -27,6 +28,10 @@ class GradeHistoryRow extends React.Component{
   }
 
   render(){
+    const startDate = Util.parseStrToDate(this.props.grade.startDate);
+    const endDate = Util.parseStrToDate(this.props.grade.endDate);
+    console.log(startDate);
+
     return(
       <TableRow key={this.props.index}>
         <TableRowColumn>
@@ -51,7 +56,7 @@ class GradeHistoryRow extends React.Component{
         </TableRowColumn>
         <TableRowColumn>
           <DatePicker
-            value={this.props.grade.startDate}
+            value={startDate}
             onChange={(event, date) => this.handleDateField(event,date,'startDate')} 
             disabled={this.props.selectedIndex==this.props.index?false:true}
             underlineShow={false}
@@ -60,7 +65,7 @@ class GradeHistoryRow extends React.Component{
         </TableRowColumn>
         <TableRowColumn>
           <DatePicker
-            value={this.props.grade.endDate}
+            value={endDate}
             onChange={(event, date) => this.handleDateField(event,date,'endDate')} 
             disabled={true}
             underlineShow={false}

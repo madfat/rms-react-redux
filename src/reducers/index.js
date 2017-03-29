@@ -3,12 +3,14 @@ import employees from './employeeReducer';
 import currentEmployee from './currentEmployeeReducer';
 import openDialog from './openDialogReducer';
 import newEmployee from './newEmployeeReducer';
+import lookup from './lookupReducer';
 
 const rootReducer = combineReducers({
   employees,
   currentEmployee,
   openDialog,
-  newEmployee
+  newEmployee,
+  lookup
 });
 
 export default rootReducer;

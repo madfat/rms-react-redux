@@ -79,9 +79,6 @@ class ModalEmployee extends React.Component{
   }
 
   getStepContent(stepIndex) {
-    //let newEmployee = this.props.newEmployee;
-    console.log( this.state);
-    console.log(this.props.newEmployee);
     switch (stepIndex) {
       case 0:
         return (

@@ -39,6 +39,7 @@ class GradeHistory extends React.Component{
 
   componentWillReceiveProps(nextProps){
     this.setState({gradeHistory: nextProps.gradeHistory || []});
+    console.log(nextProps.gradeHistory);
     if (this.props.person.id !== nextProps.person.id){
       this.setState({selectedIndex: null})
     }
