@@ -44,11 +44,6 @@ class Main extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
   }
 
-  handleOpen(){
-    this.props.actions.setOpenDialog(true);
-    this.setState({ShowAction: false})
-  }
-
   componentDidMount(){
     this.setState({SearchResult: this.state.employees});
     this.props.actions.loadEmployeeList();
@@ -62,10 +57,17 @@ class Main extends React.Component {
     this.props.actions.loadLookup('GENDER');
   }
 
+  handleOpen(){
+    this.props.actions.setOpenDialog(true);
+    this.setState({ShowAction: false})
+  }
 
   handleSave(){
-    Object.assign(this.props.newEmployee,{id: Math.random() * (1000 - 8) + 7});
-    this.props.actions.updateEmployeeList(this.props.newEmployee);
+//    Object.assign(this.props.newEmployee);
+    const newEmp = this.props.newEmployee;
+    console.log(newEmp);
+    this.props.actions.createEmployee(newEmp);
+//    this.props.actions.updateEmployeeList(this.props.newEmployee);
     this.props.actions.setOpenDialog(false);
   }
 
@@ -178,6 +180,9 @@ class Main extends React.Component {
   }
 }
 
+Main.propTypes = {
+  actions: React.PropTypes.object.isRequired
+}
 
 function mapStateToProps(state, ownProps){
     return {

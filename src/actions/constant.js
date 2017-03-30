@@ -1,0 +1,1 @@
+export const baseURI = 'https://localhost:7896';

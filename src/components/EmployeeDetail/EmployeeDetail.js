@@ -27,7 +27,7 @@ class EmployeeDetail extends React.Component{
       dob:{}, 
       nationality: '', 
       grade: '', 
-      marital:'', 
+      maritalStatus:'', 
       status: '', 
       phone:'', 
       email:'',
@@ -44,9 +44,10 @@ class EmployeeDetail extends React.Component{
           jobFamily: '', 
           hiredDate: {}, 
           gender:'', 
-          status:'', 
+          employmentStatus:'', 
           nationality: '', 
-          marital: '', 
+          maritalStatus: '',
+          suspendedDate:{}, 
           email: '', 
           dob: {}, 
           activeInd: false,
@@ -85,12 +86,12 @@ class EmployeeDetail extends React.Component{
       division: nextProps.currentEmployee.division || '',
       stream: nextProps.currentEmployee.stream || '', 
       gender: nextProps.currentEmployee.gender || '',
-      hiredDate: Util.parseStrToDate(nextProps.currentEmployee.hiredDate),
-      suspendDate: Util.parseStrToDate(nextProps.currentEmployee.suspendDate),
+      hiredDate: Util.parseStrToDate(nextProps.currentEmployee.hiredDate)||{},
+      suspendDate: Util.parseStrToDate(nextProps.currentEmployee.suspendedDate)||{},
       dob:  Util.parseStrToDate(nextProps.currentEmployee.dob) || {},
       nationality: nextProps.currentEmployee.nationality || '',
       grade: nextProps.currentEmployee.grade || '',
-      marital: nextProps.currentEmployee.maritalStatus || '',
+      maritalStatus: nextProps.currentEmployee.maritalStatus || '',
       status: nextProps.currentEmployee.employmentStatus || '',
       phone: nextProps.currentEmployee.phone || '',
       email: nextProps.currentEmployee.email || ''
@@ -100,7 +101,7 @@ class EmployeeDetail extends React.Component{
   handleStatusChange(e,i,v){
     this.setState({status: v});
     if (this.props.createMode){
-      this.updateNewEmployee('status', v);
+      this.updateNewEmployee('employmentStatus', v);
     }
   }
 
@@ -145,7 +146,7 @@ class EmployeeDetail extends React.Component{
   handleSuspendDate(e,d){
     this.setState({suspendDate: d});
     if (this.props.createMode){
-      this.updateNewEmployee('suspendDate', d);
+      this.updateNewEmployee('suspendedDate', d);
     }
   }
   handleDobChange(e,d){
@@ -167,9 +168,9 @@ class EmployeeDetail extends React.Component{
     }
   }
   handleMaritalChange(e,i,v){
-    this.setState({marital: v});
+    this.setState({maritalStatus: v});
     if (this.props.createMode){
-      this.updateNewEmployee('marital', v);
+      this.updateNewEmployee('maritalStatus', v);
     }
   }
   handlePhoneChange(e){
@@ -203,12 +204,12 @@ class EmployeeDetail extends React.Component{
       stream: this.state.stream, 
       gender: this.state.gender,
       hiredDate: this.state.hiredDate,
-      suspendDate: this.state.suspendDate, 
+      suspendedDate: this.state.suspendDate, 
       dob:this.state.dob, 
       nationality: this.state.nationality, 
       grade: this.state.grade, 
-      marital:this.state.marital, 
-      status: this.state.status, 
+      maritalStatus:this.state.maritalStatus, 
+      employmentStatus: this.state.status, 
       phone: this.state.phone, 
       email:this.state.email
     });
@@ -216,18 +217,19 @@ class EmployeeDetail extends React.Component{
     if (this.props.createMode) {
       this.props.actions.setNewEmployee(newDetailPerson);
     } else {
-      this.props.employees.forEach((employee,index)=>{
-        if (employee.id == newDetailPerson.id) {
-          this.props.actions.setCurrentEmployee(newDetailPerson);
-          this.props.actions.updateEmployeeList(newDetailPerson);
-        }
-      });
+      this.props.actions.editEmployee(newDetailPerson);
+      // this.props.employees.forEach((employee,index)=>{
+      //   if (employee.id == newDetailPerson.id) {
+      //     this.props.actions.editEmployee(newDetailPerson);
+      //     this.props.actions.setCurrentEmployee(newDetailPerson);
+      //     this.props.actions.updateEmployeeList(newDetailPerson);
+      //   }
+      // });
     }
   }
   
   handleCancelClick(){
-    this.setState({protectMode:true,
-      firstName: this.props.employee.firstName});
+    this.setState({protectMode:true});
   }
 
   render(){
@@ -385,7 +387,7 @@ class EmployeeDetail extends React.Component{
           <div className="mdl-cell mdl-cell--5-col">
             <SelectField
               floatingLabelText="Marital Status"
-              value={this.state.marital}
+              value={this.state.maritalStatus}
               onChange={(event,index, value) => this.handleMaritalChange(event,index,value)}
               disabled={this.state.protectMode}
             >

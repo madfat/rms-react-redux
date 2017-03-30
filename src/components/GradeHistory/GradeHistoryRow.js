@@ -30,7 +30,6 @@ class GradeHistoryRow extends React.Component{
   render(){
     const startDate = Util.parseStrToDate(this.props.grade.startDate);
     const endDate = Util.parseStrToDate(this.props.grade.endDate);
-    console.log(startDate);
 
     return(
       <TableRow key={this.props.index}>

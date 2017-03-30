@@ -41,17 +41,35 @@ class PersonList extends React.Component{
   }
 
   render(){
+    const temp = {
+      dt: {
+        float: "right",
+        position: "relative"
+      },
+      ck: {
+        top: "20px"
+      }
+      
+    }
     let rows = [];
     this.props.employees.forEach(function(employee) {
+      
 
       rows.push(<div key={employee.id}><ListItem 
                   leftAvatar={<Avatar src={require('../../img/test.png')} />}
-                  primaryText={employee.firstName + ' ' + employee.lastName}
+                  primaryText={
+                    <span>
+                      <b>{employee.firstName} {employee.lastName}</b>
+                    </span>
+                  }
                   secondaryText={
                     <p>
                       <span>{employee.division + '-' + employee.grade + ', ' + employee.stream + ' ' + employee.jobFamily}</span><br />
                       <small>{employee.location + ', ' + employee.phone}</small>
                     </p>
+                  }
+                  rightIcon={
+                      <CheckedIcon style={temp.ck} />
                   }
                   secondaryTextLines={2}
                   onClick = {this.handleClick.bind(this, employee)}

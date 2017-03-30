@@ -1,9 +1,7 @@
 import React from 'react';
 import * as styles from '../common/styles';
-import TextField from 'material-ui/TextField';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
 import AddressRow from './AddressRow';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -125,10 +123,11 @@ class Address extends React.Component{
     if (this.props.person.id !== undefined || this.props.createMode){
       addButton.push(
         <FlatButton
+          id="add-address-button"
           key='add-address'
           backgroundColor="#a4c639"
           hoverColor="#8AA62F"
-          icon={<FontIcon className="material-icons">add_circle_outline</FontIcon>}
+          icon={<FontIcon id="fonticon-address" className="material-icons">add_circle_outline</FontIcon>}
           style={styles.ButtonAddDetail}
           onTouchTap={this.handleAddAddress}
         />
@@ -185,6 +184,10 @@ class Address extends React.Component{
       </div>
     );
   }
+}
+
+Address.propTypes = {
+  
 }
 
 function mapStateToProps(state, ownProps){

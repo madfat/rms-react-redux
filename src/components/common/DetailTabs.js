@@ -29,12 +29,12 @@ class DetailTabs extends React.Component{
     return(
       <Tabs>
         <Tab
-          value='detail'
+          value="detail"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">person</FontIcon>}
           style={styles.tabHeader}>
           <EmployeeDetail 
-            value='detail'
+            value="detail"
             onActive={this.tabClicked}
             currentEmployee={currentEmployee || {}}
             updatePersonDetail={this.props.updatePersonDetail}
@@ -42,7 +42,7 @@ class DetailTabs extends React.Component{
           />
         </Tab>
         <Tab
-          value='grade'
+          value="grade"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">history</FontIcon>}
           style={styles.tabHeader}>
@@ -53,7 +53,7 @@ class DetailTabs extends React.Component{
           />
         </Tab>
         <Tab
-          value='employment'
+          value="employment"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">layers</FontIcon>}
           style={styles.tabHeader}>
@@ -64,7 +64,7 @@ class DetailTabs extends React.Component{
           />
         </Tab>
         <Tab
-          value='dependent'
+          value="dependent"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">wc</FontIcon>}
           style={styles.tabHeader}>
@@ -74,7 +74,7 @@ class DetailTabs extends React.Component{
             createMode={false} />
         </Tab>
         <Tab
-          value='address'
+          value="address"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">home</FontIcon>}
           style={styles.tabHeader}>
@@ -85,7 +85,7 @@ class DetailTabs extends React.Component{
           />
         </Tab>
         <Tab
-          value='location'
+          value="location"
           onActive={this.tabClicked}
           icon={<FontIcon className="material-icons">location_on</FontIcon>}
           style={styles.tabHeader}>
@@ -99,6 +99,11 @@ class DetailTabs extends React.Component{
   }
 }
 
+DetailTabs.propTypes = {
+  setCurrentTab: React.PropTypes.func,
+  currentEmployee: React.PropTypes.object,
+  updatePersonDetail: React.PropTypes.func
+}
 
 function mapStateToProps(state, ownProps){
     return {

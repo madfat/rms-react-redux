@@ -36,19 +36,22 @@ class ModalEmployee extends React.Component{
           phone:'', 
           stream: '', 
           jobFamily: '', 
+          jobTitle: '',
+          retiredDate: {},
           hiredDate: {}, 
+          suspendedDate: {},
           gender:'', 
-          status:'', 
+          employementStatus:'', 
           nationality: '', 
-          marital: '', 
+          maritalStatus: '', 
           email: '', 
           dob: {}, 
           activeInd: false,
           dependents: [],
-          employmentHistories: [],
-          locationHistory:[],
-          addressHistory:[],
-          gradeHistory:[]
+          empHistories: [],
+          locations:[],
+          addresses:[],
+          gradeHistories:[]
       }
     };
 

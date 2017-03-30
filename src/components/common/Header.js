@@ -15,7 +15,7 @@ class Header extends React.Component {
           <div>SE-AP</div>
           </div>
           
-          <div className="mdl-layout-spacer"></div>
+          <div className="mdl-layout-spacer" />
           
           <nav className="mdl-navigation ">
             <a className="mdl-navigation__link" href=""><i className="material-icons">settings</i></a>

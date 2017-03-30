@@ -5,6 +5,8 @@ export default function newEmployeeReducer(state = intialState.newEmployee, acti
   switch (action.type) {
     case types.SET_NEW_EMPLOYEE: 
       return action.newEmployee
+    case types.CREATE_EMPLOYEE_SUCCESS:
+      return action.newEmployee
 
     default:
       return state;

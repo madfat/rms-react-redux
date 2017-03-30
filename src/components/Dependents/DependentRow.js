@@ -43,7 +43,6 @@ class DependentRow extends React.Component{
   }
 
   render() {
-    console.log(this.props.lookup);
     const genderLookup=[];
     this.props.lookup.GENDER.forEach(function(item){
       genderLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
