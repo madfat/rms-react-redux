@@ -13,7 +13,7 @@ export function loadEmployeeListSuccess(employees) {
 
 export function loadEmployeeList(){
   return function(dispatch){
-    return axios.get(RMSConst.baseURI + '/api/employees?&page=10&size=10')
+    return axios.get(RMSConst.baseURI + '/api/employees?&page=1&size=10')
       .then(function(response){
         const extracted_employees = response["data"]["content"];
         dispatch(loadEmployeeListSuccess(extracted_employees));
@@ -35,7 +35,7 @@ export function editEmployee(updatedEmployee){
   return function(dispatch){
     return axios.put(RMSConst.baseURI + '/api/employee/', updatedEmployee)
       .then(function(response){
-        dispatch(editEmployeeSuccess(response));
+        dispatch(editEmployeeSuccess(response["data"]));
       })
       .then(function(){
         dispatch(loadEmployeeList())
@@ -58,11 +58,29 @@ export function createEmployee(newEmployee){
       })
       .then(function(){
         dispatch(loadEmployeeList());
-      })
-      .then(function(response){
-        dispatch(setCurrentEmployee(response["data"]));
       });
   }
+}
+
+export function findEmployeeByNameSuccess(employees){
+  return {
+    type: types.FIND_EMPLOYEE_BY_NAME,
+    employees
+  };
+}
+
+export function findEmployeeByName(name) {
+  return function(dispatch){
+    return axios.get(RMSConst.baseURI + '/api/employees/search/findByName?name='+ name +'&page=0&size=10')
+      .then(function(response){
+        const extracted_employees = response["_embedded"]["employees"];
+        dispatch(findEmployeeByNameSuccess(extracted_employees));
+      })
+      .then(function(response){
+        const extracted_employees = response["_embedded"]["employees"];
+        dispatch(loadEmployeeListSuccess(extracted_employees));
+      });
+  };
 }
 
 export function updateEmployeeListSuccess(modifiedEmployee) {

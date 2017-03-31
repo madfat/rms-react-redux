@@ -42,14 +42,14 @@ class EmployeeDetail extends React.Component{
           phone:'', 
           stream: '', 
           jobFamily: '', 
-          hiredDate: {}, 
+          hiredDate: null, 
           gender:'', 
           employmentStatus:'', 
           nationality: '', 
           maritalStatus: '',
-          suspendedDate:{}, 
+          suspendedDate:null, 
           email: '', 
-          dob: {}, 
+          dob: null, 
           activeInd: false,
           gradeHistory:[],
           dependents: [],
@@ -86,9 +86,9 @@ class EmployeeDetail extends React.Component{
       division: nextProps.currentEmployee.division || '',
       stream: nextProps.currentEmployee.stream || '', 
       gender: nextProps.currentEmployee.gender || '',
-      hiredDate: Util.parseStrToDate(nextProps.currentEmployee.hiredDate)||{},
-      suspendDate: Util.parseStrToDate(nextProps.currentEmployee.suspendedDate)||{},
-      dob:  Util.parseStrToDate(nextProps.currentEmployee.dob) || {},
+      hiredDate: nextProps.currentEmployee.hiredDate == null ? null : Util.parseStrToDate(nextProps.currentEmployee.hiredDate),
+      suspendDate: nextProps.currentEmployee.suspendedDate == null ? null :Util.parseStrToDate(nextProps.currentEmployee.suspendedDate) ,
+      dob:  nextProps.currentEmployee.dob == null ? null : Util.parseStrToDate(nextProps.currentEmployee.dob),
       nationality: nextProps.currentEmployee.nationality || '',
       grade: nextProps.currentEmployee.grade || '',
       maritalStatus: nextProps.currentEmployee.maritalStatus || '',
@@ -218,13 +218,8 @@ class EmployeeDetail extends React.Component{
       this.props.actions.setNewEmployee(newDetailPerson);
     } else {
       this.props.actions.editEmployee(newDetailPerson);
-      // this.props.employees.forEach((employee,index)=>{
-      //   if (employee.id == newDetailPerson.id) {
-      //     this.props.actions.editEmployee(newDetailPerson);
-      //     this.props.actions.setCurrentEmployee(newDetailPerson);
-      //     this.props.actions.updateEmployeeList(newDetailPerson);
-      //   }
-      // });
+      console.log(newDetailPerson);
+      this.props.actions.setCurrentEmployee(newDetailPerson);
     }
   }
   

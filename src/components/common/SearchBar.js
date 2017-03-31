@@ -1,15 +1,25 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as employeeActions from '../../actions/employeeActions';
+
 
 class SearchBar extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      keyword: ''
+    }
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(){
-    this.props.onUserInput(
-      this.filterTextInput.value
-    );
+  handleChange(e){
+    this.setState({keyword: e.target.value})
+    console.log(this.state.keyword);
+    console.log(this.state.keyword.length);
+    if (e.target.value.length >= 3){
+      this.props.actions.findEmployeeByName(e.target.value);
+    }
   }
 
   render(){
@@ -20,8 +30,7 @@ class SearchBar extends React.Component{
         </label>
         <div className="mdl-textfield__expandable-holder">
           <input className="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp"
-            value={this.props.filterText}
-            ref={(input) => this.filterTextInput = input}
+            value={this.state.keyword}
             onChange={this.handleChange}
           />
         </div>
@@ -30,4 +39,16 @@ class SearchBar extends React.Component{
   }
 }
 
-export default SearchBar;
+function mapStateToProps(state, ownProps){
+    return {
+
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(employeeActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
