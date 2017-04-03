@@ -14,12 +14,8 @@ class SearchBar extends React.Component{
   }
 
   handleChange(e){
-    this.setState({keyword: e.target.value})
-    console.log(this.state.keyword);
-    console.log(this.state.keyword.length);
-    if (e.target.value.length >= 3){
-      this.props.actions.findEmployeeByName(e.target.value);
-    }
+    this.setState({keyword: e.target.value});
+    this.props.actions.findEmployeeByName(e.target.value);
   }
 
   render(){

@@ -11,12 +11,15 @@ export function loadEmployeeListSuccess(employees) {
   };
 }
 
-export function loadEmployeeList(){
+export function loadEmployeeList(setCurrent){
   return function(dispatch){
     return axios.get(RMSConst.baseURI + '/api/employees?&page=1&size=10')
       .then(function(response){
         const extracted_employees = response["data"]["content"];
         dispatch(loadEmployeeListSuccess(extracted_employees));
+        if (setCurrent==true){
+          dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
+        }
       })
       .catch(function(error){
         throw(error);
@@ -55,10 +58,10 @@ export function createEmployee(newEmployee){
     return axios.post(RMSConst.baseURI + '/api/employee/', newEmployee)
       .then(function(response){
         dispatch(createEmployeeSuccess(response));
+        dispatch(loadEmployeeList(false));
+        debugger;
+        dispatch(setCurrentEmployeeSuccess(response["data"]));
       })
-      .then(function(){
-        dispatch(loadEmployeeList());
-      });
   }
 }
 
@@ -71,15 +74,16 @@ export function findEmployeeByNameSuccess(employees){
 
 export function findEmployeeByName(name) {
   return function(dispatch){
-    return axios.get(RMSConst.baseURI + '/api/employees/search/findByName?name='+ name +'&page=0&size=10')
-      .then(function(response){
-        const extracted_employees = response["_embedded"]["employees"];
-        dispatch(findEmployeeByNameSuccess(extracted_employees));
-      })
-      .then(function(response){
-        const extracted_employees = response["_embedded"]["employees"];
-        dispatch(loadEmployeeListSuccess(extracted_employees));
-      });
+    if(name==''){
+      dispatch(loadEmployeeList(true));
+    }else{
+      return axios.get(RMSConst.baseURI + '/api/employees/findbyname/'+ name +'?page=0&size=10')
+        .then(function(response){
+          const extracted_employees = response["data"]["content"];
+          dispatch(findEmployeeByNameSuccess(extracted_employees));
+          dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
+        })
+    }
   };
 }
 
