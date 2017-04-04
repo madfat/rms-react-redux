@@ -218,7 +218,6 @@ class EmployeeDetail extends React.Component{
       this.props.actions.setNewEmployee(newDetailPerson);
     } else {
       this.props.actions.editEmployee(newDetailPerson);
-      console.log(newDetailPerson);
       this.props.actions.setCurrentEmployee(newDetailPerson);
     }
   }

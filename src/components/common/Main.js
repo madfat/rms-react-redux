@@ -42,7 +42,7 @@ class Main extends React.Component {
   }
 
   componentDidMount(){
-    this.props.actions.loadEmployeeList(true);
+    this.props.actions.loadEmployeeList(true,0);
     this.props.actions.loadLookup('MARITAL');
     this.props.actions.loadLookup('ERROR');
     this.props.actions.loadLookup('GRADE');
@@ -60,12 +60,8 @@ class Main extends React.Component {
 
   handleSave(){
     const newEmp = this.props.newEmployee;
-    this.props.actions.createEmployee(newEmp)
-      .then((newEmp)=>{
-        this.props.action.setCurrentEmployee(newEmp);
-      });
+    this.props.actions.createEmployee(newEmp);
     this.props.actions.setOpenDialog(false);
-//    this.props.actions.setCurrentEmployee(newEmp);
   }
 
   handleCancelCreate(){
@@ -117,7 +113,6 @@ class Main extends React.Component {
             </div>
 
             <PersonsList />
-            <p>paging</p>
 
           </div>
 

@@ -22,6 +22,9 @@ import * as employeeActions from '../../actions/employeeActions';
 import UncheckedIcon from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 import CheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
+
 class PersonList extends React.Component{
   constructor(props){
     super(props);
@@ -29,7 +32,11 @@ class PersonList extends React.Component{
       numberItem: 0
     };
     this.handleClick = this.handleClick.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
 
+  onChange(current, pageSize) {
+    this.props.actions.loadEmployeeList(true,current-1);
   }
 
   handleClick(e){
@@ -80,8 +87,14 @@ class PersonList extends React.Component{
 
     return(
       <List>
-        <div style={{overflowY:'scroll', height: '500px'}}>
+        <div style={{overflowY:'scroll', height: '760px'}}>
           {rows}
+          <Pagination 
+            className="ant-pagination"
+            pageSize={this.props.paging.size} 
+            total={this.props.paging.totalElement} 
+            onChange={this.onChange}
+          />
         </div>
       </List>
     );
@@ -90,7 +103,8 @@ class PersonList extends React.Component{
 
 function mapStateToProps(state, ownProps){
     return {
-        employees: state.employees  //state.employees refers to reducers/index.js
+        employees: state.employees,  //state.employees refers to reducers/index.js
+        paging: state.paging
     };
 }
 

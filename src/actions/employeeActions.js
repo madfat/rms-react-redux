@@ -11,15 +11,22 @@ export function loadEmployeeListSuccess(employees) {
   };
 }
 
-export function loadEmployeeList(setCurrent){
+export function loadEmployeeList(setCurrent, page){
   return function(dispatch){
-    return axios.get(RMSConst.baseURI + '/api/employees?&page=1&size=10')
+    return axios.get(RMSConst.baseURI + '/api/employees?&page='+ page +'&size=8')
       .then(function(response){
-        const extracted_employees = response["data"]["content"];
+        const resData = response["data"];
+        const extracted_employees = resData["content"];
+        const pageInfo = {"size": resData.size,
+            "totalElement": resData.totalElements,
+            "number": resData.number
+            };
         dispatch(loadEmployeeListSuccess(extracted_employees));
         if (setCurrent==true){
           dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
         }
+        
+        dispatch(setEmployeesPagingSuccess(pageInfo));
       })
       .catch(function(error){
         throw(error);
@@ -41,7 +48,7 @@ export function editEmployee(updatedEmployee){
         dispatch(editEmployeeSuccess(response["data"]));
       })
       .then(function(){
-        dispatch(loadEmployeeList())
+        dispatch(loadEmployeeList(false,0))
       });
   };
 }
@@ -58,8 +65,7 @@ export function createEmployee(newEmployee){
     return axios.post(RMSConst.baseURI + '/api/employee/', newEmployee)
       .then(function(response){
         dispatch(createEmployeeSuccess(response));
-        dispatch(loadEmployeeList(false));
-        debugger;
+        dispatch(loadEmployeeList(false,1));
         dispatch(setCurrentEmployeeSuccess(response["data"]));
       })
   }
@@ -75,16 +81,36 @@ export function findEmployeeByNameSuccess(employees){
 export function findEmployeeByName(name) {
   return function(dispatch){
     if(name==''){
-      dispatch(loadEmployeeList(true));
+      dispatch(loadEmployeeList(true,0));
     }else{
-      return axios.get(RMSConst.baseURI + '/api/employees/findbyname/'+ name +'?page=0&size=10')
+      return axios.get(RMSConst.baseURI + '/api/employees/findbyname/'+ name +'?page=0&size=8')
         .then(function(response){
-          const extracted_employees = response["data"]["content"];
+          const resData = response['data'];
+          const extracted_employees = resData["content"];
+          const pageInfo = {"size": resData.size,
+            "totalElement": resData.totalElements,
+            "number": resData.number
+            };
+
           dispatch(findEmployeeByNameSuccess(extracted_employees));
           dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
+          dispatch(setEmployeesPagingSuccess(pageInfo));
         })
     }
   };
+}
+
+export function setEmployeesPagingSuccess(page){
+  return {
+    type: types.SET_EMPLOYEES_PAGING,
+    page
+  }
+}
+
+export function setEmployeesPaging(page){
+  return function(dispatch){
+    dispatch(setEmployeesPagingSuccess(page))
+  }
 }
 
 export function updateEmployeeListSuccess(modifiedEmployee) {

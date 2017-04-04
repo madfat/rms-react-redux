@@ -13,5 +13,11 @@ export default {
     JOBFAM: [],
     STREAM: [],
     GENDER: []
+  },
+  paging: {
+    totalElement: 0, 
+    number: 0,
+    size: 0,
+    current: 1
   }
 };
