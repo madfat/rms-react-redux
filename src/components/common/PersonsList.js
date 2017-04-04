@@ -29,14 +29,24 @@ class PersonList extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      numberItem: 0
+      numberItem: 0,
+      current: 0
     };
     this.handleClick = this.handleClick.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidMount(){
+    this.setState({
+      current: this.props.paging.current
+    })
+  }
+
   onChange(current, pageSize) {
     this.props.actions.loadEmployeeList(true,current-1);
+    this.setState({
+      current: current
+    });
   }
 
   handleClick(e){
@@ -90,6 +100,7 @@ class PersonList extends React.Component{
         <div style={{overflowY:'scroll', height: '760px'}}>
           {rows}
           <Pagination 
+            current={this.state.current}
             className="ant-pagination"
             pageSize={this.props.paging.size} 
             total={this.props.paging.totalElement} 
