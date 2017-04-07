@@ -28,34 +28,34 @@ class GradeHistoryRow extends React.Component{
   }
 
   render(){
-    const startDate = Util.parseStrToDate(this.props.grade.startDate);
-    const endDate = Util.parseStrToDate(this.props.grade.endDate);
+    const startDate = this.props.grade.startDate;
+    const endDate = this.props.grade.endDate;
 
     return(
       <TableRow key={this.props.index}>
+        <TableRowColumn>
+          <TextField
+            id="devStage"
+            value={this.props.grade.grade}
+            disabled={true}
+            underlineShow={false}
+            style={styles.FormField}
+          />
+        </TableRowColumn> 
         <TableRowColumn>
           <NumericInput
             id='grade'
             className="numeric-input"
             min={1}
             max={20}
-            value={this.props.grade.grade}
-            disabled={this.props.selectedIndex==this.props.index?false:true}
-            onChange={(event) => this.handleChangeValue(event,'grade')}
-          />
-        </TableRowColumn> 
-        <TableRowColumn>
-          <TextField
-            id="devStage"
             value={this.props.grade.devStage}
-            disabled={true}
-            underlineShow={false}
-            style={styles.FormField}
+            disabled={this.props.selectedIndex==this.props.index?false:true}
+            onChange={(event) => this.handleChangeValue(event,'devStage')}
           />
         </TableRowColumn>
         <TableRowColumn>
           <DatePicker
-            value={startDate}
+            value={startDate==null ? {}:Util.parseStrToDate(startDate)}
             onChange={(event, date) => this.handleDateField(event,date,'startDate')} 
             disabled={this.props.selectedIndex==this.props.index?false:true}
             underlineShow={false}
@@ -64,7 +64,7 @@ class GradeHistoryRow extends React.Component{
         </TableRowColumn>
         <TableRowColumn>
           <DatePicker
-            value={endDate}
+            value={endDate==null ? {} : Util.parseStrToDate(endDate)}
             onChange={(event, date) => this.handleDateField(event,date,'endDate')} 
             disabled={true}
             underlineShow={false}

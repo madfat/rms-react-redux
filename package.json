@@ -24,6 +24,7 @@
     "material-design-icons": "*",
     "material-design-lite": "*",
     "material-ui": "*",
+    "material-ui-superselectfield": "^1.5.3",
     "moment": "^2.18.1",
     "rc-pagination": "^1.8.2",
     "react": "*",

@@ -64,13 +64,15 @@ class ModalEmployee extends React.Component{
 
   handleNext(){
     const {stepIndex} = this.state;
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 5,
-    });
-    this.props.actions.setNewEmployee(this.props.newEmployee);
-    if (stepIndex==5){
-      this.props.AddNewEmployeeFinished(true);
+    if (this.props.newEmployee.firstName != undefined) {
+      this.setState({
+        stepIndex: stepIndex + 1,
+        finished: stepIndex >= 5,
+      });
+      this.props.actions.setNewEmployee(this.props.newEmployee);
+      if (stepIndex==5){
+        this.props.AddNewEmployeeFinished(true);
+      }
     }
   }
 
@@ -196,6 +198,11 @@ class ModalEmployee extends React.Component{
       </div>
     );
   }
+}
+
+ModalEmployee.propTypes = {
+  actions: React.PropTypes.object,
+  newEmployee: React.PropTypes.object
 }
 
 function mapStateToProps(state, ownProps){

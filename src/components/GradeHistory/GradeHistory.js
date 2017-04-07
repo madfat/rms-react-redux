@@ -7,6 +7,8 @@ import GradeHistoryRow from './GradeHistoryRow';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import update from 'react-addons-update';
+import * as Util from '../common/util'
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as employeeActions from '../../actions/employeeActions';
@@ -50,40 +52,45 @@ class GradeHistory extends React.Component{
 
   handleSaveMode(index){
     const tmpPerson = this.props.person;
-    tmpPerson['gradeHistory'] = this.state.gradeHistory;
+    tmpPerson['gradeHistories'] = this.state.gradeHistory;
+    debugger;
 
     if (this.props.createMode){
       this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
       this.props.actions.setCurrentEmployee(tmpPerson);
+      this.props.actions.editEmployee(tmpPerson)
     }
     this.setState({selectedIndex: null});
   }
 
   handleDeleteClick(index){
-    this.state.gradeHistory.splice(index,1);
-    const tmpPerson = this.props.person;
-    tmpPerson['gradeHistory'] = this.state.gradeHistory;
+    const id = this.state.gradeHistory[index].id;
+    this.props.actions.deleteGradeHistoryItem(id); 
 
-    if (this.props.createMode){
-      this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
-      this.props.actions.setNewEmployee(this.props.newEmployee);
-    } else {
-      this.props.actions.setCurrentEmployee(tmpPerson);
-      this.setState({gradeHistory: tmpPerson.gradeHistory});
-    }
+    // this.state.gradeHistory.splice(index,1);
+    // const tmpPerson = this.props.person;
+    // tmpPerson['gradeHistory'] = this.state.gradeHistory;
+
+    // if (this.props.createMode){
+    //   this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;
+    //   this.props.actions.setNewEmployee(this.props.newEmployee);
+    // } else {
+    //   this.props.actions.setCurrentEmployee(tmpPerson);
+    //   this.setState({gradeHistory: tmpPerson.gradeHistory});
+    // }
 
   }
 
   handleAddGrade(){
     let newLine = {
-      'startDate': {},
-      'endDate':{},
+      'startDate': null,
+      'endDate': null,
       'grade':'',
       'devStage':''
     };
-    let a = Object.assign([],this.props.person.gradeHistory);
+    let a = Object.assign([],this.state.gradeHistory);
     a.push(newLine);
     this.setState({gradeHistory: a});
   }
@@ -103,14 +110,14 @@ class GradeHistory extends React.Component{
     });
     this.state.gradeHistory = newGradeHistory;
 //    this.setState({gradeHistory: newGradeHistory});
-    if (newGradeHistory[indexGrade].grade > 0 && newGradeHistory[indexGrade].grade < 6){
-      this.setStage('devStage', 'JP', indexGrade, newGradeHistory);
-    }else if (newGradeHistory[indexGrade].grade > 5 && newGradeHistory[indexGrade].grade < 9) {
-      this.setStage('devStage', 'PG', indexGrade, newGradeHistory);
-    }else if (newGradeHistory[indexGrade].grade > 8 && newGradeHistory[indexGrade].grade < 16) {
-      this.setStage('devStage', 'AP', indexGrade, newGradeHistory);
-    }else if (newGradeHistory[indexGrade].grade > 15 && newGradeHistory[indexGrade].grade < 21) {
-      this.setStage('devStage', 'AN', indexGrade, newGradeHistory);
+    if (newGradeHistory[indexGrade].devStage > 0 && newGradeHistory[indexGrade].devStage < 6){
+      this.setStage('grade', 'JP', indexGrade, newGradeHistory);
+    }else if (newGradeHistory[indexGrade].devStage > 5 && newGradeHistory[indexGrade].devStage < 9) {
+      this.setStage('grade', 'PG', indexGrade, newGradeHistory);
+    }else if (newGradeHistory[indexGrade].devStage > 8 && newGradeHistory[indexGrade].devStage < 16) {
+      this.setStage('grade', 'AP', indexGrade, newGradeHistory);
+    }else if (newGradeHistory[indexGrade].devStage > 15 && newGradeHistory[indexGrade].devStage < 21) {
+      this.setStage('grade', 'AN', indexGrade, newGradeHistory);
     }
   }
 

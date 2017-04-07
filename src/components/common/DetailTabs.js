@@ -20,7 +20,6 @@ class DetailTabs extends React.Component{
   }
 
   tabClicked (e) {
-    this.props.setCurrentTab(e.props.value);
     browserHistory.push('/' + e.props.value);
   }
 

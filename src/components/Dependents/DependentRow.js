@@ -8,6 +8,7 @@ import Checkbox from 'material-ui/Checkbox';
 import * as styles from '../common/styles';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import * as Util from '../common/util';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -84,7 +85,7 @@ class DependentRow extends React.Component{
           </TableRowColumn> 
           <TableRowColumn>
             <DatePicker
-              value={this.props.dependent.dob}
+              value={this.props.dependent.dob == null ? {} : Util.parseStrToDate(this.props.dependent.dob)}
               onChange={(event, date) => this.handleDateField(event,date,'dob')} 
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}

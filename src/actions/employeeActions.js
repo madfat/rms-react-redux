@@ -19,7 +19,7 @@ export function loadEmployeeList(setCurrent, page){
         const extracted_employees = resData["content"];
         const pageInfo = {"size": resData.size,
             "totalElement": resData.totalElements,
-            "number": resData.number
+            "number": resData.number,
             };
         dispatch(loadEmployeeListSuccess(extracted_employees));
         if (setCurrent==true){
@@ -38,7 +38,7 @@ export function editEmployeeSuccess(updatedEmployee){
   return {
     type: types.EDIT_EMPLOYEE_SUCCESS,
     updatedEmployee
-  }
+  };
 }
 
 export function editEmployee(updatedEmployee){
@@ -48,7 +48,7 @@ export function editEmployee(updatedEmployee){
         dispatch(editEmployeeSuccess(response["data"]));
       })
       .then(function(){
-        dispatch(loadEmployeeList(false,0))
+        dispatch(loadEmployeeList(false,0));
       });
   };
 }
@@ -57,7 +57,7 @@ export function createEmployeeSuccess(newEmployee){
   return {
     type: types.CREATE_EMPLOYEE_SUCCESS,
     newEmployee
-  }
+  };
 }
 
 export function createEmployee(newEmployee){
@@ -65,10 +65,10 @@ export function createEmployee(newEmployee){
     return axios.post(RMSConst.baseURI + '/api/employee/', newEmployee)
       .then(function(response){
         dispatch(createEmployeeSuccess(response));
-        dispatch(loadEmployeeList(false,1));
+        dispatch(loadEmployeeList(false,0));
         dispatch(setCurrentEmployeeSuccess(response["data"]));
-      })
-  }
+      });
+  };
 }
 
 export function findEmployeeByNameSuccess(employees){
@@ -95,7 +95,7 @@ export function findEmployeeByName(name) {
           dispatch(findEmployeeByNameSuccess(extracted_employees));
           dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
           dispatch(setEmployeesPagingSuccess(pageInfo));
-        })
+        });
     }
   };
 }
@@ -104,12 +104,30 @@ export function setEmployeesPagingSuccess(page){
   return {
     type: types.SET_EMPLOYEES_PAGING,
     page
-  }
+  };
 }
 
 export function setEmployeesPaging(page){
   return function(dispatch){
-    dispatch(setEmployeesPagingSuccess(page))
+    dispatch(setEmployeesPagingSuccess(page));
+  };
+}
+
+export function deleteGradeHistoryItemSuccess(updatedCurrentEmployee) {
+  debugger;
+  return {
+    type: types.DELETE_GRADE_HISTORY_ITEM,
+    updatedCurrentEmployee
+  }
+}
+
+export function deleteGradeHistoryItem(id) {
+  debugger;
+  return function(dispatch){
+    return axios.delete(RMSConst.baseURI + '/api/gradehistory/' + id)
+      .then(function(){
+        dispatch(loadEmployeeList(false,0));
+      });
   }
 }
 
@@ -139,6 +157,25 @@ export function setOpenDialogSuccess(openDialog) {
   return {
     type: types.SET_OPEN_DIALOG,
     openDialog
+  };
+}
+
+export function setOpenDialog(openDialog){
+  return function(dispatch) {
+    dispatch(setOpenDialogSuccess(openDialog));
+  };
+}
+
+export function openFilterDialogSuccess(openFilter) {
+  return {
+    type: types.OPEN_FILTER_DIALOG,
+    openFilter
+  };
+}
+
+export function openFilterDialog(openDialog){
+  return function(dispatch) {
+    dispatch(openFilterDialogSuccess(openDialog));
   };
 }
 
@@ -177,14 +214,9 @@ export function setCurrentEmployee(employee){
   };
 }
 
-export function setOpenDialog(openDialog){
-  return function(dispatch) {
-    dispatch(setOpenDialogSuccess(openDialog));
-  };
-}
-
 export function setNewEmployee(newEmployee) {
   return function(dispatch){
     dispatch(setNewEmployeeSuccess(newEmployee));
   };
 }
+

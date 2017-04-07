@@ -4,8 +4,6 @@ import FontIcon from 'material-ui/FontIcon';
 import * as styles from './styles.js';
 import PersonsList from './PersonsList';
 import SearchBar from './SearchBar';
-import Sort from './Sort';
-import Filter from './Filter';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -21,24 +19,30 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as employeeActions from '../../actions/employeeActions';
+import IconButton from 'material-ui/IconButton';
+import ContentFilterList from 'material-ui/svg-icons/content/filter-list';
+import ContentSort from 'material-ui/svg-icons/content/sort';
+import {white} from 'material-ui/styles/colors';
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
+import Filtering from '../Modal/Filtering';
 
 class Main extends React.Component {
   constructor(props){ 
     super(props);  
           
     this.state = {
-      filterText:'',
-      counterList: 0,
-      newEmployee: {},
-      SearchResult: [],
       ShowAction: false,
-      currentTab:'detail'
+      current: 0,
+      showFilter: false
     };
     this.handleSave = this.handleSave.bind(this);
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
     this.AddNewEmployeeFinished = this.AddNewEmployeeFinished.bind(this);
-    this.setCurrentTab = this.setCurrentTab.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.showFilterModal = this.showFilterModal.bind(this);
+    this.handleFilterClose = this.handleFilterClose.bind(this);
   }
 
   componentDidMount(){
@@ -51,11 +55,21 @@ class Main extends React.Component {
     this.props.actions.loadLookup('DEPTYPE');
     this.props.actions.loadLookup('JOBFAM');
     this.props.actions.loadLookup('GENDER');
+    this.setState({
+      current: this.props.paging.current
+    });
+  }
+
+  onChange(current, pageSize) {
+    this.props.actions.loadEmployeeList(true,current-1);
+    this.setState({
+      current: current
+    });
   }
 
   handleOpen(){
     this.props.actions.setOpenDialog(true);
-    this.setState({ShowAction: false})
+    this.setState({ShowAction: false});
   }
 
   handleSave(){
@@ -72,8 +86,12 @@ class Main extends React.Component {
     this.setState({ShowAction: e});
   }
 
-  setCurrentTab(value){
-    this.setState({currentTab: value})
+  showFilterModal(){
+    this.props.actions.openFilterDialog(true);
+  }
+
+  handleFilterClose(){
+    this.props.actions.openFilterDialog(false);
   }
 
   render() {
@@ -91,28 +109,45 @@ class Main extends React.Component {
     ;
     return (
       <main className="mdl-layout__content">
+        <Dialog 
+          title="Filtering Employee"
+          modal={false}
+          onRequestClose={this.handleFilterClose}
+          autoScrollBodyContent={true}
+          open={this.props.openFilter}>
+          <Filtering />
+        </Dialog>
+
         <div className="mdl-grid">
 
           <div className="mdl-cell mdl-cell--4-col">
             <div className="mdl-sub">
               <div className="mdl-sub__header-row">
                 
-                <SearchBar
-                  filterText={this.state.filterText}
-                  onUserInput={this.handleUserInput}
-                />
+                <SearchBar />
 
                 <div className="mdl-layout-spacer" />
 
-                <Sort />
+                <IconButton tooltip="Sort">
+                    <ContentSort color={white}/>
+                </IconButton>
 
-                <Filter />
+                <IconButton tooltip="Filtering" onClick={this.showFilterModal}>
+                    <ContentFilterList color={white} />
+                </IconButton>
 
-                <Chip>{this.props.employees.length}</Chip>
+                <Chip>{this.props.paging.totalElement}</Chip>
               </div>
             </div>
 
             <PersonsList />
+            <Pagination 
+              current={this.state.current}
+              className="ant-pagination"
+              pageSize={this.props.paging.size} 
+              total={this.props.paging.totalElement} 
+              onChange={this.onChange}
+            />
 
           </div>
 
@@ -148,15 +183,21 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-  actions: React.PropTypes.object.isRequired
-}
+  actions: React.PropTypes.object.isRequired,
+  newEmployee: React.PropTypes.object,
+  employees: React.PropTypes.array,
+  openDialog: React.PropTypes.bool,
+  paging: React.PropTypes.object
+};
 
 function mapStateToProps(state, ownProps){
     return {
         openDialog: state.openDialog,  //state.openDialog refers to reducers/index.js
         newEmployee: state.newEmployee,
         employees: state.employees,
-        lookup: state.lookup
+        lookup: state.lookup,
+        paging: state.paging,
+        openFilter: state.openFilter
     };
 }
 

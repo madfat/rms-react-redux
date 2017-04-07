@@ -10,7 +10,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import * as styles from './styles';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import ModalEmployee from './ModalEmployee';
+
 import {
   Step,
   Stepper,
@@ -22,42 +22,21 @@ import * as employeeActions from '../../actions/employeeActions';
 import UncheckedIcon from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 import CheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 
-import Pagination from 'rc-pagination';
-import 'rc-pagination/assets/index.css';
-
 class PersonList extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      numberItem: 0,
-      current: 0
+      numberItem: 0
     };
     this.handleClick = this.handleClick.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentDidMount(){
-    this.setState({
-      current: this.props.paging.current
-    })
-  }
-
-  onChange(current, pageSize) {
-    this.props.actions.loadEmployeeList(true,current-1);
-    this.setState({
-      current: current
-    });
+    this.renderListItem = this.renderListItem.bind(this);
   }
 
   handleClick(e){
     this.props.actions.setCurrentEmployee(e);
   }
 
-  updateCounter(e){
-    this.props.updateCounter(e)
-  }
-
-  render(){
+  renderListItem(employee){
     const temp = {
       dt: {
         float: "right",
@@ -65,52 +44,59 @@ class PersonList extends React.Component{
       },
       ck: {
         top: "20px"
-      }
-      
-    }
+      }     
+    };
+
+    return(
+      <div key={employee.id}>
+        <ListItem 
+          leftAvatar={<Avatar src={require('../../img/test.png')} />}
+          primaryText={
+            <span>
+              <b>{employee.firstName} {employee.lastName}</b>
+            </span>
+          }
+          secondaryText={
+            <p>
+              <span>{employee.division + '-' + employee.grade + ', ' + employee.stream + ' ' + employee.jobFamily}</span><br />
+              <small>{employee.location + ', ' + employee.phone}</small>
+            </p>
+          }
+          rightIcon={
+            employee.activeInd == true ? <CheckedIcon style={temp.ck} /> : <UncheckedIcon style={temp.ck} />
+          }
+          secondaryTextLines={2}
+            onClick = {this.handleClick.bind(this, employee)}
+            key={employee.id} 
+        />
+        
+        <Divider inset={true} />
+      </div>
+    );
+  }
+
+  render(){
+
     let rows = [];
     this.props.employees.forEach(function(employee) {
-      
-
-      rows.push(<div key={employee.id}><ListItem 
-                  leftAvatar={<Avatar src={require('../../img/test.png')} />}
-                  primaryText={
-                    <span>
-                      <b>{employee.firstName} {employee.lastName}</b>
-                    </span>
-                  }
-                  secondaryText={
-                    <p>
-                      <span>{employee.division + '-' + employee.grade + ', ' + employee.stream + ' ' + employee.jobFamily}</span><br />
-                      <small>{employee.location + ', ' + employee.phone}</small>
-                    </p>
-                  }
-                  rightIcon={
-                      <CheckedIcon style={temp.ck} />
-                  }
-                  secondaryTextLines={2}
-                  onClick = {this.handleClick.bind(this, employee)}
-                  key={employee.id} />
-                  <Divider inset={true} />
-                </div>);
+      rows.push(this.renderListItem(employee));
     }, this);
 
     return(
       <List>
         <div style={{overflowY:'scroll', height: '760px'}}>
           {rows}
-          <Pagination 
-            current={this.state.current}
-            className="ant-pagination"
-            pageSize={this.props.paging.size} 
-            total={this.props.paging.totalElement} 
-            onChange={this.onChange}
-          />
         </div>
       </List>
     );
   }
 }
+
+PersonList.propTypes = {
+  paging: React.PropTypes.object,
+  employees: React.PropTypes.array,
+  actions: React.PropTypes.object
+};
 
 function mapStateToProps(state, ownProps){
     return {

@@ -56,7 +56,8 @@ class EmployeeDetail extends React.Component{
           employmentHistories: [],
           locationHistory:[],
           addressHistory:[]
-      }
+      },
+      errorExist: true
     };
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
@@ -196,7 +197,7 @@ class EmployeeDetail extends React.Component{
   }
 
   handleSaveClick(){
-    this.setState({protectMode: true});
+    
     let newDetailPerson = Object.assign(this.props.currentEmployee, {
       firstName: this.state.firstName,
       lastName: this.state.lastName, 
@@ -217,8 +218,12 @@ class EmployeeDetail extends React.Component{
     if (this.props.createMode) {
       this.props.actions.setNewEmployee(newDetailPerson);
     } else {
-      this.props.actions.editEmployee(newDetailPerson);
-      this.props.actions.setCurrentEmployee(newDetailPerson);
+      const emp = this.props.currentEmployee;
+      if (emp.firstName != '' && emp.lastName != '') {
+        this.setState({protectMode: true});
+        this.props.actions.editEmployee(newDetailPerson);
+        this.props.actions.setCurrentEmployee(newDetailPerson);
+      }
     }
   }
   
@@ -277,6 +282,7 @@ class EmployeeDetail extends React.Component{
               value={this.state.firstName}
               onChange={this.handleFirstNameChange}
               disabled={this.state.protectMode}
+              errorText={this.state.firstName == "" ? "Input required" : ""}
             />
           </div>
           <div className="mdl-cell mdl-cell--5-col">
@@ -287,6 +293,7 @@ class EmployeeDetail extends React.Component{
               value={this.state.lastName}
               onChange={this.handleLastNameChange}
               disabled={this.state.protectMode}
+              errorText={this.state.lastName == "" ? "Input required" : ""}
             />
           </div>        
         </div>
@@ -350,6 +357,7 @@ class EmployeeDetail extends React.Component{
             value={this.state.hiredDate}
             onChange={(event, date) => this.handleHiredDate(event, date)} 
             disabled={this.state.protectMode}
+            errorText={this.state.hiredDate == "" ? "Input required" : ""}
           />
           </div> 
         </div>
