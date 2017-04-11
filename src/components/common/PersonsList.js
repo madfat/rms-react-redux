@@ -78,9 +78,13 @@ class PersonList extends React.Component{
   render(){
 
     let rows = [];
-    this.props.employees.forEach(function(employee) {
-      rows.push(this.renderListItem(employee));
-    }, this);
+    if (this.props.employees.length < 1){
+      rows.push('no record found');
+    }else{
+      this.props.employees.forEach(function(employee) {
+        rows.push(this.renderListItem(employee));
+      }, this);      
+    }
 
     return(
       <List>

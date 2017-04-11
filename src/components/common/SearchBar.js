@@ -7,15 +7,16 @@ import * as employeeActions from '../../actions/employeeActions';
 class SearchBar extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      keyword: ''
-    }
+    // this.state = {
+    //   keyword: ''
+    // }
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e){
-    this.setState({keyword: e.target.value});
-    this.props.actions.findEmployeeByName(e.target.value);
+//    this.setState({keyword: e.target.value});
+    this.props.updateKeyword(e.target.value);
+    this.props.actions.findEmployeeByName(e.target.value,0);
   }
 
   render(){
@@ -26,7 +27,7 @@ class SearchBar extends React.Component{
         </label>
         <div className="mdl-textfield__expandable-holder">
           <input className="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp"
-            value={this.state.keyword}
+            value={this.props.keyword}
             onChange={this.handleChange}
           />
         </div>

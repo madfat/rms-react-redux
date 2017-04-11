@@ -9,6 +9,9 @@ export default function employeeReducer(state = intialState.employees, action) {
     case types.FIND_EMPLOYEE_BY_NAME:
       return action.employees;
 
+    case types.FIND_EMPLOYEES_BY_FILTER:
+      return action.employees;
+
     default:
       return state;
   }

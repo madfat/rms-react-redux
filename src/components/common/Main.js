@@ -34,7 +34,9 @@ class Main extends React.Component {
     this.state = {
       ShowAction: false,
       current: 0,
-      showFilter: false
+      showFilter: false,
+      keyword: '',
+      filter: {grade: '', location: '', gender: ''}
     };
     this.handleSave = this.handleSave.bind(this);
     this.handleCancelCreate = this.handleCancelCreate.bind(this);
@@ -43,6 +45,8 @@ class Main extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.showFilterModal = this.showFilterModal.bind(this);
     this.handleFilterClose = this.handleFilterClose.bind(this);
+    this.updateKeyword = this.updateKeyword.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
   }
 
   componentDidMount(){
@@ -55,13 +59,38 @@ class Main extends React.Component {
     this.props.actions.loadLookup('DEPTYPE');
     this.props.actions.loadLookup('JOBFAM');
     this.props.actions.loadLookup('GENDER');
+    this.props.actions.loadLookup('LOC');
     this.setState({
       current: this.props.paging.current
     });
   }
 
+  updateKeyword(word){
+    this.setState({keyword: word});
+  }
+
+  updateFilter(key, value){
+    debugger;
+    const criteria = this.state.filter;
+    criteria[key] = value;
+    this.setState({
+      filter: criteria
+    });
+  }
+
   onChange(current, pageSize) {
-    this.props.actions.loadEmployeeList(true,current-1);
+    if (this.props.isEmployeesFiltered.byName) {
+      this.props.actions.findEmployeeByName(this.state.keyword,current-1);
+    }
+
+    if (this.props.isEmployeesFiltered.byFilter) {
+      this.props.actions.findEmployeesByFilter(this.state.filter, current-1);
+    }
+
+    if (this.props.isEmployeesFiltered.all) {
+      this.props.actions.loadEmployeeList(true,current-1);
+    }
+    
     this.setState({
       current: current
     });
@@ -115,7 +144,7 @@ class Main extends React.Component {
           onRequestClose={this.handleFilterClose}
           autoScrollBodyContent={true}
           open={this.props.openFilter}>
-          <Filtering />
+          <Filtering updateFilter={this.updateFilter} filter={this.state.filter} />
         </Dialog>
 
         <div className="mdl-grid">
@@ -124,7 +153,7 @@ class Main extends React.Component {
             <div className="mdl-sub">
               <div className="mdl-sub__header-row">
                 
-                <SearchBar />
+                <SearchBar keyword={this.state.keyword} updateKeyword={this.updateKeyword} />
 
                 <div className="mdl-layout-spacer" />
 
@@ -187,7 +216,9 @@ Main.propTypes = {
   newEmployee: React.PropTypes.object,
   employees: React.PropTypes.array,
   openDialog: React.PropTypes.bool,
-  paging: React.PropTypes.object
+  paging: React.PropTypes.object,
+  isEmployeesFiltered: React.PropTypes.object,
+  openFilter: React.PropTypes.bool
 };
 
 function mapStateToProps(state, ownProps){
@@ -197,7 +228,8 @@ function mapStateToProps(state, ownProps){
         employees: state.employees,
         lookup: state.lookup,
         paging: state.paging,
-        openFilter: state.openFilter
+        openFilter: state.openFilter,
+        isEmployeesFiltered: state.isEmployeesFiltered
     };
 }
 

@@ -8,7 +8,6 @@ export default function currentEmployeeReducer(state = intialState.currentEmploy
     case types.EDIT_EMPLOYEE_SUCCESS:
       return action.updatedEmployee;
     case types.DELETE_GRADE_HISTORY_ITEM:
-      debugger; 
       return action.updatedCurrentEmployee
 
     default:

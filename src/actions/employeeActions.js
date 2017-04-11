@@ -4,6 +4,13 @@ import dummyEmployee from '../dummyData/employees';
 import fetch from 'isomorphic-fetch';
 import * as RMSConst from './constant';
 
+export function isEmployeesFilteredSuccess(flag) {
+  return {
+    type: types.EMPLOYEES_FILTERED,
+    flag
+  };
+}
+
 export function loadEmployeeListSuccess(employees) {
   return {
     type: types.LOAD_EMPLOYEE_LIST_SUCCESS, 
@@ -13,7 +20,7 @@ export function loadEmployeeListSuccess(employees) {
 
 export function loadEmployeeList(setCurrent, page){
   return function(dispatch){
-    return axios.get(RMSConst.baseURI + '/api/employees?&page='+ page +'&size=8')
+    return axios.get(RMSConst.baseURI + '/api/employees?&page='+ page +'&size='+ RMSConst.sizePerPage)
       .then(function(response){
         const resData = response["data"];
         const extracted_employees = resData["content"];
@@ -26,6 +33,7 @@ export function loadEmployeeList(setCurrent, page){
           dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
         }
         
+        dispatch(isEmployeesFilteredSuccess({"all": true, 'byName': false, 'byFilter': false}));
         dispatch(setEmployeesPagingSuccess(pageInfo));
       })
       .catch(function(error){
@@ -78,12 +86,12 @@ export function findEmployeeByNameSuccess(employees){
   };
 }
 
-export function findEmployeeByName(name) {
+export function findEmployeeByName(name,page) {
   return function(dispatch){
     if(name==''){
       dispatch(loadEmployeeList(true,0));
     }else{
-      return axios.get(RMSConst.baseURI + '/api/employees/findbyname/'+ name +'?page=0&size=8')
+      return axios.get(RMSConst.baseURI + '/api/employees/findbyname/'+ name +'?page='+ page +'&size='+ RMSConst.sizePerPage)
         .then(function(response){
           const resData = response['data'];
           const extracted_employees = resData["content"];
@@ -95,8 +103,35 @@ export function findEmployeeByName(name) {
           dispatch(findEmployeeByNameSuccess(extracted_employees));
           dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
           dispatch(setEmployeesPagingSuccess(pageInfo));
+          dispatch(isEmployeesFilteredSuccess({'byName': true, 'all': false, 'byFilter': false}));
         });
     }
+  };
+}
+
+export function findEmployeesByFilterSuccess(employees){
+  return {
+    type: types.FIND_EMPLOYEES_BY_FILTER,
+    employees
+  };
+}
+
+export function findEmployeesByFilter(filter, page) {
+  return function(dispatch){
+    return axios.post(RMSConst.baseURI + '/api/employees/findbycriteria?page='+ page +'&size='+ RMSConst.sizePerPage, filter)
+      .then(function(response){
+          const resData = response['data'];
+          const extracted_employees = resData["content"];
+          const pageInfo = {"size": resData.size,
+            "totalElement": resData.totalElements,
+            "number": resData.number
+            };
+
+          dispatch(setEmployeesPagingSuccess(pageInfo));
+          dispatch(findEmployeesByFilterSuccess(extracted_employees));
+          dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
+          dispatch(isEmployeesFilteredSuccess({'all': false, 'byFilter': true, 'byName': false}));
+    });
   };
 }
 
@@ -114,21 +149,19 @@ export function setEmployeesPaging(page){
 }
 
 export function deleteGradeHistoryItemSuccess(updatedCurrentEmployee) {
-  debugger;
   return {
     type: types.DELETE_GRADE_HISTORY_ITEM,
     updatedCurrentEmployee
-  }
+  };
 }
 
 export function deleteGradeHistoryItem(id) {
-  debugger;
   return function(dispatch){
     return axios.delete(RMSConst.baseURI + '/api/gradehistory/' + id)
       .then(function(){
         dispatch(loadEmployeeList(false,0));
       });
-  }
+  };
 }
 
 export function updateEmployeeListSuccess(modifiedEmployee) {

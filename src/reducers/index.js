@@ -6,6 +6,7 @@ import newEmployee from './newEmployeeReducer';
 import lookup from './lookupReducer';
 import paging from './employeesPagingReducer';
 import openFilter from './FilterDialogReducer';
+import isEmployeesFiltered from './isFilteredReducer';
 
 const rootReducer = combineReducers({
   employees,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   newEmployee,
   lookup,
   paging,
-  openFilter
+  openFilter,
+  isEmployeesFiltered
 });
 
 export default rootReducer;

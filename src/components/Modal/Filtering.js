@@ -4,7 +4,7 @@ import * as styles from '../common/styles';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton/FlatButton'
+import FlatButton from 'material-ui/FlatButton/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {connect} from 'react-redux';
@@ -19,28 +19,41 @@ class Filtering extends React.Component{
     this.state = {
       gender: '',
       grade:'',
+      location: '',
       state21: [{ value: 'H' }],
       state22: [{ value: 'I' }],
       state23: [{ value: 'G' }]
     };
-    this.handleGenderChange = this.handleGenderChange.bind(this);
+
     this.doSearch = this.doSearch.bind(this);
   }
 
-  handleGenderChange(e,i,v){
-    this.setState({gender: v});
+  componentWillReceiveProps(nextProp){
+    this.setState({
+      gender: this.props.gender,
+      grade: this.props.grade,
+      location: this.props.location
+    });
   }
-  
-  handleGradeChange(e,i,v){
-    this.setState({grade: v});
+
+  handleSelectChange(e,i,v,field) {
+    this.setState({[field]: v});
+    // const criteria = {
+    //   gender: this.state.gender,
+    //   grade: this.state.grade,
+    //   location: this.state.location
+    // };
+    this.props.updateFilter(field, v);
   }
 
   doSearch(){
     this.props.actions.openFilterDialog(false);
-  }
-
-  handleSelection (values, name) { 
-    this.setState({ [name]: values });
+    const filterCriteria = {
+      gender: this.props.filter.gender,
+      grade: this.props.filter.grade,
+      location: this.props.filter.location
+    };
+    this.props.actions.findEmployeesByFilter(filterCriteria,0);
   }
 
   render(){
@@ -56,6 +69,12 @@ class Filtering extends React.Component{
       gradeLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
     });
 
+    const locationLookup=[];
+    locationLookup.push(<MenuItem key={-1} value={null} primaryText="" />);
+    this.props.lookup.LOC.forEach(function(item){
+      locationLookup.push(<MenuItem key={item.id} value={item.dataCode} primaryText={item.dataDesc} />);
+    });
+
     const styleButton = {
       margin: 5,
       float: 'right'
@@ -63,10 +82,9 @@ class Filtering extends React.Component{
 
     const displayState = state => state.length
       ? [...state].map(({ value, label }) => label || value).join(', ')
-      : 'empty state'
+      : 'empty state';
 
     const { state21, state22, state23 } = this.state;
-    console.debug('state21', state21, '\nstate22', state22, '\nstate23', state23)
 
     return(
       <div style={styles.FormControl}>
@@ -75,8 +93,8 @@ class Filtering extends React.Component{
             <SelectField
               id="gender"
               floatingLabelText="Gender"
-              value={this.state.gender}
-              onChange={(event, index, value)=> this.handleGenderChange(event, index, value)}
+              value={this.props.filter.gender}
+              onChange={(event, index, value)=> this.handleSelectChange(event, index, value, 'gender')}
               disabled={this.state.protectMode}
             >
               {genderLookup}
@@ -86,28 +104,28 @@ class Filtering extends React.Component{
             <SelectField
               id="grade"
               floatingLabelText="Grade"
-              value={this.state.grade}
-              onChange={(event, index, value)=> this.handleGradeChange(event, index, value)}
+              value={this.props.filter.grade}
+              onChange={(event, index, value)=> this.handleSelectChange(event, index, value, 'grade')}
               disabled={this.state.protectMode}
             >
               {gradeLookup}
             </SelectField>
           </div>
+          <div className="mdl-cell mdl-cell--6-col">
+            <SelectField
+              id="Location"
+              floatingLabelText="Location"
+              value={this.props.filter.location}
+              onChange={(event, index, value)=> this.handleSelectChange(event, index, value, 'location')}
+              disabled={this.state.protectMode}
+            >
+              {locationLookup}
+            </SelectField>
+          </div>
+
+
         </div>
-        <SuperSelectField
-          name='state21'
-          multiple
-          checkPosition='left'
-          hintText='Multiple values'
-          onChange={this.handleSelection}
-          value={state21}
-          style={{ minWidth: 150, marginRight: 40 }}
-          elementHeight={[36, 68, 36]}
-        >
-          <div value='G'>Option G</div>
-          <div value='H'>Option H super longue</div>
-          <div value='I'>Option I</div>
-        </SuperSelectField>
+
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--12-col">
             <RaisedButton label="Search" primary={true} style={styleButton} onClick={this.doSearch} />
@@ -119,7 +137,9 @@ class Filtering extends React.Component{
 }
 
 Filtering.propTypes = {
-  lookup: React.PropTypes.object
+  lookup: React.PropTypes.object,
+  actions: React.PropTypes.object,
+  filter: React.PropTypes.object
 };
 
 function mapStateToProps(state, ownProps){
