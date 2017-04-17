@@ -165,7 +165,7 @@ class Main extends React.Component {
                     <ContentFilterList color={white} />
                 </IconButton>
 
-                <Chip>{this.props.paging.totalElement}</Chip>
+                <Chip>{this.props.paging.totalElements}</Chip>
               </div>
             </div>
 
@@ -174,7 +174,7 @@ class Main extends React.Component {
               current={this.state.current}
               className="ant-pagination"
               pageSize={this.props.paging.size} 
-              total={this.props.paging.totalElement} 
+              total={this.props.paging.totalElements} 
               onChange={this.onChange}
             />
 

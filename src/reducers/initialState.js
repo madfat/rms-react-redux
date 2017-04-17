@@ -16,7 +16,7 @@ export default {
     LOC: []
   },
   paging: {
-    totalElement: 0, 
+    totalElements: 0, 
     number: 0,
     size: 0,
     current: 1

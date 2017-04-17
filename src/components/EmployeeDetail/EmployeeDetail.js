@@ -6,7 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import moment from 'moment';
-import * as Util from '../common/util'
+import * as Util from '../common/util';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -76,7 +76,7 @@ class EmployeeDetail extends React.Component{
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleCancelClick = this.handleCancelClick.bind(this);
-    this.updateNewEmployee = this.updateNewEmployee.bind(this)
+    this.updateNewEmployee = this.updateNewEmployee.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -193,7 +193,7 @@ class EmployeeDetail extends React.Component{
   updateNewEmployee(key,value){
     this.state.newEmployee[key] = value;
     let a = this.state.newEmployee;
-    this.props.actions.setNewEmployee(Object.assign(this.props.newEmployee, a))
+    this.props.actions.setNewEmployee(Object.assign(this.props.newEmployee, a));
   }
 
   handleSaveClick(){
@@ -239,8 +239,7 @@ class EmployeeDetail extends React.Component{
     if (!this.props.createMode){
       buttons =(
         <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--5-col">
-          </div>
+          <div className="mdl-cell mdl-cell--5-col" />
           <div className="mdl-cell mdl-cell--5-col">
             <RaisedButton label="Edit" primary={true} style={styleButton} disabled={!this.state.protectMode || this.state.id==''} onClick={this.handleEditClick}/>
             <RaisedButton label="Save" primary={true} style={styleButton} disabled={this.state.protectMode} onClick={this.handleSaveClick}/>
@@ -250,9 +249,9 @@ class EmployeeDetail extends React.Component{
       );
     }
 
-    var displayTitle = [];
+    const displayTitle = [];
     if (!this.props.createMode){
-      displayTitle.push(<h4 key='emp-detail'>Employee Detail</h4>);
+      displayTitle.push(<h4 key="emp-detail">Employee Detail</h4>);
     }
 
     const maritalLookup=[];
@@ -282,7 +281,7 @@ class EmployeeDetail extends React.Component{
               value={this.state.firstName}
               onChange={this.handleFirstNameChange}
               disabled={this.state.protectMode}
-              errorText={this.state.firstName == "" ? "Input required" : ""}
+              errorText={!this.state.firstName && 'Input required'}
             />
           </div>
           <div className="mdl-cell mdl-cell--5-col">
@@ -293,7 +292,7 @@ class EmployeeDetail extends React.Component{
               value={this.state.lastName}
               onChange={this.handleLastNameChange}
               disabled={this.state.protectMode}
-              errorText={this.state.lastName == "" ? "Input required" : ""}
+              errorText={!this.state.lastName && "Input required"}
             />
           </div>        
         </div>
@@ -437,6 +436,14 @@ class EmployeeDetail extends React.Component{
     
     
   }
+}
+
+EmployeeDetail.propTypes = {
+  createMode: React.PropTypes.bool,
+  actions: React.PropTypes.object,
+  newEmployee: React.PropTypes.object,
+  lookup:React.PropTypes.object ,
+  currentEmployee: React.PropTypes.object
 }
 
 function mapStateToProps(state, ownProps){

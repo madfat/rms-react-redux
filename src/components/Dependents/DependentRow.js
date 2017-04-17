@@ -63,8 +63,8 @@ class DependentRow extends React.Component{
           <TableRowColumn style={{width: '200px'}}>
             <TextField
               id="name"
-              value={fullName}
-              onChange={(event) => this.handleChangeValue(event,'name')}
+              value={this.props.dependent.firstName}
+              onChange={(event) => this.handleChangeValue(event,'firstName')}
               disabled={this.props.selectedIndex==this.props.index?false:true}
               underlineShow={false}
               style={styles.FormField}

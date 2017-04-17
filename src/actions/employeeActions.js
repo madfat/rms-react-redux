@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import axios from 'axios';
+
 import dummyEmployee from '../dummyData/employees';
 import fetch from 'isomorphic-fetch';
 import * as RMSConst from './constant';
@@ -18,14 +19,14 @@ export function loadEmployeeListSuccess(employees) {
   };
 }
 
-export function loadEmployeeList(setCurrent, page){
+export function loadEmployeeList1(setCurrent, page){
   return function(dispatch){
     return axios.get(RMSConst.baseURI + '/api/employees?&page='+ page +'&size='+ RMSConst.sizePerPage)
       .then(function(response){
         const resData = response["data"];
         const extracted_employees = resData["content"];
         const pageInfo = {"size": resData.size,
-            "totalElement": resData.totalElements,
+            "totalElements": resData.totalElements,
             "number": resData.number,
             };
         dispatch(loadEmployeeListSuccess(extracted_employees));
@@ -37,6 +38,33 @@ export function loadEmployeeList(setCurrent, page){
         dispatch(setEmployeesPagingSuccess(pageInfo));
       })
       .catch(function(error){
+        throw(error);
+      }); 
+  };
+}
+
+export function loadEmployeeList(setCurrent, page){
+  return function(dispatch){
+    const url = RMSConst.baseURI + '/api/employees?&page='+ page +'&size='+ RMSConst.sizePerPage;
+    return fetch(url)  
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        const extracted_employees = response["content"];
+        const pageInfo = {"size": response.size,
+                "totalElements": response.totalElements,
+                "number": response.number,
+              };
+        dispatch(loadEmployeeListSuccess(extracted_employees));
+        if (setCurrent==true){
+          dispatch(setCurrentEmployeeSuccess(extracted_employees[0]));
+        }
+        
+        dispatch(isEmployeesFilteredSuccess({"all": true, 'byName': false, 'byFilter': false}));
+        dispatch(setEmployeesPagingSuccess(pageInfo));
+      })
+      .catch((error)=>{
         throw(error);
       }); 
   };
@@ -68,13 +96,35 @@ export function createEmployeeSuccess(newEmployee){
   };
 }
 
-export function createEmployee(newEmployee){
+export function createEmployee1(newEmployee){
   return function(dispatch){
     return axios.post(RMSConst.baseURI + '/api/employee/', newEmployee)
       .then(function(response){
         dispatch(createEmployeeSuccess(response));
         dispatch(loadEmployeeList(false,0));
         dispatch(setCurrentEmployeeSuccess(response["data"]));
+      });
+  };
+}
+
+export function createEmployee(newEmployee){
+  return function(dispatch){
+    const parameters = {
+      method: 'POST',
+      body: JSON.stringify(newEmployee),
+      headers: {
+        'Content-type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    }
+    return fetch(RMSConst.baseURI + '/api/employee/', parameters)
+      .then(x=>x.json())
+      .then((response) => {
+        debugger;
+        dispatch(createEmployeeSuccess(response));
+        dispatch(loadEmployeeList(false,0));
+        dispatch(setCurrentEmployeeSuccess(response));
       });
   };
 }
@@ -96,7 +146,7 @@ export function findEmployeeByName(name,page) {
           const resData = response['data'];
           const extracted_employees = resData["content"];
           const pageInfo = {"size": resData.size,
-            "totalElement": resData.totalElements,
+            "totalElements": resData.totalElements,
             "number": resData.number
             };
 
@@ -123,7 +173,7 @@ export function findEmployeesByFilter(filter, page) {
           const resData = response['data'];
           const extracted_employees = resData["content"];
           const pageInfo = {"size": resData.size,
-            "totalElement": resData.totalElements,
+            "totalElements": resData.totalElements,
             "number": resData.number
             };
 

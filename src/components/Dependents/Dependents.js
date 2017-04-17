@@ -60,14 +60,27 @@ class Dependents extends React.Component{
   handleSaveMode(){
     const tmpPerson = this.props.person;
     tmpPerson['dependents'] = this.state.dependents;
+    debugger;
 
     if (this.props.createMode){
       this.props.newEmployee['dependents'] = this.state.dependents;
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
       this.props.actions.setCurrentEmployee(tmpPerson);
+      this.props.actions.editEmployee(tmpPerson)
     }
     this.setState({selectedIndex: null});
+
+    // const tmpPerson = this.props.person;
+    // tmpPerson['dependents'] = this.state.dependents;
+
+    // if (this.props.createMode){
+    //   this.props.newEmployee['dependents'] = this.state.dependents;
+    //   this.props.actions.setNewEmployee(this.props.newEmployee);
+    // } else {
+    //   this.props.actions.setCurrentEmployee(tmpPerson);
+    // }
+    // this.setState({selectedIndex: null});
   }
 
   handleDeleteClick(index){

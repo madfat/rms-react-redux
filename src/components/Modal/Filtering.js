@@ -13,16 +13,13 @@ import * as employeeActions from '../../actions/employeeActions';
 
 import SuperSelectField from 'material-ui-superselectfield';
 
-class Filtering extends React.Component{ 
+export class Filtering extends React.Component{ 
   constructor(props){
     super(props);
     this.state = {
       gender: '',
       grade:'',
-      location: '',
-      state21: [{ value: 'H' }],
-      state22: [{ value: 'I' }],
-      state23: [{ value: 'G' }]
+      location: ''
     };
 
     this.doSearch = this.doSearch.bind(this);
@@ -80,12 +77,6 @@ class Filtering extends React.Component{
       float: 'right'
     };
 
-    const displayState = state => state.length
-      ? [...state].map(({ value, label }) => label || value).join(', ')
-      : 'empty state';
-
-    const { state21, state22, state23 } = this.state;
-
     return(
       <div style={styles.FormControl}>
         <div className="mdl-grid">
@@ -139,7 +130,11 @@ class Filtering extends React.Component{
 Filtering.propTypes = {
   lookup: React.PropTypes.object,
   actions: React.PropTypes.object,
-  filter: React.PropTypes.object
+  filter: React.PropTypes.object, 
+  gender: React.PropTypes.string, 
+  grade: React.PropTypes.string, 
+  location: React.PropTypes.string,
+  updateFilter: React.PropTypes.func, 
 };
 
 function mapStateToProps(state, ownProps){
