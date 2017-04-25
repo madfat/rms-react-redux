@@ -53,7 +53,6 @@ class GradeHistory extends React.Component{
   handleSaveMode(index){
     const tmpPerson = this.props.person;
     tmpPerson['gradeHistories'] = this.state.gradeHistory;
-    debugger;
 
     if (this.props.createMode){
       this.props.newEmployee['gradeHistory'] = this.state.gradeHistory;

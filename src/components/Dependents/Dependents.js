@@ -60,7 +60,6 @@ class Dependents extends React.Component{
   handleSaveMode(){
     const tmpPerson = this.props.person;
     tmpPerson['dependents'] = this.state.dependents;
-    debugger;
 
     if (this.props.createMode){
       this.props.newEmployee['dependents'] = this.state.dependents;

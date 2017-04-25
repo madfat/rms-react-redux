@@ -48,13 +48,14 @@ class Address extends React.Component{
 
   handleSaveMode(){
     const tmpPerson = this.props.person;
-    tmpPerson['addressHistory'] = this.state.addressHistory;
+    tmpPerson['addresses'] = this.state.addressHistory;
 
     if (this.props.createMode){
-      this.props.newEmployee['addressHistory'] = this.state.addressHistory;
+      this.props.newEmployee['addresses'] = this.state.addressHistory;
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
       this.props.actions.setCurrentEmployee(tmpPerson);
+      this.props.actions.editEmployee(tmpPerson);
     }
     this.setState({selectedIndex: null});
   }
@@ -62,14 +63,14 @@ class Address extends React.Component{
   handleDeleteClick(index){
     this.state.addressHistory.splice(index,1);
     const tmpPerson = this.props.person;
-    tmpPerson['addressHistory'] = this.state.addressHistory;
+    tmpPerson['addresses'] = this.state.addressHistory;
 
     if (this.props.createMode){
-      this.props.newEmployee['addressHistory'] = this.state.addressHistory;
+      this.props.newEmployee['addresses'] = this.state.addressHistory;
       this.props.actions.setNewEmployee(this.props.newEmployee);
     } else {
       this.props.actions.setCurrentEmployee(tmpPerson);
-      this.setState({addressHistory: tmpPerson.addressHistory});
+      this.setState({addressHistory: tmpPerson.addresses});
     }
   }
 
@@ -78,15 +79,17 @@ class Address extends React.Component{
       'address': '',
       'activeInd':false
     };
-    let a = Object.assign([],this.props.person.addressHistory);
+    let a = Object.assign([],this.state.addressHistory);
     a.push(newLine);
     this.setState({addressHistory: a});
   }
 
   handleCheckField(event, key, indexAddress){
-    let newAddressHistory = Object.assign([],this.state.addressHistory);
-    newAddressHistory[indexAddress][key]=event.target.checked;
-
+    let newAddressHistory = update(this.state.addressHistory, {
+      [indexAddress]:{
+        [key]:{$set: event.target.checked}
+      }
+    });
     this.setState({addressHistory: newAddressHistory});
   }
 
@@ -101,10 +104,10 @@ class Address extends React.Component{
   }
 
   render(){
-    var ah = this.state.addressHistory;
-    var line = {};
-    var addButton=[];
-    var displayTitle=[];
+    const ah = this.state.addressHistory;
+    let line = {};
+    const addButton=[];
+    const displayTitle=[];
     if (ah.length){
       line = ah.map((address, index) => 
         <AddressRow
@@ -134,7 +137,7 @@ class Address extends React.Component{
       );
     }
     if(!this.props.createMode){
-      displayTitle.push(<h4 key='title-address-history'>Address History</h4>);
+      displayTitle.push(<h4 key="title-address-history">Address History</h4>);
     }
     return(
       <div style={styles.FormControl}>

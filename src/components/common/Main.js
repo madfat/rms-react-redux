@@ -70,7 +70,6 @@ class Main extends React.Component {
   }
 
   updateFilter(key, value){
-    debugger;
     const criteria = this.state.filter;
     criteria[key] = value;
     this.setState({

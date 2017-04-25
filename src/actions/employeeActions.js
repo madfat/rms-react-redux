@@ -121,7 +121,6 @@ export function createEmployee(newEmployee){
     return fetch(RMSConst.baseURI + '/api/employee/', parameters)
       .then(x=>x.json())
       .then((response) => {
-        debugger;
         dispatch(createEmployeeSuccess(response));
         dispatch(loadEmployeeList(false,0));
         dispatch(setCurrentEmployeeSuccess(response));
